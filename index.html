@@ -167,7 +167,7 @@ body {
 }
 .card-title i { font-size: 16px; }
 
-/* ─── SYNC STATUS (reemplaza config) ────────────────────────── */
+/* ─── SYNC STATUS ────────────────────────────────────────────── */
 .sync-indicator {
   display: flex;
   align-items: center;
@@ -182,6 +182,73 @@ body {
   color: var(--teal);
 }
 .sync-indicator i { font-size: 16px; flex-shrink: 0; }
+
+/* ─── CONFIG SHEETS ──────────────────────────────────────────── */
+.sheets-config {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.sheets-config-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 12px;
+}
+.sheets-url-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.sheets-url-row .field { flex: 1; }
+.save-url-btn {
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity .15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.save-url-btn:hover { opacity: .88; }
+.sheets-hint {
+  font-size: 11.5px;
+  color: var(--ink-4);
+  margin-top: 7px;
+  line-height: 1.5;
+}
+.sheets-hint a {
+  color: var(--purple);
+  text-decoration: none;
+}
+.sheets-hint a:hover { text-decoration: underline; }
+.url-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 2px 8px;
+  margin-top: 6px;
+}
+.url-status.ok  { background: var(--teal-l); color: var(--teal); }
+.url-status.bad { background: var(--amber-l); color: var(--amber); }
 
 /* ─── INPUTS ─────────────────────────────────────────────────── */
 label {
@@ -222,6 +289,24 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
 
 .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
 .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+
+/* ─── FECHA ACTUAL ────────────────────────────────────────────── */
+.fecha-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--purple-l);
+  border: 1px solid rgba(79,70,191,.2);
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--purple-d);
+}
+.fecha-chip i { font-size: 16px; flex-shrink: 0; }
+.fecha-chip span { flex: 1; }
+.fecha-chip strong { font-weight: 600; }
 
 /* ─── TURNO SELECTOR ─────────────────────────────────────────── */
 .turno-grid {
@@ -696,17 +781,53 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
     <div class="hero-icon-wrap"><i class="ti ti-forklift"></i></div>
   </div>
 
-  <!-- ── INDICADOR SYNC (visible, sin configuración manual) ───── -->
-  <div class="sync-indicator" id="sync-indicator">
+  <!-- ── CONFIG GOOGLE SHEETS ─────────────── -->
+  <div class="sheets-config" id="sheets-config-card">
+    <div class="sheets-config-title">
+      <i class="ti ti-table-filled" style="font-size:16px;color:var(--teal)"></i>
+      Conexión a Google Sheets
+    </div>
+    <div class="sheets-url-row">
+      <div class="field">
+        <label>URL del Web App (Apps Script)</label>
+        <input type="url" id="sheets-url-input" placeholder="https://script.google.com/macros/s/..." autocomplete="off">
+      </div>
+      <button class="save-url-btn" onclick="guardarURL()">
+        <i class="ti ti-link"></i> Conectar
+      </button>
+    </div>
+    <div id="url-status"></div>
+    <p class="sheets-hint">
+      ¿Cómo obtener la URL?
+      <a href="#" onclick="toggleGuia(); return false;">Ver guía rápida ▾</a>
+    </p>
+    <div id="guia-rapida" style="display:none;margin-top:10px;padding:12px;background:var(--surface);border-radius:var(--radius-sm);font-size:12px;color:var(--ink-3);line-height:1.7">
+      1. Abre Google Sheets → Extensiones → Apps Script<br>
+      2. Pega el <strong>código Apps Script</strong> incluido al final de este archivo<br>
+      3. Haz clic en <strong>Implementar → Nueva implementación</strong><br>
+      4. Tipo: <strong>Aplicación web</strong> · Acceso: <strong>Cualquier persona</strong><br>
+      5. Copia la URL generada y pégala aquí arriba
+    </div>
+  </div>
+
+  <!-- ── INDICADOR SYNC ────────────────────── -->
+  <div class="sync-indicator" id="sync-indicator" style="display:none">
     <i class="ti ti-table-filled"></i>
-    <span>Conectado a Google Sheets</span>
+    <span id="sync-indicator-text">Conectado a Google Sheets</span>
+    <button onclick="cambiarURL()" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--teal);font-weight:600;font-family:var(--font)">Cambiar</button>
+  </div>
+
+  <!-- ── FECHA Y HORA ACTUAL ───────────────── -->
+  <div class="fecha-chip" id="fecha-chip">
+    <i class="ti ti-calendar-event"></i>
+    <span id="fecha-live">—</span>
   </div>
 
   <!-- ── TURNO ─────────────────────────────── -->
   <div class="card">
     <div class="card-title"><i class="ti ti-sun"></i> Turno activo</div>
     <div class="turno-grid">
-      <button class="turno-btn t1 active" id="tb1" onclick="selTurno(1)">
+      <button class="turno-btn t1" id="tb1" onclick="selTurno(1)">
         <i class="ti ti-sun-rise"></i>
         <span class="tname">Turno 1</span>
         <span class="thr">6:00 – 14:00</span>
@@ -886,30 +1007,174 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
     </div>
   </div>
 
+  <!-- ── CÓDIGO APPS SCRIPT (referencia) ───── -->
+  <div class="card" style="margin-top:12px">
+    <div class="card-title"><i class="ti ti-code"></i> Código Apps Script (copiar en Google)</div>
+    <p style="font-size:12px;color:var(--ink-3);margin-bottom:10px;line-height:1.5">
+      Copia este código en <strong>Extensiones → Apps Script</strong> de tu Google Sheets, luego impleméntalo como aplicación web con acceso para <em>cualquier persona</em>.
+    </p>
+    <pre id="apps-script-code" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:11px;font-family:var(--mono);color:var(--ink-2);overflow-x:auto;white-space:pre;line-height:1.6">function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var sheetName = data.sheet || 'Operaciones';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+      // Encabezados
+      sheet.appendRow([
+        'ID','Fecha','Turno','Coordinador','Cargo','Placa',
+        'Tipo','Vinipelado','Estibas/Cajas',
+        'Traslado Estibas','Cargue Cajas','Descargue Estibas',
+        'Hora Inicio','Hora Fin','Personas','Observaciones'
+      ]);
+      sheet.getRange(1,1,1,16).setFontWeight('bold');
+    }
+
+    sheet.appendRow([
+      data.id,
+      data.fecha,
+      'Turno ' + data.turno,
+      data.coordinador,
+      data.cargo,
+      data.placa,
+      data.tipo,
+      data.vinipe ? 'Sí' : 'No',
+      data.estibasCajas,
+      data.te || 0,
+      data.cc || 0,
+      data.de || 0,
+      data.hIni,
+      data.hFin,
+      (data.personas || []).join(', '),
+      data.obs
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: 'online' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+    <button onclick="copiarScript()" style="margin-top:10px;display:flex;align-items:center;gap:5px;background:var(--surface-2);border:1px solid var(--border-2);border-radius:var(--radius-sm);padding:7px 14px;font-size:12.5px;font-weight:600;font-family:var(--font);color:var(--ink-2);cursor:pointer;transition:background .15s" onmouseover="this.style.background='var(--surface)'" onmouseout="this.style.background='var(--surface-2)'">
+      <i class="ti ti-copy"></i> Copiar código
+    </button>
+  </div>
+
 </div><!-- /page -->
 
 <script>
-// ─── URL FIJA (no expuesta en interfaz) ──────────────────────────
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwLv88qppi7ElE5Mq_ebGA_C8dHm_V8VVt4VN9bCFP5cL3m24O4R_E-QOpWL6TC8xjk/exec';
-const SHEET_NAME = 'Operaciones';
-
 // ─── ESTADO ──────────────────────────────────────────────────────
 let turno    = 1;
 let tipo     = 'cargue';
 let vinipe   = false;
 let qty      = 1;
 let historial = JSON.parse(localStorage.getItem('innova_hist') || '[]');
+let SHEETS_URL = localStorage.getItem('innova_sheets_url') || '';
+const SHEET_NAME = 'Operaciones';
+
+// ─── RELOJ EN VIVO ────────────────────────────────────────────────
+function actualizarFecha() {
+  const now = new Date();
+  const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const dia    = dias[now.getDay()];
+  const fecha  = `${now.getDate()} ${meses[now.getMonth()]} ${now.getFullYear()}`;
+  const hh     = String(now.getHours()).padStart(2,'0');
+  const mm     = String(now.getMinutes()).padStart(2,'0');
+  const ss     = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('fecha-live').innerHTML =
+    `<strong>${dia}, ${fecha}</strong> &nbsp;·&nbsp; ${hh}:${mm}:${ss}`;
+}
+setInterval(actualizarFecha, 1000);
 
 // ─── INICIALIZACIÓN ───────────────────────────────────────────────
 (function init() {
+  actualizarFecha();
   renderHist();
   updateStats();
-  // Auto-detectar turno según hora
+  actualizarUI_URL();
+
+  // Auto-detectar turno
   const h = new Date().getHours();
   if (h >= 6  && h < 14) selTurno(1);
   else if (h >= 14 && h < 22) selTurno(2);
   else selTurno(3);
+
+  // Rellenar hora inicio con la hora actual
+  const now = new Date();
+  const hh  = String(now.getHours()).padStart(2,'0');
+  const mm_  = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('h-ini').value = `${hh}:${mm_}`;
+  calcDuracion();
 })();
+
+// ─── GESTIÓN URL SHEETS ───────────────────────────────────────────
+function guardarURL() {
+  const val = document.getElementById('sheets-url-input').value.trim();
+  if (!val || !val.startsWith('https://script.google.com')) {
+    mostrarURLStatus('URL inválida. Debe ser una URL de Google Apps Script.', false);
+    return;
+  }
+  SHEETS_URL = val;
+  localStorage.setItem('innova_sheets_url', val);
+  actualizarUI_URL();
+  showToast('URL guardada. Ya puedes sincronizar con Sheets ✓', 'success');
+}
+
+function cambiarURL() {
+  SHEETS_URL = '';
+  localStorage.removeItem('innova_sheets_url');
+  actualizarUI_URL();
+}
+
+function actualizarUI_URL() {
+  const config = document.getElementById('sheets-config-card');
+  const synci  = document.getElementById('sync-indicator');
+  const input  = document.getElementById('sheets-url-input');
+
+  if (SHEETS_URL) {
+    config.style.display = 'none';
+    synci.style.display  = 'flex';
+    document.getElementById('sync-indicator-text').textContent =
+      'Conectado a Google Sheets';
+  } else {
+    config.style.display = 'block';
+    synci.style.display  = 'none';
+    input.value = '';
+    document.getElementById('url-status').innerHTML = '';
+  }
+}
+
+function mostrarURLStatus(msg, ok) {
+  document.getElementById('url-status').innerHTML =
+    `<span class="url-status ${ok?'ok':'bad'}"><i class="ti ti-${ok?'check':'alert-triangle'}"></i> ${msg}</span>`;
+}
+
+function toggleGuia() {
+  const g = document.getElementById('guia-rapida');
+  g.style.display = g.style.display === 'none' ? 'block' : 'none';
+}
+
+function copiarScript() {
+  const code = document.getElementById('apps-script-code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    showToast('Código copiado al portapapeles ✓', 'success');
+  }).catch(() => {
+    showToast('No se pudo copiar. Selecciona manualmente.', 'warn');
+  });
+}
 
 // ─── TURNO ────────────────────────────────────────────────────────
 function selTurno(n) {
@@ -1022,16 +1287,16 @@ function validar() {
   return ok;
 }
 
-// ─── ENVIAR A SHEETS (Apps Script) ────────────────────────────────
+// ─── ENVIAR A SHEETS ──────────────────────────────────────────────
 async function enviarASheets(reg) {
+  if (!SHEETS_URL) return false;
   try {
     await fetch(SHEETS_URL, {
       method: 'POST',
-      mode: 'no-cors', // Apps Script requiere no-cors desde origen externo
+      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ sheet: SHEET_NAME, ...reg })
     });
-    // Con no-cors no podemos leer la respuesta; si no lanza excepción = enviado
     return true;
   } catch (err) {
     console.error('Sheets sync error:', err);
@@ -1041,6 +1306,10 @@ async function enviarASheets(reg) {
 
 // ─── REINTENTAR SYNC ─────────────────────────────────────────────
 async function reintentarSync(id) {
+  if (!SHEETS_URL) {
+    showToast('Configura primero la URL de Google Sheets', 'error');
+    return;
+  }
   const reg = historial.find(r => r.id === id);
   if (!reg) return;
   const btn = document.querySelector(`[data-retry="${id}"]`);
@@ -1051,6 +1320,19 @@ async function reintentarSync(id) {
   renderHist();
   updateStats();
   showToast(ok ? 'Registro enviado a Sheets ✓' : 'No se pudo sincronizar', ok ? 'success' : 'error');
+}
+
+// ─── OBTENER FECHA/HORA ACTUAL FORMATEADA ─────────────────────────
+function getFechaActual() {
+  return new Date().toLocaleString('es-CO', {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+}
+
+function getHoraActual() {
+  const now = new Date();
+  return `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 }
 
 // ─── GUARDAR ──────────────────────────────────────────────────────
@@ -1064,30 +1346,30 @@ async function guardar() {
   btn.disabled = true;
   btn.innerHTML = '<i class="ti ti-loader spin"></i> Guardando...';
 
+  // Si no se puso hora fin, usar hora actual
+  const hFinVal = document.getElementById('h-fin').value || getHoraActual();
+
   const personas = [...document.querySelectorAll('.pname')]
     .map(i => i.value.trim()).filter(Boolean);
 
   const reg = {
-    id:          Date.now(),
-    fecha:       new Date().toLocaleString('es-CO', {
-                   day:'2-digit', month:'short', year:'numeric',
-                   hour:'2-digit', minute:'2-digit'
-                 }),
+    id:           Date.now(),
+    fecha:        getFechaActual(),
     turno,
-    coordinador: document.getElementById('coordinador').value.trim(),
-    cargo:       document.getElementById('cargo').value.trim(),
-    placa:       document.getElementById('placa').value.trim().toUpperCase(),
+    coordinador:  document.getElementById('coordinador').value.trim(),
+    cargo:        document.getElementById('cargo').value.trim(),
+    placa:        document.getElementById('placa').value.trim().toUpperCase(),
     tipo,
     vinipe,
     estibasCajas: document.getElementById('estibas-cajas').value,
-    te:          parseInt(document.getElementById('f-te').value) || 0,
-    cc:          parseInt(document.getElementById('f-cc').value) || 0,
-    de:          parseInt(document.getElementById('f-de').value) || 0,
-    hIni:        document.getElementById('h-ini').value,
-    hFin:        document.getElementById('h-fin').value,
+    te:           parseInt(document.getElementById('f-te').value) || 0,
+    cc:           parseInt(document.getElementById('f-cc').value) || 0,
+    de:           parseInt(document.getElementById('f-de').value) || 0,
+    hIni:         document.getElementById('h-ini').value,
+    hFin:         hFinVal,
     personas,
-    obs:         document.getElementById('obs').value.trim(),
-    synced:      false
+    obs:          document.getElementById('obs').value.trim(),
+    synced:       false
   };
 
   // Guardar localmente ANTES de intentar sync
@@ -1097,11 +1379,14 @@ async function guardar() {
   updateStats();
 
   // Intentar sync
-  const synced = await enviarASheets(reg);
-  reg.synced = synced;
-  localStorage.setItem('innova_hist', JSON.stringify(historial));
-  renderHist();
-  updateStats();
+  let synced = false;
+  if (SHEETS_URL) {
+    synced = await enviarASheets(reg);
+    reg.synced = synced;
+    localStorage.setItem('innova_hist', JSON.stringify(historial));
+    renderHist();
+    updateStats();
+  }
 
   // Reset form
   resetForm();
@@ -1109,30 +1394,44 @@ async function guardar() {
   btn.disabled = false;
   btn.innerHTML = '<i class="ti ti-device-floppy"></i> Guardar y sincronizar con Sheets';
 
-  if (synced) showToast('Registro guardado y enviado a Google Sheets ✓', 'success');
-  else showToast('Guardado localmente. Sin conexión a Sheets.', 'warn', 4000);
+  if (!SHEETS_URL) {
+    showToast('Guardado localmente. Configura Sheets para sincronizar.', 'warn', 4500);
+  } else if (synced) {
+    showToast('Registro guardado y enviado a Google Sheets ✓', 'success');
+  } else {
+    showToast('Guardado localmente. Sin conexión a Sheets.', 'warn', 4000);
+  }
 }
 
 // ─── RESET FORMULARIO ─────────────────────────────────────────────
 function resetForm() {
-  document.getElementById('coordinador').value  = '';
-  document.getElementById('cargo').value        = '';
-  document.getElementById('placa').value        = '';
-  document.getElementById('estibas-cajas').value= '';
-  document.getElementById('f-te').value         = '';
-  document.getElementById('f-cc').value         = '';
-  document.getElementById('f-de').value         = '';
-  document.getElementById('h-ini').value        = '';
-  document.getElementById('h-fin').value        = '';
-  document.getElementById('obs').value          = '';
+  document.getElementById('coordinador').value   = '';
+  document.getElementById('cargo').value         = '';
+  document.getElementById('placa').value         = '';
+  document.getElementById('estibas-cajas').value = '';
+  document.getElementById('f-te').value          = '';
+  document.getElementById('f-cc').value          = '';
+  document.getElementById('f-de').value          = '';
+  document.getElementById('h-fin').value         = '';
+  document.getElementById('obs').value           = '';
   document.getElementById('duracion-lbl').innerHTML = '';
   document.querySelectorAll('.pname').forEach(i => i.value = '');
+
+  // Restablecer hora inicio a la hora actual
+  document.getElementById('h-ini').value = getHoraActual();
+
   qty = 1;
   document.getElementById('qty-val').textContent = '1';
   const list = document.getElementById('people-list');
   const rows = list.querySelectorAll('.person-row');
   for (let i = rows.length; i > 1; i--) rows[i-1].remove();
   if (vinipe) toggleVinipe();
+
+  // Auto-detectar turno según nueva hora
+  const h = new Date().getHours();
+  if (h >= 6 && h < 14) selTurno(1);
+  else if (h >= 14 && h < 22) selTurno(2);
+  else selTurno(3);
 }
 
 // ─── ELIMINAR ─────────────────────────────────────────────────────
