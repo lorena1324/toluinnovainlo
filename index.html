@@ -183,6 +183,73 @@ body {
 }
 .sync-indicator i { font-size: 16px; flex-shrink: 0; }
 
+/* ─── CONFIG SHEETS ──────────────────────────────────────────── */
+.sheets-config {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.sheets-config-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 12px;
+}
+.sheets-url-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.sheets-url-row .field { flex: 1; }
+.save-url-btn {
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity .15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.save-url-btn:hover { opacity: .88; }
+.sheets-hint {
+  font-size: 11.5px;
+  color: var(--ink-4);
+  margin-top: 7px;
+  line-height: 1.5;
+}
+.sheets-hint a {
+  color: var(--purple);
+  text-decoration: none;
+}
+.sheets-hint a:hover { text-decoration: underline; }
+.url-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 2px 8px;
+  margin-top: 6px;
+}
+.url-status.ok  { background: var(--teal-l); color: var(--teal); }
+.url-status.bad { background: var(--amber-l); color: var(--amber); }
+
 /* ─── INPUTS ─────────────────────────────────────────────────── */
 label {
   font-size: 12.5px;
@@ -692,6 +759,12 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
   padding: 2px 8px;
 }
 
+/* ─── MUELLE CHIP EN HISTORIAL ───────────────────────────────── */
+.b-muelle {
+  background: #F0F9FF;
+  color: #0369A1;
+}
+
 /* ─── RESPONSIVE HELPERS ─────────────────────────────────────── */
 @media (max-width: 360px) {
   .row-3 { grid-template-columns: 1fr 1fr; }
@@ -714,10 +787,40 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
     <div class="hero-icon-wrap"><i class="ti ti-forklift"></i></div>
   </div>
 
-  <!-- ── INDICADOR SYNC (siempre visible) ─── -->
-  <div class="sync-indicator">
+  <!-- ── CONFIG GOOGLE SHEETS ─────────────── -->
+  <div class="sheets-config" id="sheets-config-card">
+    <div class="sheets-config-title">
+      <i class="ti ti-table-filled" style="font-size:16px;color:var(--teal)"></i>
+      Conexión a Google Sheets
+    </div>
+    <div class="sheets-url-row">
+      <div class="field">
+        <label>URL del Web App (Apps Script)</label>
+        <input type="url" id="sheets-url-input" placeholder="https://script.google.com/macros/s/..." autocomplete="off">
+      </div>
+      <button class="save-url-btn" onclick="guardarURL()">
+        <i class="ti ti-link"></i> Conectar
+      </button>
+    </div>
+    <div id="url-status"></div>
+    <p class="sheets-hint">
+      ¿Cómo obtener la URL?
+      <a href="#" onclick="toggleGuia(); return false;">Ver guía rápida ▾</a>
+    </p>
+    <div id="guia-rapida" style="display:none;margin-top:10px;padding:12px;background:var(--surface);border-radius:var(--radius-sm);font-size:12px;color:var(--ink-3);line-height:1.7">
+      1. Abre Google Sheets → Extensiones → Apps Script<br>
+      2. Pega el <strong>código Apps Script</strong> que se instaló con esta app<br>
+      3. Haz clic en <strong>Implementar → Nueva implementación</strong><br>
+      4. Tipo: <strong>Aplicación web</strong> · Acceso: <strong>Cualquier persona</strong><br>
+      5. Copia la URL generada y pégala aquí arriba
+    </div>
+  </div>
+
+  <!-- ── INDICADOR SYNC ────────────────────── -->
+  <div class="sync-indicator" id="sync-indicator" style="display:none">
     <i class="ti ti-table-filled"></i>
-    <span>Conectado a Google Sheets</span>
+    <span id="sync-indicator-text">Conectado a Google Sheets</span>
+    <button onclick="cambiarURL()" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--teal);font-weight:600;font-family:var(--font)">Cambiar</button>
   </div>
 
   <!-- ── FECHA Y HORA ACTUAL ───────────────── -->
@@ -761,6 +864,11 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
         <input type="text" id="cargo" placeholder="Ej. Jefe de bodega">
       </div>
     </div>
+    <!-- NUEVO: Número de documento -->
+    <div class="field" id="f-numdoc">
+      <label>Número de documento <span style="color:var(--red)">*</span></label>
+      <input type="text" id="num-doc" placeholder="Cédula o identificación del coordinador" inputmode="numeric">
+    </div>
   </div>
 
   <!-- ── TIPO OPERACIÓN ────────────────────── -->
@@ -783,7 +891,7 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
       <div class="switch" id="vinipe-sw"></div>
     </div>
 
-    <div class="row-2" style="margin-bottom:0">
+    <div class="row-2" style="margin-bottom:12px">
       <div class="field" id="f-estibas">
         <label>Estibas o cajas <span style="color:var(--red)">*</span></label>
         <select id="estibas-cajas">
@@ -797,6 +905,52 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
         <label>Placa del vehículo</label>
         <input type="text" id="placa" placeholder="Ej. ABC-123" style="text-transform:uppercase">
       </div>
+    </div>
+
+    <!-- NUEVO: Número de muelle -->
+    <div class="field" id="f-muelle">
+      <label>Muelle <span style="color:var(--red)">*</span></label>
+      <select id="num-muelle">
+        <option value="">Selecciona el muelle...</option>
+        <option value="1">Muelle 1</option>
+        <option value="2">Muelle 2</option>
+        <option value="3">Muelle 3</option>
+        <option value="4">Muelle 4</option>
+        <option value="5">Muelle 5</option>
+        <option value="6">Muelle 6</option>
+        <option value="7">Muelle 7</option>
+        <option value="8">Muelle 8</option>
+        <option value="9">Muelle 9</option>
+        <option value="10">Muelle 10</option>
+        <option value="11">Muelle 11</option>
+        <option value="12">Muelle 12</option>
+        <option value="13">Muelle 13</option>
+        <option value="14">Muelle 14</option>
+        <option value="15">Muelle 15</option>
+        <option value="16">Muelle 16</option>
+        <option value="17">Muelle 17</option>
+        <option value="18">Muelle 18</option>
+        <option value="19">Muelle 19</option>
+        <option value="20">Muelle 20</option>
+        <option value="21">Muelle 21</option>
+        <option value="22">Muelle 22</option>
+        <option value="23">Muelle 23</option>
+        <option value="24">Muelle 24</option>
+        <option value="25">Muelle 25</option>
+        <option value="26">Muelle 26</option>
+        <option value="27">Muelle 27</option>
+        <option value="28">Muelle 28</option>
+        <option value="29">Muelle 29</option>
+        <option value="30">Muelle 30</option>
+        <option value="31">Muelle 31</option>
+        <option value="32">Muelle 32</option>
+        <option value="33">Muelle 33</option>
+        <option value="34">Muelle 34</option>
+        <option value="35">Muelle 35</option>
+        <option value="36">Muelle 36</option>
+        <option value="37">Muelle 37</option>
+        <option value="38">Muelle 38</option>
+      </select>
     </div>
   </div>
 
@@ -910,30 +1064,91 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
     </div>
   </div>
 
+  <!-- ── CÓDIGO APPS SCRIPT OCULTO ─────────── -->
+  <!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  CÓDIGO APPS SCRIPT — pegar en Extensiones › Apps Script    ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+  function doPost(e) {
+    try {
+      var data = JSON.parse(e.postData.contents);
+      var sheetName = data.sheet || 'Operaciones';
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+      var sheet = ss.getSheetByName(sheetName);
+
+      if (!sheet) {
+        sheet = ss.insertSheet(sheetName);
+        sheet.appendRow([
+          'ID','Fecha','Turno','Coordinador','Cargo','Num. Documento',
+          'Placa','Tipo','Vinipelado','Estibas/Cajas','Muelle',
+          'Traslado Estibas','Cargue Cajas','Descargue Estibas',
+          'Hora Inicio','Hora Fin','Personas','Observaciones'
+        ]);
+        sheet.getRange(1,1,1,18).setFontWeight('bold');
+      }
+
+      sheet.appendRow([
+        data.id,
+        data.fecha,
+        'Turno ' + data.turno,
+        data.coordinador,
+        data.cargo,
+        data.numDoc,
+        data.placa,
+        data.tipo,
+        data.vinipe ? 'Sí' : 'No',
+        data.estibasCajas,
+        data.muelle ? 'Muelle ' + data.muelle : '',
+        data.te || 0,
+        data.cc || 0,
+        data.de || 0,
+        data.hIni,
+        data.hFin,
+        (data.personas || []).join(', '),
+        data.obs
+      ]);
+
+      return ContentService
+        .createTextOutput(JSON.stringify({ ok: true }))
+        .setMimeType(ContentService.MimeType.JSON);
+
+    } catch(err) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ ok: false, error: err.message }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
+  function doGet(e) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'online' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  -->
+
 </div><!-- /page -->
 
 <script>
-// ─── URL SHEETS (pre-configurada, no modificable por el usuario) ──
-const SHEETS_URL  = 'https://script.google.com/macros/s/AKfycbwLv88qppi7ElE5Mq_ebGA_C8dHm_V8VVt4VN9bCFP5cL3m24O4R_E-QOpWL6TC8xjk/exec';
-const SHEET_NAME  = 'Operaciones';
-
 // ─── ESTADO ──────────────────────────────────────────────────────
 let turno    = 1;
 let tipo     = 'cargue';
 let vinipe   = false;
 let qty      = 1;
 let historial = JSON.parse(localStorage.getItem('innova_hist') || '[]');
+let SHEETS_URL = localStorage.getItem('innova_sheets_url') || '';
+const SHEET_NAME = 'Operaciones';
 
 // ─── RELOJ EN VIVO ────────────────────────────────────────────────
 function actualizarFecha() {
   const now = new Date();
-  const dias  = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
   const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  const dia   = dias[now.getDay()];
-  const fecha = `${now.getDate()} ${meses[now.getMonth()]} ${now.getFullYear()}`;
-  const hh    = String(now.getHours()).padStart(2,'0');
-  const mm    = String(now.getMinutes()).padStart(2,'0');
-  const ss    = String(now.getSeconds()).padStart(2,'0');
+  const dia    = dias[now.getDay()];
+  const fecha  = `${now.getDate()} ${meses[now.getMonth()]} ${now.getFullYear()}`;
+  const hh     = String(now.getHours()).padStart(2,'0');
+  const mm     = String(now.getMinutes()).padStart(2,'0');
+  const ss     = String(now.getSeconds()).padStart(2,'0');
   document.getElementById('fecha-live').innerHTML =
     `<strong>${dia}, ${fecha}</strong> &nbsp;·&nbsp; ${hh}:${mm}:${ss}`;
 }
@@ -944,20 +1159,66 @@ setInterval(actualizarFecha, 1000);
   actualizarFecha();
   renderHist();
   updateStats();
+  actualizarUI_URL();
 
-  // Auto-detectar turno
   const h = new Date().getHours();
-  if (h >= 6 && h < 14)       selTurno(1);
+  if (h >= 6  && h < 14) selTurno(1);
   else if (h >= 14 && h < 22) selTurno(2);
-  else                         selTurno(3);
+  else selTurno(3);
 
-  // Hora inicio = hora actual
   const now = new Date();
   const hh  = String(now.getHours()).padStart(2,'0');
-  const mm_ = String(now.getMinutes()).padStart(2,'0');
+  const mm_  = String(now.getMinutes()).padStart(2,'0');
   document.getElementById('h-ini').value = `${hh}:${mm_}`;
   calcDuracion();
 })();
+
+// ─── GESTIÓN URL SHEETS ───────────────────────────────────────────
+function guardarURL() {
+  const val = document.getElementById('sheets-url-input').value.trim();
+  if (!val || !val.startsWith('https://script.google.com')) {
+    mostrarURLStatus('URL inválida. Debe ser una URL de Google Apps Script.', false);
+    return;
+  }
+  SHEETS_URL = val;
+  localStorage.setItem('innova_sheets_url', val);
+  actualizarUI_URL();
+  showToast('URL guardada. Ya puedes sincronizar con Sheets ✓', 'success');
+}
+
+function cambiarURL() {
+  SHEETS_URL = '';
+  localStorage.removeItem('innova_sheets_url');
+  actualizarUI_URL();
+}
+
+function actualizarUI_URL() {
+  const config = document.getElementById('sheets-config-card');
+  const synci  = document.getElementById('sync-indicator');
+  const input  = document.getElementById('sheets-url-input');
+
+  if (SHEETS_URL) {
+    config.style.display = 'none';
+    synci.style.display  = 'flex';
+    document.getElementById('sync-indicator-text').textContent =
+      'Conectado a Google Sheets';
+  } else {
+    config.style.display = 'block';
+    synci.style.display  = 'none';
+    input.value = '';
+    document.getElementById('url-status').innerHTML = '';
+  }
+}
+
+function mostrarURLStatus(msg, ok) {
+  document.getElementById('url-status').innerHTML =
+    `<span class="url-status ${ok?'ok':'bad'}"><i class="ti ti-${ok?'check':'alert-triangle'}"></i> ${msg}</span>`;
+}
+
+function toggleGuia() {
+  const g = document.getElementById('guia-rapida');
+  g.style.display = g.style.display === 'none' ? 'block' : 'none';
+}
 
 // ─── TURNO ────────────────────────────────────────────────────────
 function selTurno(n) {
@@ -1036,61 +1297,60 @@ function validar() {
   let ok = true;
   const coordinador = document.getElementById('coordinador').value.trim();
   const estibas     = document.getElementById('estibas-cajas').value;
-  const fc = document.getElementById('f-coordinador');
-  const fe = document.getElementById('f-estibas');
+  const numDoc      = document.getElementById('num-doc').value.trim();
+  const muelle      = document.getElementById('num-muelle').value;
 
-  if (!coordinador) {
-    fc.classList.add('field-err');
-    if (!fc.querySelector('.err-msg')) {
+  const fc  = document.getElementById('f-coordinador');
+  const fe  = document.getElementById('f-estibas');
+  const fnd = document.getElementById('f-numdoc');
+  const fm  = document.getElementById('f-muelle');
+
+  function setErr(field, msg) {
+    field.classList.add('field-err');
+    if (!field.querySelector('.err-msg')) {
       const e = document.createElement('span');
       e.className = 'err-msg';
-      e.innerHTML = '<i class="ti ti-alert-circle"></i> Campo requerido';
-      fc.appendChild(e);
+      e.innerHTML = `<i class="ti ti-alert-circle"></i> ${msg}`;
+      field.appendChild(e);
     }
     ok = false;
-  } else {
-    fc.classList.remove('field-err');
-    fc.querySelector('.err-msg')?.remove();
+  }
+  function clearErr(field) {
+    field.classList.remove('field-err');
+    field.querySelector('.err-msg')?.remove();
   }
 
-  if (!estibas) {
-    fe.classList.add('field-err');
-    if (!fe.querySelector('.err-msg')) {
-      const e = document.createElement('span');
-      e.className = 'err-msg';
-      e.innerHTML = '<i class="ti ti-alert-circle"></i> Selecciona una opción';
-      fe.appendChild(e);
-    }
-    ok = false;
-  } else {
-    fe.classList.remove('field-err');
-    fe.querySelector('.err-msg')?.remove();
-  }
+  if (!coordinador) setErr(fc, 'Campo requerido'); else clearErr(fc);
+  if (!numDoc)      setErr(fnd, 'Campo requerido'); else clearErr(fnd);
+  if (!estibas)     setErr(fe, 'Selecciona una opción'); else clearErr(fe);
+  if (!muelle)      setErr(fm, 'Selecciona el muelle'); else clearErr(fm);
 
   return ok;
 }
 
-// ─── ENVIAR A SHEETS (con timeout de 6s para no bloquear) ─────────
-function enviarASheets(reg) {
-  return new Promise(resolve => {
-    // Timeout: si en 6s no responde, se resuelve como false
-    const timer = setTimeout(() => resolve(false), 6000);
-
-    // keepalive: permite que el browser complete el fetch aunque el usuario navegue
-    fetch(SHEETS_URL, {
-      method:    'POST',
-      mode:      'no-cors',
-      keepalive: true,
-      headers:   { 'Content-Type': 'text/plain' },
-      body:      JSON.stringify({ sheet: SHEET_NAME, ...reg })
-    })
-    .then(() => { clearTimeout(timer); resolve(true); })
-    .catch(() => { clearTimeout(timer); resolve(false); });
-  });
+// ─── ENVIAR A SHEETS ──────────────────────────────────────────────
+async function enviarASheets(reg) {
+  if (!SHEETS_URL) return false;
+  try {
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ sheet: SHEET_NAME, ...reg })
+    });
+    return true;
+  } catch (err) {
+    console.error('Sheets sync error:', err);
+    return false;
+  }
 }
 
 // ─── REINTENTAR SYNC ─────────────────────────────────────────────
 async function reintentarSync(id) {
+  if (!SHEETS_URL) {
+    showToast('Configura primero la URL de Google Sheets', 'error');
+    return;
+  }
   const reg = historial.find(r => r.id === id);
   if (!reg) return;
   const btn = document.querySelector(`[data-retry="${id}"]`);
@@ -1100,16 +1360,17 @@ async function reintentarSync(id) {
   localStorage.setItem('innova_hist', JSON.stringify(historial));
   renderHist();
   updateStats();
-  showToast(ok ? 'Registro enviado a Sheets ✓' : 'Sin conexión. Intenta de nuevo.', ok ? 'success' : 'error');
+  showToast(ok ? 'Registro enviado a Sheets ✓' : 'No se pudo sincronizar', ok ? 'success' : 'error');
 }
 
-// ─── FECHA/HORA FORMATEADA ────────────────────────────────────────
+// ─── FECHA/HORA ───────────────────────────────────────────────────
 function getFechaActual() {
   return new Date().toLocaleString('es-CO', {
     day: '2-digit', month: 'short', year: 'numeric',
     hour: '2-digit', minute: '2-digit'
   });
 }
+
 function getHoraActual() {
   const now = new Date();
   return `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
@@ -1126,7 +1387,7 @@ async function guardar() {
   btn.disabled = true;
   btn.innerHTML = '<i class="ti ti-loader spin"></i> Guardando...';
 
-  const hFinVal  = document.getElementById('h-fin').value || getHoraActual();
+  const hFinVal = document.getElementById('h-fin').value || getHoraActual();
   const personas = [...document.querySelectorAll('.pname')]
     .map(i => i.value.trim()).filter(Boolean);
 
@@ -1136,10 +1397,12 @@ async function guardar() {
     turno,
     coordinador:  document.getElementById('coordinador').value.trim(),
     cargo:        document.getElementById('cargo').value.trim(),
+    numDoc:       document.getElementById('num-doc').value.trim(),
     placa:        document.getElementById('placa').value.trim().toUpperCase(),
     tipo,
     vinipe,
     estibasCajas: document.getElementById('estibas-cajas').value,
+    muelle:       document.getElementById('num-muelle').value,
     te:           parseInt(document.getElementById('f-te').value) || 0,
     cc:           parseInt(document.getElementById('f-cc').value) || 0,
     de:           parseInt(document.getElementById('f-de').value) || 0,
@@ -1150,39 +1413,41 @@ async function guardar() {
     synced:       false
   };
 
-  // 1. Guardar localmente de inmediato → UI responde rápido
   historial.unshift(reg);
   localStorage.setItem('innova_hist', JSON.stringify(historial));
   renderHist();
   updateStats();
-  resetForm();
 
-  btn.disabled = false;
-  btn.innerHTML = '<i class="ti ti-device-floppy"></i> Guardar y sincronizar con Sheets';
-
-  // Toast optimista inmediato
-  showToast('Guardado. Sincronizando con Sheets...', 'warn', 5000);
-
-  // 2. Sync en segundo plano (no bloquea la UI)
-  enviarASheets(reg).then(synced => {
+  let synced = false;
+  if (SHEETS_URL) {
+    synced = await enviarASheets(reg);
     reg.synced = synced;
     localStorage.setItem('innova_hist', JSON.stringify(historial));
     renderHist();
     updateStats();
-    showToast(
-      synced ? 'Enviado a Google Sheets ✓' : 'Sin conexión. Usa "Reintentar" luego.',
-      synced ? 'success' : 'warn',
-      4000
-    );
-  });
+  }
+
+  resetForm();
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-device-floppy"></i> Guardar y sincronizar con Sheets';
+
+  if (!SHEETS_URL) {
+    showToast('Guardado localmente. Configura Sheets para sincronizar.', 'warn', 4500);
+  } else if (synced) {
+    showToast('Registro guardado y enviado a Google Sheets ✓', 'success');
+  } else {
+    showToast('Guardado localmente. Sin conexión a Sheets.', 'warn', 4000);
+  }
 }
 
 // ─── RESET FORMULARIO ─────────────────────────────────────────────
 function resetForm() {
   document.getElementById('coordinador').value   = '';
   document.getElementById('cargo').value         = '';
+  document.getElementById('num-doc').value       = '';
   document.getElementById('placa').value         = '';
   document.getElementById('estibas-cajas').value = '';
+  document.getElementById('num-muelle').value    = '';
   document.getElementById('f-te').value          = '';
   document.getElementById('f-cc').value          = '';
   document.getElementById('f-de').value          = '';
@@ -1190,7 +1455,6 @@ function resetForm() {
   document.getElementById('obs').value           = '';
   document.getElementById('duracion-lbl').innerHTML = '';
   document.querySelectorAll('.pname').forEach(i => i.value = '');
-
   document.getElementById('h-ini').value = getHoraActual();
 
   qty = 1;
@@ -1201,9 +1465,9 @@ function resetForm() {
   if (vinipe) toggleVinipe();
 
   const h = new Date().getHours();
-  if (h >= 6 && h < 14)       selTurno(1);
+  if (h >= 6 && h < 14) selTurno(1);
   else if (h >= 14 && h < 22) selTurno(2);
-  else                         selTurno(3);
+  else selTurno(3);
 }
 
 // ─── ELIMINAR ─────────────────────────────────────────────────────
@@ -1217,8 +1481,8 @@ function eliminar(id) {
 
 // ─── STATS ────────────────────────────────────────────────────────
 function updateStats() {
-  document.getElementById('s-total').textContent  = historial.length;
-  document.getElementById('s-sync').textContent   = historial.filter(r => r.synced).length;
+  document.getElementById('s-total').textContent = historial.length;
+  document.getElementById('s-sync').textContent  = historial.filter(r => r.synced).length;
   document.getElementById('s-personas').textContent =
     historial.reduce((a, r) => a + (r.personas ? r.personas.length : 0), 0);
 }
@@ -1266,6 +1530,7 @@ function renderHist() {
           <div class="hist-badges">
             <span class="badge b-t${r.turno}"><i class="ti ${TURNO_ICON[r.turno]}"></i> T${r.turno}</span>
             <span class="badge b-${r.tipo}"><i class="ti ${TIPO_ICON[r.tipo]}"></i> ${r.tipo.charAt(0).toUpperCase()+r.tipo.slice(1)}</span>
+            ${r.muelle ? `<span class="badge b-muelle"><i class="ti ti-door-enter"></i> Muelle ${r.muelle}</span>` : ''}
             ${r.vinipe ? '<span class="badge b-vinipe"><i class="ti ti-layers-intersect"></i> Vinipelado</span>' : ''}
             ${r.synced
               ? '<span class="badge b-sync"><i class="ti ti-check"></i> Sheets</span>'
@@ -1290,6 +1555,7 @@ function renderHist() {
             ? `<span><i class="ti ti-users"></i> ${r.personas.length} persona${r.personas.length>1?'s':''}</span>`
             : ''}
         </div>
+        ${r.numDoc ? `<div class="hist-coord" style="margin-bottom:4px"><i class="ti ti-id"></i> Doc: <strong>${r.numDoc}</strong></div>` : ''}
         ${r.personas && r.personas.length
           ? `<div class="hist-coord" style="margin-bottom:4px"><i class="ti ti-user-circle"></i> ${r.personas.join(' · ')}</div>`
           : ''}
