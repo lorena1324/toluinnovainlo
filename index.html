@@ -482,6 +482,22 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
 }
 .retry-btn:hover { background: #FDE68A; }
 
+/* ── COLA PENDIENTES ── */
+.pending-banner {
+  display: none; align-items: center; gap: 8px;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  background: var(--amber-l); border: 1px solid rgba(180,83,9,.2);
+  margin-bottom: 12px; font-size: 13px; font-weight: 500; color: var(--amber);
+}
+.pending-banner.show { display: flex; }
+.flush-btn {
+  margin-left: auto; background: var(--amber); color: #fff; border: none;
+  border-radius: 20px; padding: 3px 10px; font-size: 11.5px; font-weight: 600;
+  font-family: var(--font); cursor: pointer; display: flex; align-items: center; gap: 4px;
+  transition: opacity .15s;
+}
+.flush-btn:hover { opacity: .85; }
+
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin { animation: spin .7s linear infinite; display: inline-block; }
 
@@ -548,6 +564,15 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
     <i class="ti ti-table-filled"></i>
     <span id="sync-indicator-text">Conectado a Google Sheets</span>
     <button onclick="cambiarURL()" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--teal);font-weight:600;font-family:var(--font)">Cambiar</button>
+  </div>
+
+  <!-- BANNER PENDIENTES -->
+  <div class="pending-banner" id="pending-banner">
+    <i class="ti ti-cloud-upload"></i>
+    <span id="pending-text">0 registros pendientes de sincronizar</span>
+    <button class="flush-btn" onclick="flushQueue()">
+      <i class="ti ti-send"></i> Enviar ahora
+    </button>
   </div>
 
   <!-- FECHA -->
@@ -710,7 +735,7 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
 
   <!-- BOTÓN GUARDAR -->
   <button class="submit-btn" id="submit-btn" onclick="guardar()">
-    <i class="ti ti-device-floppy"></i> Guardar y sincronizar con Sheets
+    <i class="ti ti-device-floppy"></i> Guardar registro
   </button>
 
   <!-- STATS -->
@@ -758,7 +783,9 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
 <script>
 // ─── CONSTANTES ───────────────────────────────────────────────────
 const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwLv88qppi7ElE5Mq_ebGA_C8dHm_V8VVt4VN9bCFP5cL3m24O4R_E-QOpWL6TC8xjk/exec';
-const SHEET_NAME = 'Operaciones';
+const SHEET_NAME    = 'Operaciones';
+const FETCH_TIMEOUT = 8000;   // ms — tiempo máximo por petición
+const RETRY_INTERVAL= 30000;  // ms — reintento automático de cola
 
 // ─── ESTADO ──────────────────────────────────────────────────────
 let turno     = 1;
@@ -767,6 +794,7 @@ let vinipe    = false;
 let qty       = 1;
 let historial = JSON.parse(localStorage.getItem('innova_hist') || '[]');
 let SHEETS_URL = localStorage.getItem('innova_sheets_url') || DEFAULT_SHEETS_URL;
+let retryTimer = null;
 
 // ─── RELOJ ────────────────────────────────────────────────────────
 function actualizarFecha() {
@@ -787,6 +815,7 @@ setInterval(actualizarFecha, 1000);
   renderPeopleList();
   renderHist();
   updateStats();
+  updatePendingBanner();
   if (!localStorage.getItem('innova_sheets_url')) localStorage.setItem('innova_sheets_url', DEFAULT_SHEETS_URL);
   actualizarUI_URL();
   const h = new Date().getHours();
@@ -797,6 +826,8 @@ setInterval(actualizarFecha, 1000);
   document.getElementById('h-ini').value =
     `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   calcDuracion();
+  // Intentar enviar pendientes al arrancar (si hay conexión)
+  scheduleRetry();
 })();
 
 // ─── PEOPLE LIST ─────────────────────────────────────────────────
@@ -861,7 +892,8 @@ function guardarURL() {
   SHEETS_URL = val;
   localStorage.setItem('innova_sheets_url', val);
   actualizarUI_URL();
-  showToast('URL guardada. Ya puedes sincronizar con Sheets ✓', 'success');
+  showToast('URL guardada. Sincronizando pendientes...', 'success');
+  flushQueue();
 }
 
 function cambiarURL() {
@@ -956,82 +988,42 @@ function actualizarCantidades() {
   if (unidad === 'estibas') {
     h += sec('<span style="color:var(--ink-3);font-size:10.5px">Estibas</span>');
     if (tipo === 'traslado') {
-      h += r2(
-        fld(`Estibas a trasladar`, 'c-est-op', 'Ej. 10'),
-        fld('Estibas en bodega destino', 'c-est-dest', 'Ej. 5')
-      );
+      h += r2(fld(`Estibas a trasladar`, 'c-est-op', 'Ej. 10'), fld('Estibas en bodega destino', 'c-est-dest', 'Ej. 5'));
     } else {
-      h += r2(
-        fld(`Estibas a ${op}`, 'c-est-op', 'Ej. 10'),
-        ''
-      );
+      h += r2(fld(`Estibas a ${op}`, 'c-est-op', 'Ej. 10'), '');
     }
     if (vinipe) {
       h += vinSec('<span style="color:var(--amber);font-size:10.5px">Estibas</span>');
-      h += r2(
-        fld('Estibas vinipeladas', 'c-est-vin', 'Ej. 4'),
-        fld('Estibas sin vinipelar', 'c-est-novin', 'Ej. 6')
-      );
+      h += r2(fld('Estibas vinipeladas', 'c-est-vin', 'Ej. 4'), fld('Estibas sin vinipelar', 'c-est-novin', 'Ej. 6'));
     }
-  }
-
-  else if (unidad === 'cajas') {
+  } else if (unidad === 'cajas') {
     h += sec('<span style="color:var(--ink-3);font-size:10.5px">Cajas</span>');
     if (tipo === 'traslado') {
-      h += r2(
-        fld('Cajas a trasladar', 'c-caj-op', 'Ej. 200'),
-        fld('Cajas en bodega destino', 'c-caj-dest', 'Ej. 50')
-      );
+      h += r2(fld('Cajas a trasladar', 'c-caj-op', 'Ej. 200'), fld('Cajas en bodega destino', 'c-caj-dest', 'Ej. 50'));
     } else {
-      h += r2(
-        fld(`Cajas a ${op}`, 'c-caj-op', 'Ej. 200'),
-        fld('Cajas por estiba (referencia)', 'c-caj-x-est', 'Ej. 20')
-      );
+      h += r2(fld(`Cajas a ${op}`, 'c-caj-op', 'Ej. 200'), fld('Cajas por estiba (referencia)', 'c-caj-x-est', 'Ej. 20'));
     }
     if (vinipe) {
       h += vinSec('<span style="color:var(--amber);font-size:10.5px">Cajas</span>');
-      h += r2(
-        fld('Cajas vinipeladas', 'c-caj-vin', 'Ej. 120'),
-        fld('Cajas sin vinipelar', 'c-caj-novin', 'Ej. 80')
-      );
+      h += r2(fld('Cajas vinipeladas', 'c-caj-vin', 'Ej. 120'), fld('Cajas sin vinipelar', 'c-caj-novin', 'Ej. 80'));
     }
-  }
-
-  else if (unidad === 'mixto') {
+  } else if (unidad === 'mixto') {
     h += sec('<span style="color:var(--ink-3);font-size:10.5px">Estibas</span>');
     if (tipo === 'traslado') {
-      h += r2(
-        fld('Estibas a trasladar', 'c-est-op', 'Ej. 10'),
-        fld('Estibas en bodega destino', 'c-est-dest', 'Ej. 5')
-      );
+      h += r2(fld('Estibas a trasladar', 'c-est-op', 'Ej. 10'), fld('Estibas en bodega destino', 'c-est-dest', 'Ej. 5'));
     } else {
-      h += r2(
-        fld(`Estibas a ${op}`, 'c-est-op', 'Ej. 10'),
-        fld('Estibas completas', 'c-est-comp', 'Ej. 8')
-      );
+      h += r2(fld(`Estibas a ${op}`, 'c-est-op', 'Ej. 10'), fld('Estibas completas', 'c-est-comp', 'Ej. 8'));
     }
     h += `<div class="cant-section" style="color:var(--ink-3)">${tipoBadge[tipo]}<span style="font-size:10.5px">Cajas sueltas</span></div>`;
     if (tipo === 'traslado') {
-      h += r2(
-        fld('Cajas sueltas a trasladar', 'c-caj-op', 'Ej. 45'),
-        fld('Cajas en bodega destino', 'c-caj-dest', 'Ej. 20')
-      );
+      h += r2(fld('Cajas sueltas a trasladar', 'c-caj-op', 'Ej. 45'), fld('Cajas en bodega destino', 'c-caj-dest', 'Ej. 20'));
     } else {
-      h += r2(
-        fld(`Cajas sueltas a ${op}`, 'c-caj-op', 'Ej. 45'),
-        fld('Cajas en estiba parcial', 'c-caj-parc', 'Ej. 12')
-      );
+      h += r2(fld(`Cajas sueltas a ${op}`, 'c-caj-op', 'Ej. 45'), fld('Cajas en estiba parcial', 'c-caj-parc', 'Ej. 12'));
     }
     if (vinipe) {
       h += vinSec('<span style="color:var(--amber);font-size:10.5px">Estibas + Cajas</span>');
-      h += r2(
-        fld('Estibas vinipeladas', 'c-est-vin', 'Ej. 4'),
-        fld('Cajas vinipeladas', 'c-caj-vin', 'Ej. 30')
-      );
-      h += r2(
-        fld('Estibas sin vinipelar', 'c-est-novin', 'Ej. 6'),
-        fld('Cajas sin vinipelar', 'c-caj-novin', 'Ej. 15')
-      );
+      h += r2(fld('Estibas vinipeladas', 'c-est-vin', 'Ej. 4'), fld('Cajas vinipeladas', 'c-caj-vin', 'Ej. 30'));
+      h += r2(fld('Estibas sin vinipelar', 'c-est-novin', 'Ej. 6'), fld('Cajas sin vinipelar', 'c-caj-novin', 'Ej. 15'));
     }
   }
 
@@ -1121,44 +1113,6 @@ function validar() {
   return ok;
 }
 
-// ─── SHEETS ───────────────────────────────────────────────────────
-function enviarASheets(reg) {
-  if (!SHEETS_URL) return;
-  fetch(SHEETS_URL, {
-    method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ sheet: SHEET_NAME, ...reg })
-  }).then(() => {
-    const r = historial.find(x => x.id === reg.id);
-    if (r) {
-      r.synced = true;
-      localStorage.setItem('innova_hist', JSON.stringify(historial));
-      renderHist(); updateStats();
-    }
-  }).catch(err => console.error('Sheets sync error:', err));
-}
-
-function reintentarSync(id) {
-  if (!SHEETS_URL) { showToast('Configura primero la URL de Google Sheets', 'error'); return; }
-  const reg = historial.find(r => r.id === id);
-  if (!reg) return;
-  const btn = document.querySelector(`[data-retry="${id}"]`);
-  if (btn) btn.innerHTML = '<i class="ti ti-loader spin"></i> Enviando...';
-  fetch(SHEETS_URL, {
-    method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ sheet: SHEET_NAME, ...reg })
-  }).then(() => {
-    reg.synced = true;
-    localStorage.setItem('innova_hist', JSON.stringify(historial));
-    renderHist(); updateStats();
-    showToast('Registro enviado a Sheets ✓', 'success');
-  }).catch(() => {
-    showToast('No se pudo sincronizar', 'error');
-    renderHist();
-  });
-}
-
 // ─── HELPERS FECHA ────────────────────────────────────────────────
 function getFechaActual() {
   return new Date().toLocaleString('es-CO', {
@@ -1169,6 +1123,104 @@ function getFechaActual() {
 function getHoraActual() {
   const n = new Date();
   return `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
+}
+
+// ─── FETCH CON TIMEOUT ────────────────────────────────────────────
+function fetchConTimeout(url, opciones, ms) {
+  const ctrl = new AbortController();
+  const id   = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...opciones, signal: ctrl.signal })
+    .finally(() => clearTimeout(id));
+}
+
+// ─── ENVIAR UN REGISTRO A SHEETS ─────────────────────────────────
+async function enviarRegistro(reg) {
+  if (!SHEETS_URL) return false;
+  try {
+    await fetchConTimeout(SHEETS_URL, {
+      method: 'POST',
+      mode:   'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body:    JSON.stringify({ sheet: SHEET_NAME, ...reg })
+    }, FETCH_TIMEOUT);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ─── COLA DE PENDIENTES ───────────────────────────────────────────
+function getPendientes() {
+  return historial.filter(r => !r.synced);
+}
+
+function updatePendingBanner() {
+  const p = getPendientes().length;
+  const banner = document.getElementById('pending-banner');
+  if (p > 0 && SHEETS_URL) {
+    banner.classList.add('show');
+    document.getElementById('pending-text').textContent =
+      `${p} registro${p>1?'s':''} pendiente${p>1?'s':''} de sincronizar`;
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+// Envía todos los pendientes en serie con timeout por registro
+async function flushQueue() {
+  const pendientes = getPendientes();
+  if (!pendientes.length || !SHEETS_URL) return;
+
+  const btn = document.querySelector('.flush-btn');
+  if (btn) btn.innerHTML = '<i class="ti ti-loader spin"></i> Enviando...';
+
+  let ok = 0;
+  for (const reg of pendientes) {
+    const exito = await enviarRegistro(reg);
+    if (exito) {
+      reg.synced = true;
+      ok++;
+    }
+  }
+
+  localStorage.setItem('innova_hist', JSON.stringify(historial));
+  renderHist();
+  updateStats();
+  updatePendingBanner();
+
+  if (btn) btn.innerHTML = '<i class="ti ti-send"></i> Enviar ahora';
+
+  if (ok > 0) showToast(`${ok} registro${ok>1?'s':''} sincronizado${ok>1?'s':''} con Sheets ✓`, 'success');
+  else showToast('Sin conexión. Se reintentará automáticamente.', 'warn');
+}
+
+// Reintento periódico silencioso
+function scheduleRetry() {
+  if (retryTimer) clearInterval(retryTimer);
+  retryTimer = setInterval(async () => {
+    if (getPendientes().length > 0 && SHEETS_URL) {
+      await flushQueue();
+    }
+  }, RETRY_INTERVAL);
+}
+
+// Reintentar uno específico desde el historial
+async function reintentarSync(id) {
+  if (!SHEETS_URL) { showToast('Configura primero la URL de Google Sheets', 'error'); return; }
+  const reg = historial.find(r => r.id === id);
+  if (!reg) return;
+  const btn = document.querySelector(`[data-retry="${id}"]`);
+  if (btn) btn.innerHTML = '<i class="ti ti-loader spin"></i>';
+  const exito = await enviarRegistro(reg);
+  if (exito) {
+    reg.synced = true;
+    localStorage.setItem('innova_hist', JSON.stringify(historial));
+    renderHist(); updateStats(); updatePendingBanner();
+    showToast('Registro enviado a Sheets ✓', 'success');
+  } else {
+    showToast('Sin conexión. Reintentando en 30s...', 'warn');
+    if (btn) btn.innerHTML = '<i class="ti ti-refresh"></i> Reintentar';
+  }
 }
 
 // ─── GUARDAR ─────────────────────────────────────────────────────
@@ -1201,19 +1253,31 @@ async function guardar() {
     synced:       false
   };
 
+  // 1. Guardar local INMEDIATAMENTE — sin esperar a Sheets
   historial.unshift(reg);
   localStorage.setItem('innova_hist', JSON.stringify(historial));
-  renderHist(); updateStats();
+  renderHist();
+  updateStats();
   resetForm();
 
   btn.disabled = false;
-  btn.innerHTML = '<i class="ti ti-device-floppy"></i> Guardar y sincronizar con Sheets';
+  btn.innerHTML = '<i class="ti ti-device-floppy"></i> Guardar registro';
 
   if (SHEETS_URL) {
-    showToast('Guardado ✓ — sincronizando con Sheets...', 'success', 2500);
-    enviarASheets(reg);
+    showToast('Guardado ✓ — enviando a Sheets en segundo plano...', 'success', 2500);
+    // 2. Enviar a Sheets en segundo plano — no bloquea la UI
+    enviarRegistro(reg).then(exito => {
+      if (exito) {
+        reg.synced = true;
+        localStorage.setItem('innova_hist', JSON.stringify(historial));
+        renderHist(); updateStats(); updatePendingBanner();
+      } else {
+        updatePendingBanner();
+      }
+    });
   } else {
     showToast('Guardado localmente. Configura Sheets para sincronizar.', 'warn', 4500);
+    updatePendingBanner();
   }
 }
 
@@ -1246,7 +1310,7 @@ function eliminar(id) {
   if (!confirm('¿Eliminar este registro? Esta acción no se deshace.')) return;
   historial = historial.filter(r => r.id !== id);
   localStorage.setItem('innova_hist', JSON.stringify(historial));
-  renderHist(); updateStats();
+  renderHist(); updateStats(); updatePendingBanner();
 }
 
 // ─── STATS ────────────────────────────────────────────────────────
