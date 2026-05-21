@@ -6,124 +6,83 @@
 <title>Innova · Operaciones</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --ink:        #1A1833;
-  --ink-2:      #3C3A5C;
-  --ink-3:      #6B6890;
-  --ink-4:      #A09DC4;
-  --surface:    #F5F4FC;
-  --surface-2:  #ECEAF8;
+  --ink:        #0F0E1A;
+  --ink-2:      #2D2B45;
+  --ink-3:      #6B6888;
+  --ink-4:      #A09DC0;
+  --surface:    #F6F5FB;
+  --surface-2:  #ECEAF7;
   --white:      #FFFFFF;
-  --border:     rgba(100,95,160,0.14);
-  --border-2:   rgba(100,95,160,0.25);
+  --border:     rgba(90,80,160,0.12);
+  --border-2:   rgba(90,80,160,0.22);
 
-  --purple:     #4F46BF;
-  --purple-d:   #3730A3;
-  --purple-l:   #EEF2FF;
-  --purple-mid: #7C73E0;
+  /* Tipo colores */
+  --cajas-h:    #C05621;  --cajas-l:    #FFF5EE;  --cajas-m:    #F97316;
+  --estibas-h:  #1E6B4A;  --estibas-l:  #EDFAF4;  --estibas-m:  #10B981;
+  --movest-h:   #1A4FBD;  --movest-l:   #EFF6FF;  --movest-m:   #3B82F6;
+  --vini-h:     #6B21A8;  --vini-l:     #F9F0FF;  --vini-m:     #A855F7;
 
-  --teal:       #0D8A6A;
-  --teal-l:     #E6F7F3;
-  --amber:      #B45309;
-  --amber-l:    #FEF3C7;
-  --red:        #C0392B;
-  --red-l:      #FDEEEC;
-  --blue:       #1D5FA6;
-  --blue-l:     #EBF3FC;
-  --green:      #276422;
-  --green-l:    #EDF5E9;
-
-  --radius:     14px;
-  --radius-sm:  8px;
-  --shadow:     0 2px 12px rgba(50,40,120,0.08);
-  --shadow-md:  0 4px 24px rgba(50,40,120,0.13);
-
-  --font: 'DM Sans', sans-serif;
-  --mono: 'DM Mono', monospace;
+  --radius:     16px;
+  --radius-sm:  10px;
+  --font: 'Sora', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
 }
 
 html { background: var(--surface); }
-
 body {
   font-family: var(--font);
   color: var(--ink);
   min-height: 100vh;
   background: var(--surface);
-  padding: 0 0 env(safe-area-inset-bottom) 0;
 }
 
 .page {
   max-width: 560px;
   margin: 0 auto;
-  padding: 20px 16px 40px;
+  padding: 20px 16px 60px;
 }
 
 /* ── HERO ── */
 .hero {
-  background: linear-gradient(135deg, #3730A3 0%, #6054CC 60%, #7C73E0 100%);
   border-radius: var(--radius);
-  padding: 24px 20px 20px;
-  margin-bottom: 16px;
+  padding: 26px 22px 22px;
+  margin-bottom: 14px;
   color: #fff;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(79,70,191,0.35);
+  background: linear-gradient(140deg, #1A1540 0%, #2D2880 55%, #4A3FA8 100%);
+  box-shadow: 0 10px 40px rgba(30,24,100,0.3);
 }
-.hero::before {
-  content: '';
-  position: absolute;
-  right: -24px; top: -24px;
-  width: 160px; height: 160px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 50%;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  right: 30px; bottom: -40px;
-  width: 100px; height: 100px;
-  background: rgba(255,255,255,0.04);
-  border-radius: 50%;
+.hero-noise {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: .5; pointer-events: none;
 }
 .hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
-  padding: 3px 10px;
-  margin-bottom: 10px;
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 3px 10px; margin-bottom: 10px; color: rgba(255,255,255,0.75);
 }
-.hero h1 { font-size: 22px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; }
-.hero-sub { font-size: 13px; opacity: .65; margin-bottom: 16px; }
+.hero h1 { font-size: 24px; font-weight: 700; line-height: 1.15; margin-bottom: 4px; letter-spacing: -.02em; }
+.hero-sub { font-size: 12.5px; opacity: .55; margin-bottom: 18px; }
 .hero-pills { display: flex; gap: 6px; flex-wrap: wrap; }
 .hero-pill {
   display: flex; align-items: center; gap: 4px;
-  font-size: 11.5px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 20px;
-  padding: 4px 10px;
+  font-size: 11px; background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 10px;
 }
 .hero-icon-wrap {
-  position: absolute; right: 20px; top: 50%;
-  transform: translateY(-50%);
-  width: 64px; height: 64px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 1;
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  width: 72px; height: 72px; background: rgba(255,255,255,0.08);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
 }
-.hero-icon-wrap i { font-size: 30px; opacity: .85; }
+.hero-icon-wrap i { font-size: 34px; opacity: .7; }
 
 /* ── CARD ── */
 .card {
@@ -132,157 +91,197 @@ body {
   border-radius: var(--radius);
   padding: 18px 18px 16px;
   margin-bottom: 12px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 2px 12px rgba(40,30,100,0.06);
 }
 .card-title {
   display: flex; align-items: center; gap: 7px;
-  font-size: 11.5px; font-weight: 600;
-  letter-spacing: .07em; text-transform: uppercase;
-  color: var(--ink-3); margin-bottom: 14px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 14px;
 }
-.card-title i { font-size: 16px; }
+.card-title i { font-size: 15px; }
 
 /* ── SYNC ── */
 .sync-indicator {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 14px; border-radius: var(--radius-sm);
-  background: var(--teal-l); border: 1px solid rgba(13,138,106,.2);
-  margin-bottom: 12px; font-size: 13px; font-weight: 500; color: var(--teal);
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  border-radius: var(--radius-sm); background: #ECFDF5;
+  border: 1px solid rgba(16,185,129,.2); margin-bottom: 12px;
+  font-size: 13px; font-weight: 500; color: #065F46;
 }
-.sync-indicator i { font-size: 16px; flex-shrink: 0; }
-
-/* ── CONFIG SHEETS ── */
 .sheets-config {
   background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px; margin-bottom: 12px; box-shadow: var(--shadow);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(40,30,100,0.06);
 }
 .sheets-config-title {
   display: flex; align-items: center; gap: 7px;
-  font-size: 11.5px; font-weight: 600;
-  letter-spacing: .07em; text-transform: uppercase;
-  color: var(--ink-3); margin-bottom: 12px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px;
 }
 .sheets-url-row { display: flex; gap: 8px; align-items: flex-end; }
 .sheets-url-row .field { flex: 1; }
 .save-url-btn {
-  background: var(--purple); color: #fff; border: none;
+  background: #2D2880; color: #fff; border: none;
   border-radius: var(--radius-sm); padding: 9px 14px;
-  font-size: 13px; font-weight: 600; font-family: var(--font);
-  cursor: pointer; white-space: nowrap; transition: opacity .15s;
-  display: flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer;
+  white-space: nowrap; display: flex; align-items: center; gap: 5px; transition: opacity .15s;
 }
-.save-url-btn:hover { opacity: .88; }
+.save-url-btn:hover { opacity: .85; }
 .sheets-hint { font-size: 11.5px; color: var(--ink-4); margin-top: 7px; line-height: 1.5; }
-.sheets-hint a { color: var(--purple); text-decoration: none; }
+.sheets-hint a { color: #4A3FA8; text-decoration: none; }
 .sheets-hint a:hover { text-decoration: underline; }
 .url-status {
   display: inline-flex; align-items: center; gap: 4px;
   font-size: 11px; font-weight: 600; border-radius: 20px; padding: 2px 8px; margin-top: 6px;
 }
-.url-status.ok  { background: var(--teal-l); color: var(--teal); }
-.url-status.bad { background: var(--amber-l); color: var(--amber); }
+.url-status.ok  { background: #ECFDF5; color: #065F46; }
+.url-status.bad { background: #FEF3C7; color: #92400E; }
 
 /* ── INPUTS ── */
-label {
-  font-size: 12.5px; font-weight: 500; color: var(--ink-2);
-  display: block; margin-bottom: 5px;
-}
+label { font-size: 12px; font-weight: 600; color: var(--ink-2); display: block; margin-bottom: 5px; }
 input, select, textarea {
-  width: 100%; font-family: var(--font); font-size: 14px;
-  color: var(--ink); background: var(--surface);
-  border: 1px solid var(--border-2); border-radius: var(--radius-sm);
-  padding: 9px 12px; outline: none;
-  transition: border-color .15s, box-shadow .15s;
-  appearance: none; -webkit-appearance: none;
+  width: 100%; font-family: var(--font); font-size: 14px; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--border-2);
+  border-radius: var(--radius-sm); padding: 9px 12px; outline: none;
+  transition: border-color .15s, box-shadow .15s; appearance: none; -webkit-appearance: none;
 }
 select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6890' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px;
 }
 input:focus, select:focus, textarea:focus {
-  border-color: var(--purple-mid);
-  box-shadow: 0 0 0 3px rgba(79,70,191,0.12);
-  background: var(--white);
+  border-color: #4A3FA8; box-shadow: 0 0 0 3px rgba(74,63,168,0.1); background: var(--white);
 }
 input::placeholder, textarea::placeholder { color: var(--ink-4); }
 textarea { resize: none; min-height: 72px; line-height: 1.5; }
 .field { display: flex; flex-direction: column; }
-
 .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
 
-/* ── FECHA ── */
+/* ── FECHA CHIP ── */
 .fecha-chip {
-  display: flex; align-items: center; gap: 7px;
-  padding: 10px 14px; border-radius: var(--radius-sm);
-  background: var(--purple-l); border: 1px solid rgba(79,70,191,.2);
-  margin-bottom: 14px; font-size: 13.5px; font-weight: 500; color: var(--purple-d);
+  display: flex; align-items: center; gap: 8px; padding: 11px 16px;
+  border-radius: var(--radius-sm); background: var(--white);
+  border: 1px solid var(--border-2); margin-bottom: 12px;
+  font-size: 13px; font-weight: 500; color: var(--ink-2);
+  box-shadow: 0 1px 4px rgba(40,30,100,0.05);
 }
-.fecha-chip i { font-size: 16px; flex-shrink: 0; }
-.fecha-chip span { flex: 1; }
-.fecha-chip strong { font-weight: 600; }
+.fecha-chip i { font-size: 16px; color: #4A3FA8; }
 
-/* ── TURNO ── */
+/* ── TURNO SELECTOR ── */
 .turno-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 .turno-btn {
   border: 1.5px solid var(--border-2); background: var(--surface); color: var(--ink-3);
-  padding: 14px 6px 12px; border-radius: 10px; font-size: 13px; font-family: var(--font);
+  padding: 14px 6px 12px; border-radius: 12px; font-size: 12.5px; font-family: var(--font);
   cursor: pointer; transition: all .15s; text-align: center;
   display: flex; flex-direction: column; align-items: center; gap: 4px;
 }
 .turno-btn i { font-size: 22px; }
-.turno-btn .tname { font-weight: 600; font-size: 13px; }
-.turno-btn .thr { font-size: 10.5px; opacity: .7; }
-.turno-btn:hover:not(.active) { background: var(--surface-2); }
-.turno-btn.t1.active { background: var(--blue-l); border-color: var(--blue); color: var(--blue); }
-.turno-btn.t2.active { background: var(--purple-l); border-color: var(--purple); color: var(--purple); }
-.turno-btn.t3.active { background: #1A1833; border-color: #1A1833; color: #fff; }
-.turno-btn.t3.active .thr { opacity: .55; }
+.turno-btn .tname { font-weight: 700; }
+.turno-btn .thr { font-size: 10px; opacity: .65; }
+.turno-btn.t1.active { background: #EFF6FF; border-color: #2563EB; color: #1D4ED8; }
+.turno-btn.t2.active { background: #FFFBEB; border-color: #D97706; color: #92400E; }
+.turno-btn.t3.active { background: #1A1540; border-color: #1A1540; color: #fff; }
+.turno-btn.t3.active .thr { opacity: .5; }
 
-/* ── TIPO OPERACIÓN ── */
-.tipo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+/* ══════════════════════════════════════════
+   SELECTOR DE TIPO — la pieza clave
+══════════════════════════════════════════ */
+.tipo-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 4px;
+}
 .tipo-btn {
-  border: 1.5px solid var(--border-2); background: var(--surface); color: var(--ink-3);
-  padding: 14px 6px 12px; border-radius: 10px; font-size: 13px; font-family: var(--font);
-  cursor: pointer; transition: all .15s; text-align: center;
-  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  border: 2px solid var(--border-2); background: var(--surface); color: var(--ink-3);
+  padding: 18px 10px 16px; border-radius: 14px; font-family: var(--font);
+  cursor: pointer; transition: all .18s; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  position: relative; overflow: hidden;
 }
-.tipo-btn i { font-size: 22px; }
-.tipo-btn span { font-weight: 600; }
-.tipo-btn:hover:not([class*="on-"]) { background: var(--surface-2); }
-.tipo-btn.on-cargue    { background: var(--green-l); border-color: var(--green); color: var(--green); }
-.tipo-btn.on-descargue { background: var(--red-l);   border-color: var(--red);   color: var(--red); }
-.tipo-btn.on-traslado  { background: var(--blue-l);  border-color: var(--blue);  color: var(--blue); }
+.tipo-btn-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface-2); transition: all .18s;
+}
+.tipo-btn-icon i { font-size: 26px; }
+.tipo-btn-name { font-size: 13px; font-weight: 700; }
+.tipo-btn-desc { font-size: 10.5px; opacity: .6; line-height: 1.3; }
+.tipo-btn:hover:not(.active) { background: var(--surface-2); transform: translateY(-1px); }
 
-/* ── TOGGLE ── */
-.toggle-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
-  cursor: pointer; margin-bottom: 14px; background: var(--surface);
-  transition: background .15s; user-select: none;
+/* Activos por tipo */
+.tipo-btn.active-cajas {
+  background: var(--cajas-l); border-color: var(--cajas-m); color: var(--cajas-h);
 }
-.toggle-row:hover { background: var(--surface-2); }
-.toggle-label { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--ink); }
-.toggle-label i { font-size: 18px; color: var(--ink-3); }
-.switch {
-  width: 40px; height: 23px; background: var(--border-2);
-  border-radius: 23px; position: relative; transition: background .2s; flex-shrink: 0;
+.tipo-btn.active-cajas .tipo-btn-icon { background: rgba(249,115,22,0.15); }
+.tipo-btn.active-estibas {
+  background: var(--estibas-l); border-color: var(--estibas-m); color: var(--estibas-h);
 }
-.switch.on { background: var(--purple); }
-.switch::after {
-  content: ''; width: 17px; height: 17px; background: #fff; border-radius: 50%;
-  position: absolute; top: 3px; left: 3px; transition: left .2s;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+.tipo-btn.active-estibas .tipo-btn-icon { background: rgba(16,185,129,0.15); }
+.tipo-btn.active-movest {
+  background: var(--movest-l); border-color: var(--movest-m); color: var(--movest-h);
 }
-.switch.on::after { left: 20px; }
+.tipo-btn.active-movest .tipo-btn-icon { background: rgba(59,130,246,0.15); }
+.tipo-btn.active-vinipelado {
+  background: var(--vini-l); border-color: var(--vini-m); color: var(--vini-h);
+}
+.tipo-btn.active-vinipelado .tipo-btn-icon { background: rgba(168,85,247,0.15); }
 
-/* ── QTY ── */
-.qty-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.qty-label { font-size: 14px; font-weight: 500; color: var(--ink-2); }
+/* Checkmark en esquina */
+.tipo-btn .tipo-check {
+  position: absolute; top: 8px; right: 8px;
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .15s; font-size: 12px;
+}
+.tipo-btn.active-cajas .tipo-check      { background: var(--cajas-m);   color: #fff; opacity: 1; }
+.tipo-btn.active-estibas .tipo-check    { background: var(--estibas-m); color: #fff; opacity: 1; }
+.tipo-btn.active-movest .tipo-check     { background: var(--movest-m);  color: #fff; opacity: 1; }
+.tipo-btn.active-vinipelado .tipo-check { background: var(--vini-m);    color: #fff; opacity: 1; }
+
+/* ── PANEL de campos según tipo ── */
+.tipo-panel {
+  display: none; animation: fadeInUp .22s ease;
+  padding: 16px; background: var(--surface); border-radius: 12px;
+  border: 1.5px solid var(--border-2); margin-top: 12px;
+}
+.tipo-panel.show { display: block; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.panel-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 14px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.panel-header h3 { font-size: 13px; font-weight: 700; }
+.panel-header p { font-size: 11.5px; color: var(--ink-3); margin-left: auto; }
+
+.panel-cajas   { border-color: rgba(249,115,22,.25); }
+.panel-estibas { border-color: rgba(16,185,129,.25); }
+.panel-movest  { border-color: rgba(59,130,246,.25); }
+.panel-vinipelado { border-color: rgba(168,85,247,.25); }
+
+.panel-cajas   .panel-header { border-color: rgba(249,115,22,.15); }
+.panel-estibas .panel-header { border-color: rgba(16,185,129,.15); }
+.panel-movest  .panel-header { border-color: rgba(59,130,246,.15); }
+.panel-vinipelado .panel-header { border-color: rgba(168,85,247,.15); }
+
+.dot-cajas      { background: var(--cajas-m); }
+.dot-estibas    { background: var(--estibas-m); }
+.dot-movest     { background: var(--movest-m); }
+.dot-vinipelado { background: var(--vini-m); }
+
+/* ── MUELLE ── */
+.field { margin-bottom: 0; }
+
+/* ── QTY PERSONAS ── */
+.qty-row {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
+}
+.qty-label { font-size: 14px; font-weight: 600; color: var(--ink-2); }
 .qty-ctrl {
-  display: flex; align-items: center;
-  border: 1px solid var(--border-2); border-radius: var(--radius-sm);
-  overflow: hidden; background: var(--surface);
+  display: flex; align-items: center; border: 1.5px solid var(--border-2);
+  border-radius: var(--radius-sm); overflow: hidden; background: var(--surface);
 }
 .qty-btn {
   width: 36px; height: 36px; background: none; border: none; font-size: 20px;
@@ -291,9 +290,9 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
 }
 .qty-btn:hover { background: var(--surface-2); }
 .qty-val {
-  min-width: 38px; text-align: center; font-size: 16px; font-weight: 600; color: var(--ink);
-  border-left: 1px solid var(--border); border-right: 1px solid var(--border);
-  height: 36px; line-height: 36px;
+  min-width: 40px; text-align: center; font-size: 16px; font-weight: 700;
+  color: var(--ink); border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border); height: 36px; line-height: 36px;
 }
 
 /* ── PERSON CARD ── */
@@ -301,215 +300,153 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
 .person-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 12px 12px 10px;
-  animation: fadeInSlide .2s ease;
+  animation: fadeInUp .2s ease;
 }
-@keyframes fadeInSlide {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+.person-card-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
 }
-.person-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .person-num {
   width: 24px; height: 24px; border-radius: 50%;
-  background: var(--purple-l); color: var(--purple);
-  font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  background: #EEF2FF; color: #4A3FA8; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.person-card-header span { font-size: 12px; font-weight: 600; color: var(--ink-3); letter-spacing: .04em; text-transform: uppercase; }
+.person-card-header span { font-size: 11.5px; font-weight: 700; color: var(--ink-3); letter-spacing: .04em; text-transform: uppercase; }
 .person-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-/* ── CANTIDADES DINÁMICAS ── */
-.cant-section {
-  font-size: 10.5px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--ink-3); padding: 8px 0 10px;
-  border-top: 1px solid var(--border); margin-top: 2px;
-  display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
-}
-.cant-section:first-child { border-top: none; padding-top: 0; }
-.cant-section .badge { font-size: 10.5px; }
 
 /* ── VALIDACIÓN ── */
 .field-err input, .field-err select, .field-err textarea {
-  border-color: var(--red);
-  box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+  border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
 }
-.err-msg {
-  font-size: 11.5px; color: var(--red); margin-top: 4px;
-  display: flex; align-items: center; gap: 3px;
-}
+.err-msg { font-size: 11.5px; color: #EF4444; margin-top: 4px; display: flex; align-items: center; gap: 3px; }
 
-/* ── SUBMIT ── */
+/* ── SUBMIT BTN ── */
 .submit-btn {
-  width: 100%;
-  background: linear-gradient(135deg, var(--purple-d), var(--purple));
+  width: 100%; background: linear-gradient(135deg, #1A1540, #2D2880 50%, #4A3FA8);
   color: #fff; border: none; padding: 16px; border-radius: var(--radius-sm);
-  font-size: 15px; font-weight: 600; font-family: var(--font);
-  cursor: pointer; transition: opacity .15s, transform .1s, box-shadow .15s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-bottom: 20px; box-shadow: 0 4px 16px rgba(79,70,191,0.3); letter-spacing: .01em;
+  font-size: 15px; font-weight: 700; font-family: var(--font); cursor: pointer;
+  transition: all .15s; display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin-bottom: 20px;
+  box-shadow: 0 6px 24px rgba(30,24,100,0.3); letter-spacing: .01em;
 }
-.submit-btn:hover { box-shadow: 0 6px 20px rgba(79,70,191,0.4); transform: translateY(-1px); }
+.submit-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(30,24,100,0.4); }
 .submit-btn:active { transform: scale(0.99); }
-.submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+.submit-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 
 /* ── TOAST ── */
-.toast-wrap { min-height: 0; }
 .toast {
-  display: none; align-items: center; gap: 10px;
-  padding: 13px 16px; border-radius: var(--radius-sm);
-  font-size: 13.5px; font-weight: 500; margin-bottom: 14px;
-  animation: slideIn .25s ease; border: 1px solid transparent;
-}
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  display: none; align-items: center; gap: 10px; padding: 13px 16px;
+  border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 500;
+  margin-bottom: 14px; animation: fadeInUp .25s ease; border: 1px solid transparent;
 }
 .toast.show { display: flex; }
-.toast.success { background: var(--teal-l); color: var(--teal); border-color: rgba(13,138,106,.2); }
-.toast.error   { background: var(--red-l);  color: var(--red);  border-color: rgba(192,57,43,.2); }
-.toast.warn    { background: var(--amber-l);color: var(--amber);border-color: rgba(180,83,9,.2); }
+.toast.success { background: #ECFDF5; color: #065F46; border-color: rgba(16,185,129,.25); }
+.toast.error   { background: #FEF2F2; color: #991B1B; border-color: rgba(239,68,68,.25); }
+.toast.warn    { background: #FFFBEB; color: #92400E; border-color: rgba(217,119,6,.25); }
 
 /* ── STATS ── */
 .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
 .stat {
   background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 14px 10px; text-align: center; box-shadow: var(--shadow);
+  border-radius: var(--radius-sm); padding: 14px 10px; text-align: center;
+  box-shadow: 0 1px 6px rgba(40,30,100,0.05);
 }
-.stat-num { font-size: 26px; font-weight: 600; color: var(--purple); line-height: 1; margin-bottom: 4px; }
-.stat-lbl { font-size: 11px; color: var(--ink-4); font-weight: 500; letter-spacing: .03em; }
+.stat-num { font-size: 28px; font-weight: 700; color: #2D2880; line-height: 1; margin-bottom: 4px; }
+.stat-lbl { font-size: 11px; color: var(--ink-4); font-weight: 600; letter-spacing: .04em; }
 
 /* ── HISTORIAL ── */
-.hist-filters { display: flex; gap: 6px; align-items: center; }
+.hist-empty { text-align: center; padding: 36px 16px; color: var(--ink-4); font-size: 14px; }
+.hist-empty i { font-size: 36px; display: block; margin-bottom: 10px; opacity: .4; }
+.hist-filters { display: flex; gap: 6px; }
 .hist-filters select { font-size: 12px; padding: 5px 26px 5px 8px; width: auto; background-size: 10px; background-position: right 7px center; }
-.hist-empty { text-align: center; padding: 32px 16px; color: var(--ink-4); font-size: 14px; }
-.hist-empty i { font-size: 32px; display: block; margin-bottom: 10px; opacity: .5; }
 
 .hist-item {
-  border: 1px solid var(--border); border-radius: 10px;
-  padding: 14px; margin-bottom: 8px; background: var(--surface);
-  transition: box-shadow .15s; position: relative; overflow: hidden;
+  border: 1.5px solid var(--border); border-radius: 12px; padding: 14px;
+  margin-bottom: 8px; background: var(--white); position: relative; overflow: hidden;
+  transition: box-shadow .15s;
 }
-.hist-item:hover { box-shadow: var(--shadow); }
-.hist-item-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 10px 0 0 10px; }
-.hist-item-inner { padding-left: 6px; }
+.hist-item:hover { box-shadow: 0 4px 16px rgba(40,30,100,0.08); }
+.hist-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 12px 0 0 12px; }
+.hist-inner { padding-left: 8px; }
 .hist-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
 .hist-badges { display: flex; gap: 5px; flex-wrap: wrap; }
 .badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px;
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 20px;
 }
-.badge i { font-size: 12px; }
-.b-cargue    { background: var(--green-l); color: var(--green); }
-.b-descargue { background: var(--red-l);   color: var(--red); }
-.b-traslado  { background: var(--blue-l);  color: var(--blue); }
-.b-t1        { background: var(--blue-l);  color: var(--blue); }
-.b-t2        { background: var(--purple-l);color: var(--purple); }
-.b-t3        { background: #1A1833;        color: #fff; }
-.b-vinipe    { background: var(--amber-l); color: var(--amber); }
-.b-sync      { background: var(--teal-l);  color: var(--teal); }
-.b-local     { background: var(--amber-l); color: var(--amber); }
-.b-muelle    { background: #F0F9FF;        color: #0369A1; }
-.b-despacho  { background: #F0FFF4;        color: #166534; }
-.b-est       { background: var(--purple-l);color: var(--purple); }
-.b-caj       { background: var(--blue-l);  color: var(--blue); }
+.b-cajas      { background: var(--cajas-l);   color: var(--cajas-h); }
+.b-estibas    { background: var(--estibas-l);  color: var(--estibas-h); }
+.b-movest     { background: var(--movest-l);   color: var(--movest-h); }
+.b-vinipelado { background: var(--vini-l);     color: var(--vini-h); }
+.b-t1 { background: #EFF6FF; color: #1D4ED8; }
+.b-t2 { background: #FFFBEB; color: #92400E; }
+.b-t3 { background: #1A1540; color: #fff; }
+.b-sync  { background: #ECFDF5; color: #065F46; }
+.b-local { background: #FFFBEB; color: #92400E; }
+.b-muelle { background: #F0F9FF; color: #0369A1; }
+.b-desp  { background: #F0FFF4; color: #166534; }
 
-.hist-meta { font-size: 11.5px; color: var(--ink-4); white-space: nowrap; }
+.hist-meta { font-size: 11px; color: var(--ink-4); white-space: nowrap; }
 .hist-del {
   background: none; border: none; cursor: pointer; color: var(--ink-4);
-  font-size: 16px; padding: 2px; display: flex; align-items: center; transition: color .15s; flex-shrink: 0;
+  font-size: 16px; padding: 2px; display: flex; align-items: center; transition: color .15s;
 }
-.hist-del:hover { color: var(--red); }
-.hist-details { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12.5px; color: var(--ink-2); margin-bottom: 6px; }
+.hist-del:hover { color: #EF4444; }
+
+.hist-details {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  font-size: 12px; color: var(--ink-2); margin-bottom: 6px;
+}
 .hist-details span { display: flex; align-items: center; gap: 4px; }
 .hist-details i { font-size: 13px; color: var(--ink-4); }
 .hist-coord { font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
 .hist-coord strong { color: var(--ink-2); font-weight: 600; }
 .hist-obs { margin-top: 6px; font-size: 12px; color: var(--ink-3); display: flex; gap: 5px; align-items: flex-start; line-height: 1.4; }
-.hist-obs i { flex-shrink: 0; margin-top: 1px; font-size: 13px; }
 
-.accent-cargue    { background: var(--green); }
-.accent-descargue { background: var(--red); }
-.accent-traslado  { background: var(--blue); }
+.accent-cajas      { background: var(--cajas-m); }
+.accent-estibas    { background: var(--estibas-m); }
+.accent-movest     { background: var(--movest-m); }
+.accent-vinipelado { background: var(--vini-m); }
 
 .hist-personas {
-  margin-top: 6px; background: var(--white);
-  border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden;
+  margin-top: 6px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); overflow: hidden;
 }
 .hist-personas-header {
   display: grid; grid-template-columns: 24px 1fr 1fr; gap: 6px;
-  padding: 6px 10px; background: var(--surface-2);
-  font-size: 10.5px; font-weight: 600; color: var(--ink-4);
-  letter-spacing: .05em; text-transform: uppercase; border-bottom: 1px solid var(--border);
+  padding: 5px 10px; background: var(--surface-2);
+  font-size: 10px; font-weight: 700; color: var(--ink-4);
+  letter-spacing: .06em; text-transform: uppercase; border-bottom: 1px solid var(--border);
 }
 .hist-personas-row {
   display: grid; grid-template-columns: 24px 1fr 1fr; gap: 6px;
-  padding: 7px 10px; font-size: 12px; color: var(--ink-2);
+  padding: 6px 10px; font-size: 12px; color: var(--ink-2);
   border-bottom: 1px solid var(--border); align-items: center;
 }
 .hist-personas-row:last-child { border-bottom: none; }
 .hist-personas-row .pnum {
-  width: 20px; height: 20px; border-radius: 50%;
-  background: var(--purple-l); color: var(--purple);
+  width: 20px; height: 20px; border-radius: 50%; background: #EEF2FF; color: #4A3FA8;
   font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;
 }
 .hist-personas-row .pdoc { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
 
-/* ── HIST CANTIDADES TABLE ── */
-.hist-cant {
-  margin-top: 6px; background: var(--white);
-  border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden;
-}
-.hist-cant-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 6px 10px; font-size: 12px; color: var(--ink-2);
-  border-bottom: 1px solid var(--border);
-}
-.hist-cant-row:last-child { border-bottom: none; }
-.hist-cant-row .clbl { color: var(--ink-3); display: flex; align-items: center; gap: 5px; }
-.hist-cant-row .cval { font-weight: 600; color: var(--ink); font-family: var(--mono); font-size: 13px; }
-.hist-cant-header {
-  padding: 5px 10px; background: var(--surface-2);
-  font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--ink-4); border-bottom: 1px solid var(--border);
-}
-
-/* ── RETRY ── */
 .retry-btn {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 11px; font-weight: 600;
-  background: var(--amber-l); color: var(--amber);
-  border: 1px solid rgba(180,83,9,.2); border-radius: 20px;
-  padding: 2px 8px; cursor: pointer; font-family: var(--font); margin-left: 4px;
-  transition: background .15s;
+  display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700;
+  background: #FFFBEB; color: #92400E; border: 1px solid rgba(217,119,6,.25);
+  border-radius: 20px; padding: 2px 8px; cursor: pointer; font-family: var(--font);
+  margin-left: 4px; transition: background .15s;
 }
 .retry-btn:hover { background: #FDE68A; }
 
-/* ── COLA PENDIENTES ── */
-.pending-banner {
-  display: none; align-items: center; gap: 8px;
-  padding: 10px 14px; border-radius: var(--radius-sm);
-  background: var(--amber-l); border: 1px solid rgba(180,83,9,.2);
-  margin-bottom: 12px; font-size: 13px; font-weight: 500; color: var(--amber);
+.cnt-chip {
+  display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
+  background: #EEF2FF; color: #4A3FA8; border-radius: 20px; padding: 2px 9px;
 }
-.pending-banner.show { display: flex; }
-.flush-btn {
-  margin-left: auto; background: var(--amber); color: #fff; border: none;
-  border-radius: 20px; padding: 3px 10px; font-size: 11.5px; font-weight: 600;
-  font-family: var(--font); cursor: pointer; display: flex; align-items: center; gap: 4px;
-  transition: opacity .15s;
-}
-.flush-btn:hover { opacity: .85; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin { animation: spin .7s linear infinite; display: inline-block; }
 
-.cnt-chip {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 12px; font-weight: 600;
-  background: var(--purple-l); color: var(--purple);
-  border-radius: 20px; padding: 2px 8px;
-}
-
 @media (max-width: 360px) {
-  .row-3 { grid-template-columns: 1fr 1fr; }
+  .tipo-grid { grid-template-columns: 1fr 1fr; }
   .person-fields { grid-template-columns: 1fr; }
 }
 </style>
@@ -519,13 +456,14 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
 
   <!-- HERO -->
   <div class="hero">
+    <div class="hero-noise"></div>
     <div class="hero-tag"><i class="ti ti-building-warehouse"></i> INNOVA LOGÍSTICA</div>
     <h1>Operaciones</h1>
-    <p class="hero-sub">Registro de cargue · descargue · traslado</p>
+    <p class="hero-sub">Registro de operaciones en tiempo real</p>
     <div class="hero-pills">
       <span class="hero-pill"><i class="ti ti-clock"></i> 3 turnos</span>
       <span class="hero-pill"><i class="ti ti-table-export"></i> Google Sheets</span>
-      <span class="hero-pill"><i class="ti ti-device-floppy"></i> Guardado local</span>
+      <span class="hero-pill"><i class="ti ti-device-floppy"></i> Local</span>
     </div>
     <div class="hero-icon-wrap"><i class="ti ti-forklift"></i></div>
   </div>
@@ -533,50 +471,34 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
   <!-- CONFIG SHEETS -->
   <div class="sheets-config" id="sheets-config-card">
     <div class="sheets-config-title">
-      <i class="ti ti-table-filled" style="font-size:16px;color:var(--teal)"></i>
-      Conexión a Google Sheets
+      <i class="ti ti-table-filled" style="color:#065F46"></i> Conexión a Google Sheets
     </div>
     <div class="sheets-url-row">
       <div class="field">
         <label>URL del Web App (Apps Script)</label>
         <input type="url" id="sheets-url-input" placeholder="https://script.google.com/macros/s/..." autocomplete="off">
       </div>
-      <button class="save-url-btn" onclick="guardarURL()">
-        <i class="ti ti-link"></i> Conectar
-      </button>
+      <button class="save-url-btn" onclick="guardarURL()"><i class="ti ti-link"></i> Conectar</button>
     </div>
     <div id="url-status"></div>
-    <p class="sheets-hint">
-      ¿Cómo obtener la URL?
-      <a href="#" onclick="toggleGuia(); return false;">Ver guía rápida ▾</a>
-    </p>
+    <p class="sheets-hint">¿Cómo obtener la URL? <a href="#" onclick="toggleGuia(); return false;">Ver guía ▾</a></p>
     <div id="guia-rapida" style="display:none;margin-top:10px;padding:12px;background:var(--surface);border-radius:var(--radius-sm);font-size:12px;color:var(--ink-3);line-height:1.7">
       1. Abre Google Sheets → Extensiones → Apps Script<br>
-      2. Pega el <strong>código Apps Script</strong> que se instaló con esta app<br>
+      2. Pega el código Apps Script instalado con esta app<br>
       3. Haz clic en <strong>Implementar → Nueva implementación</strong><br>
       4. Tipo: <strong>Aplicación web</strong> · Acceso: <strong>Cualquier persona</strong><br>
-      5. Copia la URL generada y pégala aquí arriba
+      5. Copia la URL y pégala aquí
     </div>
   </div>
 
-  <!-- INDICADOR SYNC -->
   <div class="sync-indicator" id="sync-indicator" style="display:none">
     <i class="ti ti-table-filled"></i>
     <span id="sync-indicator-text">Conectado a Google Sheets</span>
-    <button onclick="cambiarURL()" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--teal);font-weight:600;font-family:var(--font)">Cambiar</button>
-  </div>
-
-  <!-- BANNER PENDIENTES -->
-  <div class="pending-banner" id="pending-banner">
-    <i class="ti ti-cloud-upload"></i>
-    <span id="pending-text">0 registros pendientes de sincronizar</span>
-    <button class="flush-btn" onclick="flushQueue()">
-      <i class="ti ti-send"></i> Enviar ahora
-    </button>
+    <button onclick="cambiarURL()" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:#065F46;font-weight:700;font-family:var(--font)">Cambiar</button>
   </div>
 
   <!-- FECHA -->
-  <div class="fecha-chip" id="fecha-chip">
+  <div class="fecha-chip">
     <i class="ti ti-calendar-event"></i>
     <span id="fecha-live">—</span>
   </div>
@@ -608,7 +530,7 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
     <div class="card-title"><i class="ti ti-user-check"></i> Coordinador responsable</div>
     <div class="row-2">
       <div class="field" id="f-coordinador">
-        <label>Nombre del coordinador <span style="color:var(--red)">*</span></label>
+        <label>Nombre <span style="color:#EF4444">*</span></label>
         <input type="text" id="coordinador" placeholder="Nombre completo">
       </div>
       <div class="field">
@@ -616,81 +538,183 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
         <input type="text" id="cargo" placeholder="Ej. Jefe de bodega">
       </div>
     </div>
-    <div class="field" id="f-numdespacho">
-      <label>Número de despacho <span style="color:var(--red)">*</span></label>
-      <input type="text" id="num-despacho" placeholder="Ej. DSP-2024-001" inputmode="text"
-        style="font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase">
+    <div class="field" id="f-numdespacho" style="margin-top:0">
+      <label>N.º de despacho <span style="color:#EF4444">*</span></label>
+      <input type="text" id="num-despacho" placeholder="Ej. DSP-2024-001"
+        style="font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase" inputmode="text">
     </div>
   </div>
 
-  <!-- TIPO OPERACIÓN -->
+  <!-- TIPO DE OPERACIÓN -->
   <div class="card">
-    <div class="card-title"><i class="ti ti-arrows-exchange"></i> Tipo de operación</div>
+    <div class="card-title"><i class="ti ti-layout-grid"></i> Tipo de operación</div>
+
     <div class="tipo-grid">
-      <button class="tipo-btn on-cargue" id="tip-cargue" onclick="selTipo('cargue')">
-        <i class="ti ti-arrow-bar-up"></i><span>Cargue</span>
+
+      <!-- CAJAS -->
+      <button class="tipo-btn" id="tip-cajas" onclick="selTipo('cajas')">
+        <div class="tipo-check"><i class="ti ti-check"></i></div>
+        <div class="tipo-btn-icon"><i class="ti ti-package" style="color:var(--cajas-m)"></i></div>
+        <span class="tipo-btn-name">Cajas</span>
+        <span class="tipo-btn-desc">Registro de<br>unidades en caja</span>
       </button>
-      <button class="tipo-btn" id="tip-descargue" onclick="selTipo('descargue')">
-        <i class="ti ti-arrow-bar-down"></i><span>Descargue</span>
+
+      <!-- ESTIBAS -->
+      <button class="tipo-btn" id="tip-estibas" onclick="selTipo('estibas')">
+        <div class="tipo-check"><i class="ti ti-check"></i></div>
+        <div class="tipo-btn-icon"><i class="ti ti-stack-2" style="color:var(--estibas-m)"></i></div>
+        <span class="tipo-btn-name">Estibas</span>
+        <span class="tipo-btn-desc">Cargue / descargue<br>de estibas</span>
       </button>
-      <button class="tipo-btn" id="tip-traslado" onclick="selTipo('traslado')">
-        <i class="ti ti-truck"></i><span>Traslado</span>
+
+      <!-- MOVIMIENTO ESTIBAS -->
+      <button class="tipo-btn" id="tip-movest" onclick="selTipo('movest')">
+        <div class="tipo-check"><i class="ti ti-check"></i></div>
+        <div class="tipo-btn-icon"><i class="ti ti-arrows-exchange" style="color:var(--movest-m)"></i></div>
+        <span class="tipo-btn-name">Mov. estibas</span>
+        <span class="tipo-btn-desc">Traslado interno<br>de estibas</span>
       </button>
+
+      <!-- VINIPELADO -->
+      <button class="tipo-btn" id="tip-vinipelado" onclick="selTipo('vinipelado')">
+        <div class="tipo-check"><i class="ti ti-check"></i></div>
+        <div class="tipo-btn-icon"><i class="ti ti-layers-intersect" style="color:var(--vini-m)"></i></div>
+        <span class="tipo-btn-name">Vinipelado</span>
+        <span class="tipo-btn-desc">Operación de<br>vinipelado</span>
+      </button>
+
     </div>
 
-    <div class="toggle-row" onclick="toggleVinipe()">
-      <span class="toggle-label"><i class="ti ti-layers-intersect"></i> Vinipelado</span>
-      <div class="switch" id="vinipe-sw"></div>
-    </div>
-
-    <div class="row-2" style="margin-bottom:12px">
-      <div class="field" id="f-estibas">
-        <label>Estibas o cajas <span style="color:var(--red)">*</span></label>
-        <select id="estibas-cajas" onchange="actualizarCantidades()">
-          <option value="">Selecciona...</option>
-          <option value="estibas">Estibas</option>
-          <option value="cajas">Cajas</option>
-          <option value="mixto">Mixto (estibas + cajas)</option>
-        </select>
+    <!-- PANEL CAJAS -->
+    <div class="tipo-panel panel-cajas" id="panel-cajas">
+      <div class="panel-header">
+        <div class="panel-dot dot-cajas"></div>
+        <h3 style="color:var(--cajas-h)">Cajas</h3>
+        <p>Completa los datos del registro</p>
       </div>
-      <div class="field">
-        <label>Placa del vehículo</label>
-        <input type="text" id="placa" placeholder="Ej. ABC-123" style="text-transform:uppercase">
+      <div class="row-2" style="margin-bottom:12px">
+        <div class="field" id="f-placa-cajas">
+          <label>Placa del vehículo</label>
+          <input type="text" id="placa-cajas" placeholder="ABC-123" style="text-transform:uppercase">
+        </div>
+        <div class="field" id="f-muelle-cajas">
+          <label>Muelle <span style="color:#EF4444">*</span></label>
+          <select id="muelle-cajas">
+            <option value="">Selecciona...</option>
+            <!-- generado por JS -->
+          </select>
+        </div>
+      </div>
+      <div class="row-2" style="margin-bottom:12px">
+        <div class="field">
+          <label>Cantidad de cajas</label>
+          <input type="number" id="cajas-qty" min="0" placeholder="0">
+        </div>
+        <div class="field" id="f-op-cajas">
+          <label>Operación <span style="color:#EF4444">*</span></label>
+          <select id="op-cajas">
+            <option value="">Selecciona...</option>
+            <option value="cargue">Cargue</option>
+            <option value="descargue">Descargue</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <div class="field" id="f-muelle">
-      <label>Muelle <span style="color:var(--red)">*</span></label>
-      <select id="num-muelle">
-        <option value="">Selecciona el muelle...</option>
-        <option value="1">Muelle 1</option><option value="2">Muelle 2</option>
-        <option value="3">Muelle 3</option><option value="4">Muelle 4</option>
-        <option value="5">Muelle 5</option><option value="6">Muelle 6</option>
-        <option value="7">Muelle 7</option><option value="8">Muelle 8</option>
-        <option value="9">Muelle 9</option><option value="10">Muelle 10</option>
-        <option value="11">Muelle 11</option><option value="12">Muelle 12</option>
-        <option value="13">Muelle 13</option><option value="14">Muelle 14</option>
-        <option value="15">Muelle 15</option><option value="16">Muelle 16</option>
-        <option value="17">Muelle 17</option><option value="18">Muelle 18</option>
-        <option value="19">Muelle 19</option><option value="20">Muelle 20</option>
-        <option value="21">Muelle 21</option><option value="22">Muelle 22</option>
-        <option value="23">Muelle 23</option><option value="24">Muelle 24</option>
-        <option value="25">Muelle 25</option><option value="26">Muelle 26</option>
-        <option value="27">Muelle 27</option><option value="28">Muelle 28</option>
-        <option value="29">Muelle 29</option><option value="30">Muelle 30</option>
-        <option value="31">Muelle 31</option><option value="32">Muelle 32</option>
-        <option value="33">Muelle 33</option><option value="34">Muelle 34</option>
-        <option value="35">Muelle 35</option><option value="36">Muelle 36</option>
-        <option value="37">Muelle 37</option><option value="38">Muelle 38</option>
-      </select>
+    <!-- PANEL ESTIBAS -->
+    <div class="tipo-panel panel-estibas" id="panel-estibas">
+      <div class="panel-header">
+        <div class="panel-dot dot-estibas"></div>
+        <h3 style="color:var(--estibas-h)">Estibas</h3>
+        <p>Cargue o descargue</p>
+      </div>
+      <div class="row-2" style="margin-bottom:12px">
+        <div class="field">
+          <label>Placa del vehículo</label>
+          <input type="text" id="placa-estibas" placeholder="ABC-123" style="text-transform:uppercase">
+        </div>
+        <div class="field" id="f-muelle-estibas">
+          <label>Muelle <span style="color:#EF4444">*</span></label>
+          <select id="muelle-estibas">
+            <option value="">Selecciona...</option>
+          </select>
+        </div>
+      </div>
+      <div class="row-2" style="margin-bottom:12px">
+        <div class="field">
+          <label>Cantidad estibas</label>
+          <input type="number" id="estibas-qty" min="0" placeholder="0">
+        </div>
+        <div class="field" id="f-op-estibas">
+          <label>Operación <span style="color:#EF4444">*</span></label>
+          <select id="op-estibas">
+            <option value="">Selecciona...</option>
+            <option value="cargue">Cargue</option>
+            <option value="descargue">Descargue</option>
+          </select>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- CANTIDADES DINÁMICAS -->
-  <div class="card" id="card-cantidades" style="display:none">
-    <div class="card-title"><i class="ti ti-package"></i> Cantidades</div>
-    <div id="campos-cantidades"></div>
-  </div>
+    <!-- PANEL MOVIMIENTO ESTIBAS -->
+    <div class="tipo-panel panel-movest" id="panel-movest">
+      <div class="panel-header">
+        <div class="panel-dot dot-movest"></div>
+        <h3 style="color:var(--movest-h)">Movimiento de estibas</h3>
+        <p>Traslado interno</p>
+      </div>
+      <div class="row-2" style="margin-bottom:12px">
+        <div class="field" id="f-muelle-origen">
+          <label>Muelle origen <span style="color:#EF4444">*</span></label>
+          <select id="muelle-origen">
+            <option value="">Selecciona...</option>
+          </select>
+        </div>
+        <div class="field" id="f-muelle-destino">
+          <label>Muelle destino <span style="color:#EF4444">*</span></label>
+          <select id="muelle-destino">
+            <option value="">Selecciona...</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Cantidad estibas trasladadas</label>
+        <input type="number" id="movest-qty" min="0" placeholder="0">
+      </div>
+    </div>
+
+    <!-- PANEL VINIPELADO -->
+    <div class="tipo-panel panel-vinipelado" id="panel-vinipelado">
+      <div class="panel-header">
+        <div class="panel-dot dot-vinipelado"></div>
+        <h3 style="color:var(--vini-h)">Vinipelado</h3>
+        <p>Registro de operación</p>
+      </div>
+      <div class="row-2" style="margin-bottom:12px">
+        <div class="field">
+          <label>Placa del vehículo</label>
+          <input type="text" id="placa-vini" placeholder="ABC-123" style="text-transform:uppercase">
+        </div>
+        <div class="field" id="f-muelle-vini">
+          <label>Muelle <span style="color:#EF4444">*</span></label>
+          <select id="muelle-vini">
+            <option value="">Selecciona...</option>
+          </select>
+        </div>
+      </div>
+      <div class="row-2" style="margin-bottom:0">
+        <div class="field">
+          <label>Estibas vinipeladas</label>
+          <input type="number" id="vini-estibas" min="0" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Cajas vinipeladas</label>
+          <input type="number" id="vini-cajas" min="0" placeholder="0">
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /card tipo -->
 
   <!-- HORARIO -->
   <div class="card">
@@ -705,7 +729,7 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
         <input type="time" id="h-fin">
       </div>
     </div>
-    <div id="duracion-lbl" style="margin-top:8px;font-size:12.5px;color:var(--ink-3);min-height:18px"></div>
+    <div id="duracion-lbl" style="margin-top:9px;font-size:12.5px;color:var(--ink-3);min-height:20px"></div>
   </div>
 
   <!-- PERSONAL -->
@@ -714,9 +738,9 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
     <div class="qty-row">
       <span class="qty-label">Cantidad de personas</span>
       <div class="qty-ctrl">
-        <button class="qty-btn" onclick="changeQty(-1)" aria-label="Menos">−</button>
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
         <div class="qty-val" id="qty-val">1</div>
-        <button class="qty-btn" onclick="changeQty(1)" aria-label="Más">+</button>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
       </div>
     </div>
     <div class="people-list" id="people-list"></div>
@@ -729,115 +753,170 @@ textarea { resize: none; min-height: 72px; line-height: 1.5; }
   </div>
 
   <!-- TOAST -->
-  <div class="toast-wrap">
-    <div class="toast" id="toast"></div>
-  </div>
+  <div class="toast" id="toast"></div>
 
-  <!-- BOTÓN GUARDAR -->
+  <!-- SUBMIT -->
   <button class="submit-btn" id="submit-btn" onclick="guardar()">
-    <i class="ti ti-device-floppy"></i> Guardar registro
+    <i class="ti ti-device-floppy"></i> Guardar y sincronizar
   </button>
 
   <!-- STATS -->
   <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-num" id="s-total">0</div>
-      <div class="stat-lbl">Registros</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="s-sync">0</div>
-      <div class="stat-lbl">Sincronizados</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="s-personas">0</div>
-      <div class="stat-lbl">Personas hoy</div>
-    </div>
+    <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">Registros</div></div>
+    <div class="stat"><div class="stat-num" id="s-sync">0</div><div class="stat-lbl">Sincronizados</div></div>
+    <div class="stat"><div class="stat-num" id="s-personas">0</div><div class="stat-lbl">Personas hoy</div></div>
   </div>
 
   <!-- HISTORIAL -->
   <div class="card" style="margin-bottom:0">
     <div class="card-title" style="justify-content:space-between;margin-bottom:12px">
-      <span><i class="ti ti-history"></i> Historial de operaciones</span>
+      <span><i class="ti ti-history"></i> Historial</span>
       <div class="hist-filters">
-        <select id="filtro-turno" onchange="renderHist()" style="width:auto">
+        <select id="filtro-turno" onchange="renderHist()">
           <option value="">Todos</option>
-          <option value="1">T1</option>
-          <option value="2">T2</option>
-          <option value="3">T3</option>
+          <option value="1">T1</option><option value="2">T2</option><option value="3">T3</option>
         </select>
-        <select id="filtro-tipo" onchange="renderHist()" style="width:auto">
+        <select id="filtro-tipo" onchange="renderHist()">
           <option value="">Todos</option>
-          <option value="cargue">Cargue</option>
-          <option value="descargue">Descargue</option>
-          <option value="traslado">Traslado</option>
+          <option value="cajas">Cajas</option>
+          <option value="estibas">Estibas</option>
+          <option value="movest">Mov. estibas</option>
+          <option value="vinipelado">Vinipelado</option>
         </select>
       </div>
     </div>
-    <div id="historial">
-      <div class="hist-empty"><i class="ti ti-inbox"></i>Sin registros aún</div>
-    </div>
+    <div id="historial"><div class="hist-empty"><i class="ti ti-inbox"></i>Sin registros aún</div></div>
   </div>
 
 </div>
 
 <script>
-// ─── CONSTANTES ───────────────────────────────────────────────────
-const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwLv88qppi7ElE5Mq_ebGA_C8dHm_V8VVt4VN9bCFP5cL3m24O4R_E-QOpWL6TC8xjk/exec';
-const SHEET_NAME    = 'Operaciones';
-const FETCH_TIMEOUT = 8000;   // ms — tiempo máximo por petición
-const RETRY_INTERVAL= 30000;  // ms — reintento automático de cola
+// ─── CONFIG ───────────────────────────────────────────────────────
+const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbwLv88qppi7ElE5Mq_ebGA_C8dHm_V8VVt4VN9bCFP5cL3m24O4R_E-QOpWL6TC8xjk/exec';
+const SHEET_NAME  = 'Operaciones';
+const MUELLES     = Array.from({length:38},(_,i)=>i+1);
 
-// ─── ESTADO ──────────────────────────────────────────────────────
-let turno     = 1;
-let tipo      = 'cargue';
-let vinipe    = false;
-let qty       = 1;
+let turno    = 1;
+let tipo     = '';       // 'cajas' | 'estibas' | 'movest' | 'vinipelado'
+let qty      = 1;
 let historial = JSON.parse(localStorage.getItem('innova_hist') || '[]');
-let SHEETS_URL = localStorage.getItem('innova_sheets_url') || DEFAULT_SHEETS_URL;
-let retryTimer = null;
+let SHEETS_URL = localStorage.getItem('innova_sheets_url') || DEFAULT_URL;
+
+// ─── POBLAR SELECTS MUELLE ────────────────────────────────────────
+function poblarMuelles() {
+  const ids = ['muelle-cajas','muelle-estibas','muelle-origen','muelle-destino','muelle-vini'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    MUELLES.forEach(n => {
+      const o = document.createElement('option');
+      o.value = n; o.textContent = `Muelle ${n}`;
+      el.appendChild(o);
+    });
+  });
+}
 
 // ─── RELOJ ────────────────────────────────────────────────────────
 function actualizarFecha() {
-  const now = new Date();
-  const dias  = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  const hh = String(now.getHours()).padStart(2,'0');
-  const mm = String(now.getMinutes()).padStart(2,'0');
-  const ss = String(now.getSeconds()).padStart(2,'0');
+  const now  = new Date();
+  const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const mes  = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const hh   = String(now.getHours()).padStart(2,'0');
+  const mm   = String(now.getMinutes()).padStart(2,'0');
+  const ss   = String(now.getSeconds()).padStart(2,'0');
   document.getElementById('fecha-live').innerHTML =
-    `<strong>${dias[now.getDay()]}, ${now.getDate()} ${meses[now.getMonth()]} ${now.getFullYear()}</strong> &nbsp;·&nbsp; ${hh}:${mm}:${ss}`;
+    `<strong>${dias[now.getDay()]}, ${now.getDate()} ${mes[now.getMonth()]} ${now.getFullYear()}</strong>&nbsp;·&nbsp;${hh}:${mm}:${ss}`;
 }
 setInterval(actualizarFecha, 1000);
 
 // ─── INIT ─────────────────────────────────────────────────────────
 (function init() {
+  poblarMuelles();
   actualizarFecha();
   renderPeopleList();
   renderHist();
   updateStats();
-  updatePendingBanner();
-  if (!localStorage.getItem('innova_sheets_url')) localStorage.setItem('innova_sheets_url', DEFAULT_SHEETS_URL);
+  if (!localStorage.getItem('innova_sheets_url')) localStorage.setItem('innova_sheets_url', DEFAULT_URL);
   actualizarUI_URL();
   const h = new Date().getHours();
-  if (h >= 6 && h < 14) selTurno(1);
+  if      (h >= 6  && h < 14) selTurno(1);
   else if (h >= 14 && h < 22) selTurno(2);
-  else selTurno(3);
+  else                         selTurno(3);
   const now = new Date();
   document.getElementById('h-ini').value =
     `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   calcDuracion();
-  // Intentar enviar pendientes al arrancar (si hay conexión)
-  scheduleRetry();
+  // Seleccionar cajas por defecto
+  selTipo('cajas');
 })();
 
-// ─── PEOPLE LIST ─────────────────────────────────────────────────
+// ─── TURNO ────────────────────────────────────────────────────────
+function selTurno(n) {
+  turno = n;
+  [1,2,3].forEach(i => {
+    document.getElementById('tb'+i).className = `turno-btn t${i}${i===n?' active':''}`;
+  });
+}
+
+// ─── TIPO ─────────────────────────────────────────────────────────
+const TIPOS = ['cajas','estibas','movest','vinipelado'];
+
+function selTipo(t) {
+  tipo = t;
+  TIPOS.forEach(k => {
+    const btn = document.getElementById('tip-'+k);
+    btn.className = 'tipo-btn' + (k === t ? ' active-'+t : '');
+    const panel = document.getElementById('panel-'+k);
+    if (k === t) panel.classList.add('show');
+    else         panel.classList.remove('show');
+  });
+}
+
+// ─── URL SHEETS ───────────────────────────────────────────────────
+function guardarURL() {
+  const v = document.getElementById('sheets-url-input').value.trim();
+  if (!v || !v.startsWith('https://script.google.com')) {
+    mostrarURLStatus('URL inválida. Debe ser de Google Apps Script.', false); return;
+  }
+  SHEETS_URL = v;
+  localStorage.setItem('innova_sheets_url', v);
+  actualizarUI_URL();
+  showToast('URL guardada ✓', 'success');
+}
+function cambiarURL() {
+  SHEETS_URL = DEFAULT_URL;
+  localStorage.setItem('innova_sheets_url', DEFAULT_URL);
+  actualizarUI_URL();
+}
+function actualizarUI_URL() {
+  const cfg   = document.getElementById('sheets-config-card');
+  const synci = document.getElementById('sync-indicator');
+  if (SHEETS_URL) {
+    cfg.style.display   = 'none';
+    synci.style.display = 'flex';
+  } else {
+    cfg.style.display   = 'block';
+    synci.style.display = 'none';
+    document.getElementById('sheets-url-input').value = '';
+    document.getElementById('url-status').innerHTML   = '';
+  }
+}
+function mostrarURLStatus(msg, ok) {
+  document.getElementById('url-status').innerHTML =
+    `<span class="url-status ${ok?'ok':'bad'}"><i class="ti ti-${ok?'check':'alert-triangle'}"></i> ${msg}</span>`;
+}
+function toggleGuia() {
+  const g = document.getElementById('guia-rapida');
+  g.style.display = g.style.display === 'none' ? 'block' : 'none';
+}
+
+// ─── PERSONAS ─────────────────────────────────────────────────────
 function renderPeopleList() {
   const list = document.getElementById('people-list');
   list.innerHTML = '';
   for (let i = 1; i <= qty; i++) {
-    const card = document.createElement('div');
-    card.className = 'person-card';
-    card.innerHTML = `
+    const c = document.createElement('div');
+    c.className = 'person-card';
+    c.innerHTML = `
       <div class="person-card-header">
         <div class="person-num">${i}</div>
         <span>Persona ${i}</span>
@@ -852,26 +931,24 @@ function renderPeopleList() {
           <input type="text" placeholder="Cédula" class="pdoc" inputmode="numeric" data-idx="${i}">
         </div>
       </div>`;
-    list.appendChild(card);
+    list.appendChild(c);
   }
 }
-
 function changeQty(d) {
-  const prev = getPersonasActuales();
+  const prev = getPersonas();
   qty = Math.max(1, Math.min(30, qty + d));
   document.getElementById('qty-val').textContent = qty;
   renderPeopleList();
   prev.forEach((p, i) => {
-    if (i + 1 <= qty) {
-      const n = document.querySelector(`.pname[data-idx="${i+1}"]`);
-      const dc = document.querySelector(`.pdoc[data-idx="${i+1}"]`);
-      if (n) n.value = p.nombre;
-      if (dc) dc.value = p.doc;
+    if (i+1 <= qty) {
+      const ne = document.querySelector(`.pname[data-idx="${i+1}"]`);
+      const de = document.querySelector(`.pdoc[data-idx="${i+1}"]`);
+      if (ne) ne.value = p.nombre;
+      if (de) de.value = p.doc;
     }
   });
 }
-
-function getPersonasActuales() {
+function getPersonas() {
   const r = [];
   for (let i = 1; i <= qty; i++) {
     r.push({
@@ -882,171 +959,6 @@ function getPersonasActuales() {
   return r;
 }
 
-// ─── URL SHEETS ───────────────────────────────────────────────────
-function guardarURL() {
-  const val = document.getElementById('sheets-url-input').value.trim();
-  if (!val || !val.startsWith('https://script.google.com')) {
-    mostrarURLStatus('URL inválida. Debe ser una URL de Google Apps Script.', false);
-    return;
-  }
-  SHEETS_URL = val;
-  localStorage.setItem('innova_sheets_url', val);
-  actualizarUI_URL();
-  showToast('URL guardada. Sincronizando pendientes...', 'success');
-  flushQueue();
-}
-
-function cambiarURL() {
-  SHEETS_URL = DEFAULT_SHEETS_URL;
-  localStorage.setItem('innova_sheets_url', DEFAULT_SHEETS_URL);
-  actualizarUI_URL();
-}
-
-function actualizarUI_URL() {
-  const config = document.getElementById('sheets-config-card');
-  const synci  = document.getElementById('sync-indicator');
-  if (SHEETS_URL) {
-    config.style.display = 'none';
-    synci.style.display  = 'flex';
-    document.getElementById('sync-indicator-text').textContent = 'Conectado a Google Sheets';
-  } else {
-    config.style.display = 'block';
-    synci.style.display  = 'none';
-    document.getElementById('sheets-url-input').value = '';
-    document.getElementById('url-status').innerHTML = '';
-  }
-}
-
-function mostrarURLStatus(msg, ok) {
-  document.getElementById('url-status').innerHTML =
-    `<span class="url-status ${ok?'ok':'bad'}"><i class="ti ti-${ok?'check':'alert-triangle'}"></i> ${msg}</span>`;
-}
-
-function toggleGuia() {
-  const g = document.getElementById('guia-rapida');
-  g.style.display = g.style.display === 'none' ? 'block' : 'none';
-}
-
-// ─── TURNO ────────────────────────────────────────────────────────
-function selTurno(n) {
-  turno = n;
-  [1,2,3].forEach(i => {
-    document.getElementById('tb'+i).className = `turno-btn t${i}${i===n?' active':''}`;
-  });
-}
-
-// ─── TIPO ─────────────────────────────────────────────────────────
-function selTipo(t) {
-  tipo = t;
-  ['cargue','descargue','traslado'].forEach(k => {
-    document.getElementById('tip-'+k).className = 'tipo-btn' + (k===t ? ' on-'+t : '');
-  });
-  actualizarCantidades();
-}
-
-// ─── VINIPE ───────────────────────────────────────────────────────
-function toggleVinipe() {
-  vinipe = !vinipe;
-  document.getElementById('vinipe-sw').classList.toggle('on', vinipe);
-  actualizarCantidades();
-}
-
-// ─── CANTIDADES DINÁMICAS ─────────────────────────────────────────
-function actualizarCantidades() {
-  const unidad = document.getElementById('estibas-cajas').value;
-  const card   = document.getElementById('card-cantidades');
-  const campos = document.getElementById('campos-cantidades');
-
-  if (!unidad) { card.style.display = 'none'; return; }
-  card.style.display = 'block';
-
-  const opVerbo = { cargue: 'cargar', descargue: 'descargar', traslado: 'trasladar' };
-  const tipoBadge = {
-    cargue:    `<span class="badge b-cargue"><i class="ti ti-arrow-bar-up"></i> Cargue</span>`,
-    descargue: `<span class="badge b-descargue"><i class="ti ti-arrow-bar-down"></i> Descargue</span>`,
-    traslado:  `<span class="badge b-traslado"><i class="ti ti-truck"></i> Traslado</span>`
-  };
-  const vinBadge = `<span class="badge b-vinipe"><i class="ti ti-layers-intersect"></i> Vinipelado</span>`;
-
-  function sec(extras) {
-    return `<div class="cant-section">${tipoBadge[tipo]}${extras || ''}</div>`;
-  }
-  function vinSec(extras) {
-    return `<div class="cant-section" style="color:var(--amber)">${vinBadge}${extras || ''}</div>`;
-  }
-  function fld(lbl, id, ph) {
-    return `<div class="field"><label>${lbl}</label><input type="number" id="${id}" min="0" placeholder="${ph}"></div>`;
-  }
-  function r2(a, b) {
-    if (!b) return `<div style="margin-bottom:12px">${a}</div>`;
-    return `<div class="row-2">${a}${b}</div>`;
-  }
-
-  let h = '';
-  const op = opVerbo[tipo];
-
-  if (unidad === 'estibas') {
-    h += sec('<span style="color:var(--ink-3);font-size:10.5px">Estibas</span>');
-    if (tipo === 'traslado') {
-      h += r2(fld(`Estibas a trasladar`, 'c-est-op', 'Ej. 10'), fld('Estibas en bodega destino', 'c-est-dest', 'Ej. 5'));
-    } else {
-      h += r2(fld(`Estibas a ${op}`, 'c-est-op', 'Ej. 10'), '');
-    }
-    if (vinipe) {
-      h += vinSec('<span style="color:var(--amber);font-size:10.5px">Estibas</span>');
-      h += r2(fld('Estibas vinipeladas', 'c-est-vin', 'Ej. 4'), fld('Estibas sin vinipelar', 'c-est-novin', 'Ej. 6'));
-    }
-  } else if (unidad === 'cajas') {
-    h += sec('<span style="color:var(--ink-3);font-size:10.5px">Cajas</span>');
-    if (tipo === 'traslado') {
-      h += r2(fld('Cajas a trasladar', 'c-caj-op', 'Ej. 200'), fld('Cajas en bodega destino', 'c-caj-dest', 'Ej. 50'));
-    } else {
-      h += r2(fld(`Cajas a ${op}`, 'c-caj-op', 'Ej. 200'), fld('Cajas por estiba (referencia)', 'c-caj-x-est', 'Ej. 20'));
-    }
-    if (vinipe) {
-      h += vinSec('<span style="color:var(--amber);font-size:10.5px">Cajas</span>');
-      h += r2(fld('Cajas vinipeladas', 'c-caj-vin', 'Ej. 120'), fld('Cajas sin vinipelar', 'c-caj-novin', 'Ej. 80'));
-    }
-  } else if (unidad === 'mixto') {
-    h += sec('<span style="color:var(--ink-3);font-size:10.5px">Estibas</span>');
-    if (tipo === 'traslado') {
-      h += r2(fld('Estibas a trasladar', 'c-est-op', 'Ej. 10'), fld('Estibas en bodega destino', 'c-est-dest', 'Ej. 5'));
-    } else {
-      h += r2(fld(`Estibas a ${op}`, 'c-est-op', 'Ej. 10'), fld('Estibas completas', 'c-est-comp', 'Ej. 8'));
-    }
-    h += `<div class="cant-section" style="color:var(--ink-3)">${tipoBadge[tipo]}<span style="font-size:10.5px">Cajas sueltas</span></div>`;
-    if (tipo === 'traslado') {
-      h += r2(fld('Cajas sueltas a trasladar', 'c-caj-op', 'Ej. 45'), fld('Cajas en bodega destino', 'c-caj-dest', 'Ej. 20'));
-    } else {
-      h += r2(fld(`Cajas sueltas a ${op}`, 'c-caj-op', 'Ej. 45'), fld('Cajas en estiba parcial', 'c-caj-parc', 'Ej. 12'));
-    }
-    if (vinipe) {
-      h += vinSec('<span style="color:var(--amber);font-size:10.5px">Estibas + Cajas</span>');
-      h += r2(fld('Estibas vinipeladas', 'c-est-vin', 'Ej. 4'), fld('Cajas vinipeladas', 'c-caj-vin', 'Ej. 30'));
-      h += r2(fld('Estibas sin vinipelar', 'c-est-novin', 'Ej. 6'), fld('Cajas sin vinipelar', 'c-caj-novin', 'Ej. 15'));
-    }
-  }
-
-  campos.innerHTML = h;
-}
-
-function getCantidades() {
-  function v(id) { return parseInt(document.getElementById(id)?.value) || 0; }
-  return {
-    est_op:    v('c-est-op'),
-    est_dest:  v('c-est-dest'),
-    est_comp:  v('c-est-comp'),
-    est_vin:   v('c-est-vin'),
-    est_novin: v('c-est-novin'),
-    caj_op:    v('c-caj-op'),
-    caj_dest:  v('c-caj-dest'),
-    caj_parc:  v('c-caj-parc'),
-    caj_x_est: v('c-caj-x-est'),
-    caj_vin:   v('c-caj-vin'),
-    caj_novin: v('c-caj-novin')
-  };
-}
-
 // ─── DURACIÓN ─────────────────────────────────────────────────────
 function calcDuracion() {
   const ini = document.getElementById('h-ini').value;
@@ -1055,398 +967,362 @@ function calcDuracion() {
   if (ini && fin) {
     const [h1,m1] = ini.split(':').map(Number);
     const [h2,m2] = fin.split(':').map(Number);
-    let mins = (h2*60+m2) - (h1*60+m1);
+    let mins = (h2*60+m2)-(h1*60+m1);
     if (mins < 0) mins += 1440;
     const hh = Math.floor(mins/60), mm = mins%60;
     lbl.innerHTML = `<span class="cnt-chip"><i class="ti ti-clock-hour-4" style="font-size:13px"></i> Duración: ${hh>0?hh+'h ':''}${mm}min</span>`;
-  } else {
-    lbl.innerHTML = '';
-  }
+  } else { lbl.innerHTML = ''; }
 }
 document.getElementById('h-ini').addEventListener('change', calcDuracion);
 document.getElementById('h-fin').addEventListener('change', calcDuracion);
 
 // ─── TOAST ────────────────────────────────────────────────────────
 let toastTimer = null;
-function showToast(msg, type='success', duration=3500) {
+function showToast(msg, type='success', dur=3500) {
   const t = document.getElementById('toast');
-  const ico = type==='success' ? 'check-circle' : type==='warn' ? 'alert-triangle' : 'alert-circle';
+  const ico = type==='success'?'check-circle':type==='warn'?'alert-triangle':'alert-circle';
   t.className = `toast show ${type}`;
   t.innerHTML = `<i class="ti ti-${ico}"></i><span>${msg}</span>`;
   if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.className = 'toast', duration);
+  toastTimer = setTimeout(() => t.className = 'toast', dur);
 }
 
 // ─── VALIDACIÓN ───────────────────────────────────────────────────
+function setErr(field, msg) {
+  field.classList.add('field-err');
+  if (!field.querySelector('.err-msg')) {
+    const e = document.createElement('span');
+    e.className = 'err-msg';
+    e.innerHTML = `<i class="ti ti-alert-circle"></i> ${msg}`;
+    field.appendChild(e);
+  }
+}
+function clearErr(field) {
+  field.classList.remove('field-err');
+  field.querySelector('.err-msg')?.remove();
+}
+function req(id, fieldId) {
+  const v = document.getElementById(id).value.trim();
+  const f = document.getElementById(fieldId);
+  if (!v) { setErr(f, 'Campo requerido'); return false; }
+  clearErr(f); return true;
+}
+
 function validar() {
   let ok = true;
-  const fc  = document.getElementById('f-coordinador');
-  const fe  = document.getElementById('f-estibas');
-  const fnd = document.getElementById('f-numdespacho');
-  const fm  = document.getElementById('f-muelle');
+  if (!req('coordinador', 'f-coordinador')) ok = false;
+  if (!req('num-despacho', 'f-numdespacho')) ok = false;
+  if (!tipo) { showToast('Selecciona el tipo de operación', 'error'); return false; }
 
-  function setErr(field, msg) {
-    field.classList.add('field-err');
-    if (!field.querySelector('.err-msg')) {
-      const e = document.createElement('span');
-      e.className = 'err-msg';
-      e.innerHTML = `<i class="ti ti-alert-circle"></i> ${msg}`;
-      field.appendChild(e);
-    }
-    ok = false;
+  if (tipo === 'cajas') {
+    if (!req('muelle-cajas', 'f-muelle-cajas')) ok = false;
+    if (!req('op-cajas', 'f-op-cajas')) ok = false;
+  } else if (tipo === 'estibas') {
+    if (!req('muelle-estibas', 'f-muelle-estibas')) ok = false;
+    if (!req('op-estibas', 'f-op-estibas')) ok = false;
+  } else if (tipo === 'movest') {
+    if (!req('muelle-origen', 'f-muelle-origen')) ok = false;
+    if (!req('muelle-destino', 'f-muelle-destino')) ok = false;
+  } else if (tipo === 'vinipelado') {
+    if (!req('muelle-vini', 'f-muelle-vini')) ok = false;
   }
-  function clearErr(field) {
-    field.classList.remove('field-err');
-    field.querySelector('.err-msg')?.remove();
-  }
-
-  const coordinador = document.getElementById('coordinador').value.trim();
-  const estibas     = document.getElementById('estibas-cajas').value;
-  const numDespacho = document.getElementById('num-despacho').value.trim();
-  const muelle      = document.getElementById('num-muelle').value;
-
-  if (!coordinador)  setErr(fc,  'Campo requerido'); else clearErr(fc);
-  if (!numDespacho)  setErr(fnd, 'Campo requerido'); else clearErr(fnd);
-  if (!estibas)      setErr(fe,  'Selecciona una opción'); else clearErr(fe);
-  if (!muelle)       setErr(fm,  'Selecciona el muelle'); else clearErr(fm);
-
   return ok;
 }
 
-// ─── HELPERS FECHA ────────────────────────────────────────────────
-function getFechaActual() {
-  return new Date().toLocaleString('es-CO', {
-    day: '2-digit', month: 'short', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
+// ─── PAYLOAD según tipo ───────────────────────────────────────────
+function getPayloadTipo() {
+  if (tipo === 'cajas') return {
+    muelle:   document.getElementById('muelle-cajas').value,
+    placa:    document.getElementById('placa-cajas').value.trim().toUpperCase(),
+    cantidad: parseInt(document.getElementById('cajas-qty').value) || 0,
+    operacion:document.getElementById('op-cajas').value
+  };
+  if (tipo === 'estibas') return {
+    muelle:   document.getElementById('muelle-estibas').value,
+    placa:    document.getElementById('placa-estibas').value.trim().toUpperCase(),
+    cantidad: parseInt(document.getElementById('estibas-qty').value) || 0,
+    operacion:document.getElementById('op-estibas').value
+  };
+  if (tipo === 'movest') return {
+    muelleOrigen: document.getElementById('muelle-origen').value,
+    muelleDestino:document.getElementById('muelle-destino').value,
+    cantidad:     parseInt(document.getElementById('movest-qty').value) || 0
+  };
+  if (tipo === 'vinipelado') return {
+    muelle:       document.getElementById('muelle-vini').value,
+    placa:        document.getElementById('placa-vini').value.trim().toUpperCase(),
+    estibasVini:  parseInt(document.getElementById('vini-estibas').value) || 0,
+    cajasVini:    parseInt(document.getElementById('vini-cajas').value) || 0
+  };
+  return {};
+}
+
+// ─── SHEETS ───────────────────────────────────────────────────────
+// Usa sendBeacon (no bloquea) + fetch como fallback.
+// Marca synced=true de forma optimista porque no-cors nunca devuelve body.
+function enviarASheets(reg) {
+  if (!SHEETS_URL) return;
+  const payload = JSON.stringify({ sheet: SHEET_NAME, ...reg });
+
+  // Intento 1: sendBeacon — disparo y listo, nunca bloquea la UI
+  const enviado = navigator.sendBeacon
+    ? navigator.sendBeacon(SHEETS_URL, new Blob([payload], { type: 'text/plain' }))
+    : false;
+
+  if (enviado) {
+    // sendBeacon confirmó que se encoló correctamente
+    _marcarSynced(reg.id);
+    return;
+  }
+
+  // Intento 2: fetch no-cors como respaldo (móviles sin sendBeacon)
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors',           // CORS bloqueado por GAS → no podemos leer respuesta
+    headers: { 'Content-Type': 'text/plain' },
+    body: payload
+  })
+  .then(() => {
+    // Con no-cors el .then() se cumple si la petición llegó (aunque sin body)
+    _marcarSynced(reg.id);
+  })
+  .catch(() => {
+    // Sin conexión — queda en cola local, el banner lo mostrará
+    console.warn('Sheets: sin conexión, registro queda pendiente id=' + reg.id);
   });
 }
-function getHoraActual() {
-  const n = new Date();
-  return `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
-}
 
-// ─── FETCH CON TIMEOUT ────────────────────────────────────────────
-function fetchConTimeout(url, opciones, ms) {
-  const ctrl = new AbortController();
-  const id   = setTimeout(() => ctrl.abort(), ms);
-  return fetch(url, { ...opciones, signal: ctrl.signal })
-    .finally(() => clearTimeout(id));
-}
-
-// ─── ENVIAR UN REGISTRO A SHEETS ─────────────────────────────────
-async function enviarRegistro(reg) {
-  if (!SHEETS_URL) return false;
-  try {
-    await fetchConTimeout(SHEETS_URL, {
-      method: 'POST',
-      mode:   'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body:    JSON.stringify({ sheet: SHEET_NAME, ...reg })
-    }, FETCH_TIMEOUT);
-    return true;
-  } catch (e) {
-    return false;
+function _marcarSynced(id) {
+  const r = historial.find(x => x.id === id);
+  if (r && !r.synced) {
+    r.synced = true;
+    save();
+    renderHist();
+    updateStats();
+    updatePendingBanner();
   }
 }
 
-// ─── COLA DE PENDIENTES ───────────────────────────────────────────
-function getPendientes() {
-  return historial.filter(r => !r.synced);
-}
-
+// Banner de pendientes
 function updatePendingBanner() {
-  const p = getPendientes().length;
-  const banner = document.getElementById('pending-banner');
+  const p = historial.filter(r => !r.synced).length;
+  let banner = document.getElementById('pending-banner');
+  if (!banner) return;
   if (p > 0 && SHEETS_URL) {
     banner.classList.add('show');
-    document.getElementById('pending-text').textContent =
-      `${p} registro${p>1?'s':''} pendiente${p>1?'s':''} de sincronizar`;
+    const txt = document.getElementById('pending-text');
+    if (txt) txt.textContent = `${p} registro${p>1?'s':''} pendiente${p>1?'s':''} de sincronizar`;
   } else {
     banner.classList.remove('show');
   }
 }
 
-// Envía todos los pendientes en serie con timeout por registro
 async function flushQueue() {
-  const pendientes = getPendientes();
+  const pendientes = historial.filter(r => !r.synced);
   if (!pendientes.length || !SHEETS_URL) return;
-
-  const btn = document.querySelector('.flush-btn');
-  if (btn) btn.innerHTML = '<i class="ti ti-loader spin"></i> Enviando...';
-
-  let ok = 0;
-  for (const reg of pendientes) {
-    const exito = await enviarRegistro(reg);
-    if (exito) {
-      reg.synced = true;
-      ok++;
-    }
-  }
-
-  localStorage.setItem('innova_hist', JSON.stringify(historial));
-  renderHist();
-  updateStats();
-  updatePendingBanner();
-
-  if (btn) btn.innerHTML = '<i class="ti ti-send"></i> Enviar ahora';
-
-  if (ok > 0) showToast(`${ok} registro${ok>1?'s':''} sincronizado${ok>1?'s':''} con Sheets ✓`, 'success');
-  else showToast('Sin conexión. Se reintentará automáticamente.', 'warn');
+  pendientes.forEach(reg => enviarASheets(reg));
+  showToast(`Reintentando ${pendientes.length} registro${pendientes.length>1?'s':''}...`, 'warn', 2000);
 }
 
-// Reintento periódico silencioso
-function scheduleRetry() {
-  if (retryTimer) clearInterval(retryTimer);
-  retryTimer = setInterval(async () => {
-    if (getPendientes().length > 0 && SHEETS_URL) {
-      await flushQueue();
-    }
-  }, RETRY_INTERVAL);
-}
-
-// Reintentar uno específico desde el historial
-async function reintentarSync(id) {
-  if (!SHEETS_URL) { showToast('Configura primero la URL de Google Sheets', 'error'); return; }
+function reintentarSync(id) {
+  if (!SHEETS_URL) { showToast('Configura la URL de Google Sheets', 'error'); return; }
   const reg = historial.find(r => r.id === id);
   if (!reg) return;
   const btn = document.querySelector(`[data-retry="${id}"]`);
   if (btn) btn.innerHTML = '<i class="ti ti-loader spin"></i>';
-  const exito = await enviarRegistro(reg);
-  if (exito) {
-    reg.synced = true;
-    localStorage.setItem('innova_hist', JSON.stringify(historial));
-    renderHist(); updateStats(); updatePendingBanner();
-    showToast('Registro enviado a Sheets ✓', 'success');
-  } else {
-    showToast('Sin conexión. Reintentando en 30s...', 'warn');
-    if (btn) btn.innerHTML = '<i class="ti ti-refresh"></i> Reintentar';
-  }
+  enviarASheets(reg);
+  // Feedback inmediato — si no hay conexión quedará en pendientes
+  setTimeout(() => {
+    if (reg.synced) showToast('Registro enviado a Sheets ✓', 'success');
+    else { showToast('Sin conexión. Quedó en cola pendiente.', 'warn'); renderHist(); }
+  }, 2000);
+}
+
+function save() { localStorage.setItem('innova_hist', JSON.stringify(historial)); }
+
+function getFechaActual() {
+  return new Date().toLocaleString('es-CO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+function getHoraActual() {
+  const n = new Date(); return `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
 }
 
 // ─── GUARDAR ─────────────────────────────────────────────────────
 async function guardar() {
   if (!validar()) { showToast('Completa los campos requeridos', 'error'); return; }
-
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
   btn.innerHTML = '<i class="ti ti-loader spin"></i> Guardando...';
 
-  const personas = getPersonasActuales().filter(p => p.nombre || p.doc);
-
   const reg = {
-    id:           Date.now(),
-    fecha:        getFechaActual(),
+    id:          Date.now(),
+    fecha:       getFechaActual(),
     turno,
-    coordinador:  document.getElementById('coordinador').value.trim(),
-    cargo:        document.getElementById('cargo').value.trim(),
-    numDespacho:  document.getElementById('num-despacho').value.trim().toUpperCase(),
-    placa:        document.getElementById('placa').value.trim().toUpperCase(),
+    coordinador: document.getElementById('coordinador').value.trim(),
+    cargo:       document.getElementById('cargo').value.trim(),
+    numDespacho: document.getElementById('num-despacho').value.trim().toUpperCase(),
     tipo,
-    vinipe,
-    estibasCajas: document.getElementById('estibas-cajas').value,
-    muelle:       document.getElementById('num-muelle').value,
-    cantidades:   getCantidades(),
-    hIni:         document.getElementById('h-ini').value,
-    hFin:         document.getElementById('h-fin').value || getHoraActual(),
-    personas,
-    obs:          document.getElementById('obs').value.trim(),
-    synced:       false
+    hIni:        document.getElementById('h-ini').value,
+    hFin:        document.getElementById('h-fin').value || getHoraActual(),
+    personas:    getPersonas().filter(p => p.nombre || p.doc),
+    obs:         document.getElementById('obs').value.trim(),
+    synced:      false,
+    ...getPayloadTipo()
   };
 
-  // 1. Guardar local INMEDIATAMENTE — sin esperar a Sheets
   historial.unshift(reg);
-  localStorage.setItem('innova_hist', JSON.stringify(historial));
+  save();
   renderHist();
   updateStats();
   resetForm();
 
   btn.disabled = false;
-  btn.innerHTML = '<i class="ti ti-device-floppy"></i> Guardar registro';
+  btn.innerHTML = '<i class="ti ti-device-floppy"></i> Guardar y sincronizar';
 
   if (SHEETS_URL) {
-    showToast('Guardado ✓ — enviando a Sheets en segundo plano...', 'success', 2500);
-    // 2. Enviar a Sheets en segundo plano — no bloquea la UI
-    enviarRegistro(reg).then(exito => {
-      if (exito) {
-        reg.synced = true;
-        localStorage.setItem('innova_hist', JSON.stringify(historial));
-        renderHist(); updateStats(); updatePendingBanner();
-      } else {
-        updatePendingBanner();
-      }
-    });
+    showToast('Guardado ✓ — sincronizando...', 'success', 2500);
+    enviarASheets(reg);
   } else {
     showToast('Guardado localmente. Configura Sheets para sincronizar.', 'warn', 4500);
-    updatePendingBanner();
   }
 }
 
 // ─── RESET ────────────────────────────────────────────────────────
 function resetForm() {
-  ['coordinador','cargo','num-despacho','placa','obs'].forEach(id => {
-    document.getElementById(id).value = '';
+  ['coordinador','cargo','num-despacho',
+   'placa-cajas','cajas-qty','op-cajas',
+   'placa-estibas','estibas-qty','op-estibas',
+   'movest-qty','placa-vini','vini-estibas','vini-cajas','obs'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
   });
-  document.getElementById('estibas-cajas').value = '';
-  document.getElementById('num-muelle').value    = '';
-  document.getElementById('h-fin').value         = '';
-  document.getElementById('duracion-lbl').innerHTML = '';
+  ['muelle-cajas','muelle-estibas','muelle-origen','muelle-destino','muelle-vini'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
   document.getElementById('h-ini').value = getHoraActual();
-  document.getElementById('card-cantidades').style.display = 'none';
-  document.getElementById('campos-cantidades').innerHTML = '';
-
+  document.getElementById('h-fin').value = '';
+  document.getElementById('duracion-lbl').innerHTML = '';
   qty = 1;
   document.getElementById('qty-val').textContent = '1';
   renderPeopleList();
-  if (vinipe) toggleVinipe();
-
   const h = new Date().getHours();
-  if (h >= 6 && h < 14) selTurno(1);
-  else if (h >= 14 && h < 22) selTurno(2);
-  else selTurno(3);
+  if (h >= 6 && h < 14) selTurno(1); else if (h >= 14 && h < 22) selTurno(2); else selTurno(3);
+  selTipo('cajas');
 }
 
 // ─── ELIMINAR ─────────────────────────────────────────────────────
 function eliminar(id) {
-  if (!confirm('¿Eliminar este registro? Esta acción no se deshace.')) return;
+  if (!confirm('¿Eliminar este registro?')) return;
   historial = historial.filter(r => r.id !== id);
-  localStorage.setItem('innova_hist', JSON.stringify(historial));
-  renderHist(); updateStats(); updatePendingBanner();
+  save(); renderHist(); updateStats();
 }
 
 // ─── STATS ────────────────────────────────────────────────────────
 function updateStats() {
-  document.getElementById('s-total').textContent   = historial.length;
-  document.getElementById('s-sync').textContent    = historial.filter(r => r.synced).length;
-  document.getElementById('s-personas').textContent =
-    historial.reduce((a, r) => a + (r.personas ? r.personas.length : 0), 0);
+  document.getElementById('s-total').textContent    = historial.length;
+  document.getElementById('s-sync').textContent     = historial.filter(r => r.synced).length;
+  document.getElementById('s-personas').textContent = historial.reduce((a,r) => a + (r.personas?.length||0), 0);
 }
 
-// ─── RENDER HISTORIAL ─────────────────────────────────────────────
-const TIPO_ICON  = { cargue:'ti-arrow-bar-up', descargue:'ti-arrow-bar-down', traslado:'ti-truck' };
+// ─── LABELS HISTORIAL ─────────────────────────────────────────────
+const TIPO_LABEL = { cajas:'Cajas', estibas:'Estibas', movest:'Mov. estibas', vinipelado:'Vinipelado' };
+const TIPO_ICON  = { cajas:'ti-package', estibas:'ti-stack-2', movest:'ti-arrows-exchange', vinipelado:'ti-layers-intersect' };
 const TURNO_ICON = { 1:'ti-sun-rise', 2:'ti-sun', 3:'ti-moon' };
 
-const CANT_LABELS = {
-  est_op:    { label: 'Estibas operación',         icon: 'ti-box' },
-  est_dest:  { label: 'Estibas bodega destino',    icon: 'ti-box' },
-  est_comp:  { label: 'Estibas completas',         icon: 'ti-box' },
-  est_vin:   { label: 'Estibas vinipeladas',       icon: 'ti-layers-intersect' },
-  est_novin: { label: 'Estibas sin vinipelar',     icon: 'ti-layers-intersect' },
-  caj_op:    { label: 'Cajas operación',           icon: 'ti-package' },
-  caj_dest:  { label: 'Cajas bodega destino',      icon: 'ti-package' },
-  caj_parc:  { label: 'Cajas estiba parcial',      icon: 'ti-package' },
-  caj_x_est: { label: 'Cajas por estiba (ref.)',   icon: 'ti-package' },
-  caj_vin:   { label: 'Cajas vinipeladas',         icon: 'ti-layers-intersect' },
-  caj_novin: { label: 'Cajas sin vinipelar',       icon: 'ti-layers-intersect' }
-};
-
-function renderCantidadesHist(cant) {
-  if (!cant) return '';
-  const filas = Object.entries(cant)
-    .filter(([, v]) => v > 0)
-    .map(([k, v]) => {
-      const info = CANT_LABELS[k] || { label: k, icon: 'ti-package' };
-      return `<div class="hist-cant-row">
-        <span class="clbl"><i class="ti ${info.icon}"></i> ${info.label}</span>
-        <span class="cval">${v}</span>
-      </div>`;
-    }).join('');
-  if (!filas) return '';
-  return `<div class="hist-cant">
-    <div class="hist-cant-header">Cantidades registradas</div>
-    ${filas}
-  </div>`;
+function detallesTipo(r) {
+  const parts = [];
+  if (r.tipo === 'cajas') {
+    if (r.operacion) parts.push(`<span><i class="ti ti-arrows-exchange"></i> ${r.operacion.charAt(0).toUpperCase()+r.operacion.slice(1)}</span>`);
+    if (r.muelle)    parts.push(`<span><i class="ti ti-door-enter"></i> Muelle ${r.muelle}</span>`);
+    if (r.cantidad)  parts.push(`<span><i class="ti ti-package"></i> ${r.cantidad} cajas</span>`);
+    if (r.placa)     parts.push(`<span><i class="ti ti-truck"></i> ${r.placa}</span>`);
+  } else if (r.tipo === 'estibas') {
+    if (r.operacion) parts.push(`<span><i class="ti ti-arrows-exchange"></i> ${r.operacion.charAt(0).toUpperCase()+r.operacion.slice(1)}</span>`);
+    if (r.muelle)    parts.push(`<span><i class="ti ti-door-enter"></i> Muelle ${r.muelle}</span>`);
+    if (r.cantidad)  parts.push(`<span><i class="ti ti-stack-2"></i> ${r.cantidad} estibas</span>`);
+    if (r.placa)     parts.push(`<span><i class="ti ti-truck"></i> ${r.placa}</span>`);
+  } else if (r.tipo === 'movest') {
+    if (r.muelleOrigen)  parts.push(`<span><i class="ti ti-door-enter"></i> M${r.muelleOrigen} → M${r.muelleDestino||'?'}</span>`);
+    if (r.cantidad)      parts.push(`<span><i class="ti ti-stack-2"></i> ${r.cantidad} estibas</span>`);
+  } else if (r.tipo === 'vinipelado') {
+    if (r.muelle)        parts.push(`<span><i class="ti ti-door-enter"></i> Muelle ${r.muelle}</span>`);
+    if (r.estibasVini)   parts.push(`<span><i class="ti ti-stack-2"></i> ${r.estibasVini} estibas</span>`);
+    if (r.cajasVini)     parts.push(`<span><i class="ti ti-package"></i> ${r.cajasVini} cajas</span>`);
+    if (r.placa)         parts.push(`<span><i class="ti ti-truck"></i> ${r.placa}</span>`);
+  }
+  return parts.join('');
 }
 
+// ─── RENDER HIST ─────────────────────────────────────────────────
 function renderHist() {
   const el  = document.getElementById('historial');
   const ft  = document.getElementById('filtro-turno').value;
   const ftp = document.getElementById('filtro-tipo').value;
-
-  let data = historial;
+  let data  = historial;
   if (ft)  data = data.filter(r => String(r.turno) === ft);
   if (ftp) data = data.filter(r => r.tipo === ftp);
 
   if (!data.length) {
-    el.innerHTML = `<div class="hist-empty"><i class="ti ti-inbox"></i>${
-      historial.length ? 'Sin resultados para este filtro' : 'Sin registros aún'
-    }</div>`;
+    el.innerHTML = `<div class="hist-empty"><i class="ti ti-inbox"></i>${historial.length?'Sin resultados para este filtro':'Sin registros aún'}</div>`;
     return;
   }
 
   el.innerHTML = data.map(r => {
-    const retryBtn = !r.synced
-      ? `<button class="retry-btn" data-retry="${r.id}" onclick="reintentarSync(${r.id})"><i class="ti ti-refresh"></i> Reintentar</button>`
-      : '';
-
     const durLabel = (() => {
       if (r.hIni && r.hFin) {
         const [h1,m1] = r.hIni.split(':').map(Number);
         const [h2,m2] = r.hFin.split(':').map(Number);
-        let mins = (h2*60+m2)-(h1*60+m1);
-        if (mins < 0) mins += 1440;
+        let mins = (h2*60+m2)-(h1*60+m1); if (mins<0) mins+=1440;
         const hh = Math.floor(mins/60), mm = mins%60;
         return `<span><i class="ti ti-clock-hour-4"></i> ${hh>0?hh+'h ':''}${mm}min</span>`;
-      }
-      return '';
+      } return '';
     })();
 
+    const retryBtn = !r.synced
+      ? `<button class="retry-btn" data-retry="${r.id}" onclick="reintentarSync(${r.id})"><i class="ti ti-refresh"></i> Reintentar</button>` : '';
+
     const personasHTML = (() => {
-      if (!r.personas || !r.personas.length) return '';
-      const rows = r.personas.map((p, i) => {
-        const nombre = typeof p === 'string' ? p : (p.nombre || '—');
-        const doc    = typeof p === 'string' ? '—' : (p.doc || '—');
-        return `<div class="hist-personas-row">
-          <div class="pnum">${i+1}</div>
-          <div>${nombre||'—'}</div>
-          <div class="pdoc">${doc}</div>
-        </div>`;
+      if (!r.personas?.length) return '';
+      const rows = r.personas.map((p,i) => {
+        const nombre = typeof p==='string' ? p : (p.nombre||'—');
+        const doc    = typeof p==='string' ? '—' : (p.doc||'—');
+        return `<div class="hist-personas-row"><div class="pnum">${i+1}</div><div>${nombre}</div><div class="pdoc">${doc}</div></div>`;
       }).join('');
       return `<div class="hist-personas">
         <div class="hist-personas-header"><div>#</div><div>Nombre</div><div>Documento</div></div>
-        ${rows}
-      </div>`;
+        ${rows}</div>`;
     })();
 
-    return `
-    <div class="hist-item">
-      <div class="hist-item-accent accent-${r.tipo}"></div>
-      <div class="hist-item-inner">
+    const numDespachoLabel = r.numDespacho
+      ? `<span class="badge b-desp"><i class="ti ti-file-invoice"></i> ${r.numDespacho}</span>` : '';
+
+    return `<div class="hist-item">
+      <div class="hist-accent accent-${r.tipo}"></div>
+      <div class="hist-inner">
         <div class="hist-top">
           <div class="hist-badges">
             <span class="badge b-t${r.turno}"><i class="ti ${TURNO_ICON[r.turno]}"></i> T${r.turno}</span>
-            <span class="badge b-${r.tipo}"><i class="ti ${TIPO_ICON[r.tipo]}"></i> ${r.tipo.charAt(0).toUpperCase()+r.tipo.slice(1)}</span>
-            ${r.muelle      ? `<span class="badge b-muelle"><i class="ti ti-door-enter"></i> Muelle ${r.muelle}</span>` : ''}
-            ${r.numDespacho ? `<span class="badge b-despacho"><i class="ti ti-file-invoice"></i> ${r.numDespacho}</span>` : ''}
-            ${r.vinipe      ? '<span class="badge b-vinipe"><i class="ti ti-layers-intersect"></i> Vinipelado</span>' : ''}
-            ${r.estibasCajas === 'estibas' ? '<span class="badge b-est"><i class="ti ti-box"></i> Estibas</span>'
-              : r.estibasCajas === 'cajas' ? '<span class="badge b-caj"><i class="ti ti-package"></i> Cajas</span>'
-              : r.estibasCajas === 'mixto' ? '<span class="badge b-est"><i class="ti ti-box"></i> Mixto</span>' : ''}
+            <span class="badge b-${r.tipo}"><i class="ti ${TIPO_ICON[r.tipo]||'ti-package'}"></i> ${TIPO_LABEL[r.tipo]||r.tipo}</span>
+            ${numDespachoLabel}
             ${r.synced
               ? '<span class="badge b-sync"><i class="ti ti-check"></i> Sheets</span>'
               : `<span class="badge b-local"><i class="ti ti-cloud-off"></i> Local</span>${retryBtn}`}
           </div>
           <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
             <span class="hist-meta">${r.fecha}</span>
-            <button class="hist-del" onclick="eliminar(${r.id})" aria-label="Eliminar">
-              <i class="ti ti-x"></i>
-            </button>
+            <button class="hist-del" onclick="eliminar(${r.id})"><i class="ti ti-x"></i></button>
           </div>
         </div>
         <div class="hist-details">
-          ${r.hIni||r.hFin ? `<span><i class="ti ti-clock"></i> ${r.hIni||'--'} → ${r.hFin||'--'}</span>` : ''}
+          ${r.hIni||r.hFin?`<span><i class="ti ti-clock"></i> ${r.hIni||'--'} → ${r.hFin||'--'}</span>`:''}
           ${durLabel}
-          ${r.placa   ? `<span><i class="ti ti-truck"></i> ${r.placa}</span>` : ''}
-          ${r.personas && r.personas.length
-            ? `<span><i class="ti ti-users"></i> ${r.personas.length} persona${r.personas.length>1?'s':''}</span>`
-            : ''}
+          ${detallesTipo(r)}
+          ${r.personas?.length?`<span><i class="ti ti-users"></i> ${r.personas.length} persona${r.personas.length>1?'s':''}</span>`:''}
         </div>
-        <div class="hist-coord">
-          <i class="ti ti-user-check"></i>
-          <strong>${r.coordinador}</strong>${r.cargo ? ' · '+r.cargo : ''}
-        </div>
-        ${renderCantidadesHist(r.cantidades)}
+        <div class="hist-coord"><i class="ti ti-user-check"></i><strong>${r.coordinador}</strong>${r.cargo?' · '+r.cargo:''}</div>
         ${personasHTML}
-        ${r.obs ? `<div class="hist-obs"><i class="ti ti-notes"></i><span>${r.obs}</span></div>` : ''}
+        ${r.obs?`<div class="hist-obs"><i class="ti ti-notes"></i><span>${r.obs}</span></div>`:''}
       </div>
     </div>`;
   }).join('');
