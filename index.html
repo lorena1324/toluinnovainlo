@@ -131,6 +131,12 @@ input[type=number]{-moz-appearance:textfield;}
 .person-card-header span{font-size:11.5px;font-weight:700;color:var(--ink-3);letter-spacing:.04em;text-transform:uppercase;}
 .person-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 
+/* ── autocomplete name badge ── */
+.name-found{display:flex;align-items:center;gap:5px;margin-top:5px;padding:5px 9px;border-radius:8px;background:#EEF2FF;border:1px solid rgba(74,63,168,.2);font-size:11.5px;font-weight:600;color:#2D2880;animation:fadeInUp .15s ease;}
+.name-found i{font-size:13px;color:#4A3FA8;flex-shrink:0;}
+.name-not-found{display:flex;align-items:center;gap:5px;margin-top:5px;padding:5px 9px;border-radius:8px;background:#FEF3C7;border:1px solid rgba(217,119,6,.2);font-size:11.5px;font-weight:600;color:#92400E;animation:fadeInUp .15s ease;}
+.name-not-found i{font-size:13px;color:#D97706;flex-shrink:0;}
+
 .field-err input,.field-err select,.field-err textarea{border-color:#EF4444!important;box-shadow:0 0 0 3px rgba(239,68,68,0.1)!important;}
 .err-msg{font-size:11.5px;color:#EF4444;margin-top:4px;display:flex;align-items:center;gap:3px;}
 
@@ -196,6 +202,10 @@ input[type=number]{-moz-appearance:textfield;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .spin{animation:spin .7s linear infinite;display:inline-block;}
 input[readonly]{background:var(--surface-2);color:var(--ink-3);cursor:default;}
+
+/* nombre autocompletado — readonly con estilo especial */
+input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rgba(74,63,168,.35);}
+
 @media(max-width:360px){.tipo-grid{grid-template-columns:1fr 1fr;}.person-fields{grid-template-columns:1fr;}}
 </style>
 </head>
@@ -251,7 +261,7 @@ input[readonly]{background:var(--surface-2);color:var(--ink-3);cursor:default;}
     <span id="fecha-live">—</span>
   </div>
 
-  <!-- TURNO — horarios actualizados: T1 5-13 · T2 13-21 · T3 21-5 -->
+  <!-- TURNO -->
   <div class="card">
     <div class="card-title"><i class="ti ti-sun"></i> Turno activo</div>
     <div class="turno-grid">
@@ -273,7 +283,7 @@ input[readonly]{background:var(--surface-2);color:var(--ink-3);cursor:default;}
     </div>
   </div>
 
-  <!-- COORDINADOR — select + cargo fijo -->
+  <!-- COORDINADOR -->
   <div class="card">
     <div class="card-title"><i class="ti ti-user-check"></i> Coordinador responsable</div>
     <div class="row-2">
@@ -281,9 +291,8 @@ input[readonly]{background:var(--surface-2);color:var(--ink-3);cursor:default;}
         <label>Coordinador <span style="color:#EF4444">*</span></label>
         <select id="coordinador">
           <option value="">Selecciona...</option>
-          <option>TORRES PINZON JAVIER OSWALDO </option>
+          <option>TORRES PINZON JAVIER OSWALDO</option>
           <option>RODRIGUEZ MOJICA SEBASTIAN</option>
-      
         </select>
       </div>
       <div class="field">
@@ -464,6 +473,68 @@ input[readonly]{background:var(--surface-2);color:var(--ink-3);cursor:default;}
 
 </div>
 <script>
+/* ══════════════════════════════════════════════
+   BASE DE DATOS DE CÉDULAS → NOMBRES
+   ══════════════════════════════════════════════ */
+const CEDULAS_DB = {
+  "1077142771": "GARCIA GARCIA JOSE ANDRES",
+  "1047362189": "HERNANDEZ DIAZ JOSE DAVID",
+  "1062804391": "VIDES ALVAREZ ESTEBAN DAVID",
+  "1000323696": "RAMIREZ SANTANA JUAN DAVID",
+  "1003741841": "SALGADO CONTRERAS JAROL CAMILO",
+  "1016010779": "MORA FRANCO JEISSON DAVID",
+  "1007505127": "ROQUEME QUIÑONEZ DANIEL ANDRES",
+  "1007819722": "TORRES CRUZ MARLON BRANDON",
+  "1151944417": "MONCADA BERNAL JORDAN ALEXIS",
+  "1121338196": "ALITH EMMANUEL ROMERO MONTES",
+  "1005674873": "ROENEZ NIÑO BRAYAN",
+  "1066727097": "MATIAS RAMOS JUAN CAMILO",
+  "11444265":   "RAMOS MORENO GIOVANNY",
+  "1004214034": "GOMEZ ROSERO OSCAR DAVID",
+  "1007702221": "SANCHEZ SIERRA JUAN DIEGO",
+  "1010048413": "DE LA VEGA JIMENEZ JORGE LUIS",
+  "17348143":   "OSORIO OSORIO FORTUNATO",
+  "1007161918": "ROJAS BUSTOS WILMER ORLANDO",
+  "1044914342": "LASCAR PEREZ NAYID",
+  "1082876503": "CAMILO ANDRES SANCHEZ HERNANDEZ",
+  "1022423562": "CASTAÑO BOHORQUEZ JOHN EDISON",
+  "1047397942": "ALVARADO MELENDEZ JUAN SEBASTIAN",
+  "1067722757": "QUINTERO CADENA LUIS CARLOS",
+  "1073506772": "CARRILLO ALDANA JOHAN SEBASTIAN",
+  "1073526507": "LARA RAMIREZ CRISTIAN CAMILO",
+  "1050961783": "GUARDO RAMOS LUIS ALBERTO",
+  "1067033266": "ROBLES AGUDELO RAUL SEBASTIAN",
+  "1143139403": "MERCADO GUTIERREZ YESERSON DAVID",
+  "1108232203": "GONZALEZ LOPEZ BAIRON LIBARDO",
+  "1043842131": "MERENGO RODRIGUEZ FRANCISCO FERNANADO",
+  "80009268":   "GUZMAN CIFUENTES WILSON ERNESTO",
+  "1063151810": "ARTEAGA HERRERA JADER LUIS",
+  "1100687786": "VITOLA ROMERO JAIR DEL CRISTO",
+  "1062805598": "RODRIGUEZ ZABALA KEINER JOSE",
+  "1081906224": "PEREZ ZABALA JUAN DAVID",
+  "1237690865": "JARAMILLO TORREZ WILCOL JOSE",
+  "1003510105": "SABOGAL MEDINA EDGAR STEVEN",
+  "1019992559": "HERNANDEZ TRIVIÑO JUAN FELIPE",
+  "1063076727": "CORDERO ROQUEME SANTIAGO ANDRES",
+  "1065587069": "CAICEDO GONZALEZ YEISON DANIEL",
+  "1001065509": "CASTRO MARTINEZ DEIVI DAVID",
+  "1003706363": "LAVERDE MURILLO PEDRO ARNULFO",
+  "1046529294": "BRAVO VARGAS MAICOL YOENGLISH",
+  "1126250134": "CABARCAS VELASQUEZ JULIO CESAR",
+  "1019058084": "ROJAS QUINTERO CRISTIAN DAVID",
+  "1099894937": "VALENZUELA GARCIA OLMEDO",
+  "1019987238": "CHACON MARENTESWILLIAM",
+  "1101451756": "NAVARRO VASQUEZ DANIEL DE JESES",
+  "1041970854": "MONTERROSA BENAVIDES CARLOS ALBERTO",
+  "1073234942": "SUAREZ VERGAÑO OSCAR MAURICIO",
+  "1070955697": "SOSA YAZMIN LORENA",
+  "1073173122": "SAENZ BALLESTEROS JESSICA PAOLA",
+  "1070970405": "RODRIGUEZ MOJICA SEBASTIAN"
+};
+
+/* ══════════════════════════════════════════════
+   CONFIG
+   ══════════════════════════════════════════════ */
 const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbwLv88qppi7ElE5Mq_ebGA_C8dHm_V8VVt4VN9bCFP5cL3m24O4R_E-QOpWL6TC8xjk/exec';
 const SHEET_NAME  = 'Operaciones';
 const MUELLES     = Array.from({length:38},(_,i)=>i+1);
@@ -495,7 +566,6 @@ document.addEventListener('DOMContentLoaded', function() {
   poblarMuelles(); actualizarFecha(); renderPeopleList(); renderHist(); updateStats();
   if (!localStorage.getItem('innova_sheets_url')) localStorage.setItem('innova_sheets_url', DEFAULT_URL);
   actualizarUI_URL();
-  // Auto-turno: T1 5-13 · T2 13-21 · T3 21-5
   const h = new Date().getHours();
   if (h >= 5 && h < 13) selTurno(1);
   else if (h >= 13 && h < 21) selTurno(2);
@@ -539,7 +609,51 @@ function actualizarUI_URL() {
 function mostrarURLStatus(msg,ok) { document.getElementById('url-status').innerHTML=`<span class="url-status ${ok?'ok':'bad'}"><i class="ti ti-${ok?'check':'alert-triangle'}"></i> ${msg}</span>`; }
 function toggleGuia() { const g=document.getElementById('guia-rapida'); g.style.display=g.style.display==='none'?'block':'none'; }
 
-// ── PERSONAS ──────────────────────────────────────────────────────
+/* ══════════════════════════════════════════════
+   AUTOCOMPLETE DE NOMBRE POR CÉDULA
+   ══════════════════════════════════════════════ */
+function buscarNombrePorCedula(cedula) {
+  return CEDULAS_DB[cedula.trim()] || null;
+}
+
+function onDocInput(idx) {
+  const docEl  = document.querySelector(`.pdoc[data-idx="${idx}"]`);
+  const nameEl = document.querySelector(`.pname[data-idx="${idx}"]`);
+  const hint   = document.getElementById(`cedula-hint-${idx}`);
+
+  const cedula = (docEl?.value || '').replace(/[^0-9]/g,'');
+  if (!docEl || !nameEl || !hint) return;
+
+  if (cedula.length === 0) {
+    hint.innerHTML = '';
+    nameEl.value = '';
+    nameEl.readOnly = false;
+    nameEl.classList.remove('name-auto');
+    return;
+  }
+
+  const nombre = buscarNombrePorCedula(cedula);
+
+  if (nombre) {
+    nameEl.value = nombre;
+    nameEl.readOnly = true;
+    nameEl.classList.add('name-auto');
+    hint.innerHTML = `<div class="name-found"><i class="ti ti-user-check"></i>${nombre}</div>`;
+  } else {
+    nameEl.value = '';
+    nameEl.readOnly = false;
+    nameEl.classList.remove('name-auto');
+    if (cedula.length >= 6) {
+      hint.innerHTML = `<div class="name-not-found"><i class="ti ti-user-question"></i>Cédula no encontrada — ingresa el nombre manualmente</div>`;
+    } else {
+      hint.innerHTML = '';
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════
+   PERSONAS
+   ══════════════════════════════════════════════ */
 function renderPeopleList() {
   const list = document.getElementById('people-list');
   list.innerHTML = '';
@@ -547,7 +661,10 @@ function renderPeopleList() {
     const c = document.createElement('div');
     c.className = 'person-card';
     c.innerHTML = `
-      <div class="person-card-header"><div class="person-num">${i}</div><span>Persona ${i}</span></div>
+      <div class="person-card-header">
+        <div class="person-num">${i}</div>
+        <span>Persona ${i}</span>
+      </div>
       <div class="person-fields">
         <div class="field" id="f-pname-${i}">
           <label>Nombre</label>
@@ -556,22 +673,26 @@ function renderPeopleList() {
         <div class="field" id="f-pdoc-${i}">
           <label>Cédula <span style="color:#EF4444">*</span></label>
           <input type="text" placeholder="N.º cédula" class="pdoc" inputmode="numeric" data-idx="${i}"
-            oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+            oninput="this.value=this.value.replace(/[^0-9]/g,'');onDocInput(${i})">
+          <div id="cedula-hint-${i}"></div>
         </div>
       </div>`;
     list.appendChild(c);
   }
 }
+
 function changeQty(d) {
   const prev = getPersonas(); qty = Math.max(1, Math.min(30, qty+d));
   document.getElementById('qty-val').textContent = qty; renderPeopleList();
   prev.forEach((p,i) => {
     if (i+1 <= qty) {
       const ne=document.querySelector(`.pname[data-idx="${i+1}"]`), de=document.querySelector(`.pdoc[data-idx="${i+1}"]`);
-      if(ne) ne.value=p.nombre; if(de) de.value=p.doc;
+      if(ne) ne.value=p.nombre;
+      if(de) { de.value=p.doc; if(p.doc) onDocInput(i+1); }
     }
   });
 }
+
 function getPersonas() {
   const r=[];
   for(let i=1;i<=qty;i++) r.push({ nombre:(document.querySelector(`.pname[data-idx="${i}"]`)?.value||'').trim(), doc:(document.querySelector(`.pdoc[data-idx="${i}"]`)?.value||'').trim() });
@@ -615,14 +736,12 @@ function validar() {
   if (tipo==='movest')    { if(!req('muelle-origen','f-muelle-origen'))   ok=false; if(!req('muelle-destino','f-muelle-destino')) ok=false; }
   if (tipo==='vinipelado'){ if(!req('muelle-vini','f-muelle-vini'))       ok=false; }
 
-  // ── Personas: cédula obligatoria + sin duplicados (cédula y nombre) ──
   const personas=getPersonas(), cedulas=[], nombres=[];
   for (let i=1;i<=qty;i++) {
     const p=personas[i-1];
     const fDoc=document.getElementById(`f-pdoc-${i}`);
     const fNom=document.getElementById(`f-pname-${i}`);
 
-    // Cédula obligatoria y solo números
     if (!p.doc) {
       setErr(fDoc,'Cédula requerida'); ok=false;
     } else if (!/^\d+$/.test(p.doc)) {
@@ -633,7 +752,6 @@ function validar() {
       clearErr(fDoc); cedulas.push(p.doc);
     }
 
-    // Nombre duplicado (si fue ingresado)
     if (p.nombre) {
       const norm=p.nombre.toLowerCase().trim();
       if (nombres.includes(norm)) {
