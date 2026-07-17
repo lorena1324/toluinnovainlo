@@ -138,7 +138,8 @@ input[type=number]{-moz-appearance:textfield;}
 .name-not-found i{font-size:13px;color:#D97706;flex-shrink:0;}
 
 .field-err input,.field-err select,.field-err textarea{border-color:#EF4444!important;box-shadow:0 0 0 3px rgba(239,68,68,0.1)!important;}
-.err-msg{font-size:11.5px;color:#EF4444;margin-top:4px;display:flex;align-items:center;gap:3px;}
+.err-msg{font-size:11.5px;color:#EF4444;margin-top:4px;display:flex;align-items:center;gap:3px;animation:fadeInUp .15s ease;}
+.field-ok input:not([readonly]),.field-ok select,.field-ok textarea{border-color:#10B981!important;transition:border-color .2s ease;}
 
 .submit-btn{width:100%;background:linear-gradient(135deg,#1A1540,#2D2880 50%,#4A3FA8);color:#fff;border:none;padding:16px;border-radius:var(--radius-sm);font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;box-shadow:0 6px 24px rgba(30,24,100,0.3);letter-spacing:.01em;}
 .submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(30,24,100,0.4);}
@@ -289,7 +290,7 @@ input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rg
     <div class="row-2">
       <div class="field" id="f-coordinador">
         <label>Coordinador <span style="color:#EF4444">*</span></label>
-        <select id="coordinador">
+        <select id="coordinador" autocomplete="off">
           <option value="">Selecciona...</option>
           <option>TORRES PINZON JAVIER OSWALDO</option>
           <option>ABRIL CRISTIANO MAURICIO</option>
@@ -298,13 +299,15 @@ input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rg
       </div>
       <div class="field">
         <label>Cargo</label>
-        <input type="text" id="cargo" value="Jefe operaciones" readonly>
+        <input type="text" id="cargo" value="Jefe operaciones" readonly autocomplete="off" spellcheck="false">
       </div>
     </div>
     <div class="field" id="f-numdespacho" style="margin-top:0">
       <label>N.º de despacho <span style="color:#EF4444">*</span></label>
       <input type="text" id="num-despacho" placeholder="Ej. DSP-2024-001"
-        style="font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase" inputmode="text">
+        style="font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase" inputmode="text"
+        autocomplete="off" spellcheck="false" maxlength="30"
+        oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'');revisarBoton();">
     </div>
   </div>
 
@@ -346,13 +349,13 @@ input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rg
         <p>Completa los datos del registro</p>
       </div>
       <div class="row-2" style="margin-bottom:12px">
-        <div class="field"><label>Placa del vehículo</label><input type="text" id="placa-cajas" placeholder="ABC-123" style="text-transform:uppercase"></div>
-        <div class="field" id="f-muelle-cajas"><label>Muelle <span style="color:#EF4444">*</span></label><select id="muelle-cajas"><option value="">Selecciona...</option></select></div>
+        <div class="field"><label>Placa del vehículo</label><input type="text" id="placa-cajas" placeholder="ABC-123" style="text-transform:uppercase" autocomplete="off" spellcheck="false" oninput="this.value=this.value.replace(/\s{2,}/g,' ');"></div>
+        <div class="field" id="f-muelle-cajas"><label>Muelle <span style="color:#EF4444">*</span></label><select id="muelle-cajas" autocomplete="off" onchange="revisarBoton()"><option value="">Selecciona...</option></select></div>
       </div>
       <div class="row-2" style="margin-bottom:0">
-        <div class="field"><label>Cantidad de cajas</label><input type="number" id="cajas-qty" min="0" placeholder="0" inputmode="numeric"></div>
+        <div class="field"><label>Cantidad de cajas</label><input type="number" id="cajas-qty" min="0" placeholder="0" inputmode="numeric" autocomplete="off"></div>
         <div class="field" id="f-op-cajas"><label>Operación <span style="color:#EF4444">*</span></label>
-          <select id="op-cajas"><option value="">Selecciona...</option><option value="cargue">Cargue</option><option value="descargue">Descargue</option></select>
+          <select id="op-cajas" autocomplete="off" onchange="revisarBoton()"><option value="">Selecciona...</option><option value="cargue">Cargue</option><option value="descargue">Descargue</option></select>
         </div>
       </div>
     </div>
@@ -365,13 +368,13 @@ input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rg
         <p>Cargue o descargue</p>
       </div>
       <div class="row-2" style="margin-bottom:12px">
-        <div class="field"><label>Placa del vehículo</label><input type="text" id="placa-estibas" placeholder="ABC-123" style="text-transform:uppercase"></div>
-        <div class="field" id="f-muelle-estibas"><label>Muelle <span style="color:#EF4444">*</span></label><select id="muelle-estibas"><option value="">Selecciona...</option></select></div>
+        <div class="field"><label>Placa del vehículo</label><input type="text" id="placa-estibas" placeholder="ABC-123" style="text-transform:uppercase" autocomplete="off" spellcheck="false" oninput="this.value=this.value.replace(/\s{2,}/g,' ');"></div>
+        <div class="field" id="f-muelle-estibas"><label>Muelle <span style="color:#EF4444">*</span></label><select id="muelle-estibas" autocomplete="off" onchange="revisarBoton()"><option value="">Selecciona...</option></select></div>
       </div>
       <div class="row-2" style="margin-bottom:0">
-        <div class="field"><label>Cantidad estibas</label><input type="number" id="estibas-qty" min="0" placeholder="0" inputmode="numeric"></div>
+        <div class="field"><label>Cantidad estibas</label><input type="number" id="estibas-qty" min="0" placeholder="0" inputmode="numeric" autocomplete="off"></div>
         <div class="field" id="f-op-estibas"><label>Operación <span style="color:#EF4444">*</span></label>
-          <select id="op-estibas"><option value="">Selecciona...</option><option value="cargue">Cargue</option><option value="descargue">Descargue</option></select>
+          <select id="op-estibas" autocomplete="off" onchange="revisarBoton()"><option value="">Selecciona...</option><option value="cargue">Cargue</option><option value="descargue">Descargue</option></select>
         </div>
       </div>
     </div>
@@ -384,10 +387,10 @@ input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rg
         <p>Traslado interno</p>
       </div>
       <div class="row-2" style="margin-bottom:12px">
-        <div class="field" id="f-muelle-origen"><label>Muelle origen <span style="color:#EF4444">*</span></label><select id="muelle-origen"><option value="">Selecciona...</option></select></div>
-        <div class="field" id="f-muelle-destino"><label>Muelle destino <span style="color:#EF4444">*</span></label><select id="muelle-destino"><option value="">Selecciona...</option></select></div>
+        <div class="field" id="f-muelle-origen"><label>Muelle origen <span style="color:#EF4444">*</span></label><select id="muelle-origen" autocomplete="off" onchange="revisarBoton()"><option value="">Selecciona...</option></select></div>
+        <div class="field" id="f-muelle-destino"><label>Muelle destino <span style="color:#EF4444">*</span></label><select id="muelle-destino" autocomplete="off" onchange="revisarBoton()"><option value="">Selecciona...</option></select></div>
       </div>
-      <div class="field" style="margin-bottom:0"><label>Cantidad estibas trasladadas</label><input type="number" id="movest-qty" min="0" placeholder="0" inputmode="numeric"></div>
+      <div class="field" style="margin-bottom:0"><label>Cantidad estibas trasladadas</label><input type="number" id="movest-qty" min="0" placeholder="0" inputmode="numeric" autocomplete="off"></div>
     </div>
 
     <!-- PANEL VINIPELADO -->
@@ -398,12 +401,12 @@ input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rg
         <p>Registro de operación</p>
       </div>
       <div class="row-2" style="margin-bottom:12px">
-        <div class="field"><label>Placa del vehículo</label><input type="text" id="placa-vini" placeholder="ABC-123" style="text-transform:uppercase"></div>
-        <div class="field" id="f-muelle-vini"><label>Muelle <span style="color:#EF4444">*</span></label><select id="muelle-vini"><option value="">Selecciona...</option></select></div>
+        <div class="field"><label>Placa del vehículo</label><input type="text" id="placa-vini" placeholder="ABC-123" style="text-transform:uppercase" autocomplete="off" spellcheck="false" oninput="this.value=this.value.replace(/\s{2,}/g,' ');"></div>
+        <div class="field" id="f-muelle-vini"><label>Muelle <span style="color:#EF4444">*</span></label><select id="muelle-vini" autocomplete="off" onchange="revisarBoton()"><option value="">Selecciona...</option></select></div>
       </div>
       <div class="row-2" style="margin-bottom:0">
-        <div class="field"><label>Estibas vinipeladas</label><input type="number" id="vini-estibas" min="0" placeholder="0" inputmode="numeric"></div>
-        <div class="field"><label>Cajas vinipeladas</label><input type="number" id="vini-cajas" min="0" placeholder="0" inputmode="numeric"></div>
+        <div class="field"><label>Estibas vinipeladas</label><input type="number" id="vini-estibas" min="0" placeholder="0" inputmode="numeric" autocomplete="off"></div>
+        <div class="field"><label>Cajas vinipeladas</label><input type="number" id="vini-cajas" min="0" placeholder="0" inputmode="numeric" autocomplete="off"></div>
       </div>
     </div>
   </div>
@@ -412,8 +415,8 @@ input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rg
   <div class="card">
     <div class="card-title"><i class="ti ti-clock"></i> Horario de operación</div>
     <div class="row-2" style="margin-bottom:0">
-      <div class="field"><label>Hora inicio</label><input type="time" id="h-ini"></div>
-      <div class="field"><label>Hora fin</label><input type="time" id="h-fin"></div>
+      <div class="field" id="f-hini"><label>Hora inicio <span style="color:#EF4444">*</span></label><input type="time" id="h-ini" autocomplete="off"></div>
+      <div class="field" id="f-hfin"><label>Hora fin <span style="color:#EF4444">*</span></label><input type="time" id="h-fin" autocomplete="off"></div>
     </div>
     <div id="duracion-lbl" style="margin-top:9px;font-size:12.5px;color:var(--ink-3);min-height:20px"></div>
   </div>
@@ -435,12 +438,12 @@ input.name-auto{background:#EEF2FF;color:#2D2880;font-weight:600;border-color:rg
   <!-- OBSERVACIONES -->
   <div class="card">
     <div class="card-title"><i class="ti ti-notes"></i> Observaciones</div>
-    <textarea id="obs" placeholder="Novedades, incidencias, condiciones especiales del turno..."></textarea>
+    <textarea id="obs" placeholder="Novedades, incidencias, condiciones especiales del turno..." autocomplete="off" spellcheck="false"></textarea>
   </div>
 
   <div class="toast" id="toast"></div>
 
-  <button type="button" class="submit-btn" id="submit-btn" onclick="guardar()">
+  <button type="button" class="submit-btn" id="submit-btn" onclick="guardar()" disabled>
     <i class="ti ti-device-floppy"></i> Guardar y sincronizar
   </button>
 
@@ -577,8 +580,35 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('h-ini').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   calcDuracion();
   requestAnimationFrame(() => selTipo('cajas'));
-  document.getElementById('h-ini').addEventListener('change', calcDuracion);
-  document.getElementById('h-fin').addEventListener('change', calcDuracion);
+  document.getElementById('h-ini').addEventListener('change', function(){ calcDuracion(); revisarBoton(); });
+  document.getElementById('h-fin').addEventListener('change', function(){ calcDuracion(); revisarBoton(); });
+  document.querySelector('.page').addEventListener('input', function(e){
+    const t=e.target;
+    if (t && (t.id==='coordinador' || t.tagName==='SELECT' || (t.tagName==='INPUT' && t.type!=='url'))) revisarBoton();
+  });
+  document.querySelector('.page').addEventListener('change', function(e){
+    const t=e.target;
+    if (t && t.tagName==='SELECT') revisarBoton();
+  });
+  document.querySelector('.page').addEventListener('keydown', function(e){
+    if (e.key !== 'Enter') return;
+    const t = e.target;
+    if (t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON') return;
+    if (t.tagName === 'INPUT' || t.tagName === 'SELECT') {
+      e.preventDefault();
+      const focusables = Array.from(document.querySelectorAll('.page input:not([type=hidden]):not([readonly]), .page select, .page textarea'))
+        .filter(el => el.offsetParent !== null && !el.disabled);
+      const idx = focusables.indexOf(t);
+      if (idx > -1 && idx < focusables.length - 1) focusables[idx+1].focus();
+    }
+  });
+  document.querySelector('.page').addEventListener('blur', function(e){
+    const t = e.target;
+    if (((t.tagName==='INPUT' && (t.type==='text')) || t.tagName==='TEXTAREA') && !t.readOnly) {
+      t.value = sanitizeText(t.value);
+    }
+  }, true);
+  revisarBoton();
 });
 
 function selTurno(n) {
@@ -595,6 +625,7 @@ function selTipo(t) {
     if (k===t) { btn.setAttribute('data-active','true'); panel.classList.add('show'); }
     else { btn.removeAttribute('data-active'); panel.classList.remove('show'); }
   });
+  revisarBoton();
 }
 
 function guardarURL() {
@@ -632,6 +663,7 @@ function onDocInput(idx) {
     nameEl.value = '';
     nameEl.readOnly = false;
     nameEl.classList.remove('name-auto');
+    revisarBoton();
     return;
   }
 
@@ -641,7 +673,7 @@ function onDocInput(idx) {
     nameEl.value = nombre;
     nameEl.readOnly = true;
     nameEl.classList.add('name-auto');
-    hint.innerHTML = `<div class="name-found"><i class="ti ti-user-check"></i>${nombre}</div>`;
+    hint.innerHTML = `<div class="name-found"><i class="ti ti-user-check"></i>${escapeHTML(nombre)}</div>`;
   } else {
     nameEl.value = '';
     nameEl.readOnly = false;
@@ -652,6 +684,13 @@ function onDocInput(idx) {
       hint.innerHTML = '';
     }
   }
+  revisarBoton();
+}
+
+function onNameInput(idx) {
+  const el = document.querySelector(`.pname[data-idx="${idx}"]`);
+  if (el && !el.readOnly) el.value = el.value.replace(/\s{2,}/g,' ');
+  revisarBoton();
 }
 
 /* ══════════════════════════════════════════════
@@ -670,12 +709,15 @@ function renderPeopleList() {
       </div>
       <div class="person-fields">
         <div class="field" id="f-pname-${i}">
-          <label>Nombre</label>
-          <input type="text" placeholder="Nombre completo" class="pname" data-idx="${i}">
+          <label>Nombre <span style="color:#EF4444">*</span></label>
+          <input type="text" placeholder="Nombre completo" class="pname" data-idx="${i}"
+            autocomplete="off" spellcheck="false" maxlength="80"
+            oninput="onNameInput(${i})">
         </div>
         <div class="field" id="f-pdoc-${i}">
           <label>Cédula <span style="color:#EF4444">*</span></label>
           <input type="text" placeholder="N.º cédula" class="pdoc" inputmode="numeric" data-idx="${i}"
+            autocomplete="off" spellcheck="false" maxlength="15"
             oninput="this.value=this.value.replace(/[^0-9]/g,'');onDocInput(${i})">
           <div id="cedula-hint-${i}"></div>
         </div>
@@ -694,6 +736,7 @@ function changeQty(d) {
       if(de) { de.value=p.doc; if(p.doc) onDocInput(i+1); }
     }
   });
+  revisarBoton();
 }
 
 function getPersonas() {
@@ -719,54 +762,142 @@ function showToast(msg,type='success',dur=3500) {
   if(toastTimer) clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.className='toast',dur);
 }
 
+/* ══════════════════════════════════════════════
+   SANITIZACIÓN Y SEGURIDAD
+   ══════════════════════════════════════════════ */
+function escapeHTML(str) {
+  if (typeof str !== 'string') return str;
+  return str.replace(/[&<>"'`=\/]/g, function(ch) {
+    return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;','=':'&#61;','/':'&#47;' })[ch];
+  });
+}
+function sanitizeText(str) {
+  return (str || '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,'').replace(/[ \t]{2,}/g,' ').trim();
+}
+
+/* ══════════════════════════════════════════════
+   VALIDACIÓN DE CAMPOS
+   ══════════════════════════════════════════════ */
 function setErr(field,msg) {
+  if (!field) return;
+  field.classList.remove('field-ok');
   field.classList.add('field-err');
-  if(!field.querySelector('.err-msg')) { const e=document.createElement('span'); e.className='err-msg'; e.innerHTML=`<i class="ti ti-alert-circle"></i> ${msg}`; field.appendChild(e); }
+  if(!field.querySelector('.err-msg')) { const e=document.createElement('span'); e.className='err-msg'; e.innerHTML=`<i class="ti ti-alert-circle"></i> ${escapeHTML(msg)}`; field.appendChild(e); }
+  else { field.querySelector('.err-msg').innerHTML = `<i class="ti ti-alert-circle"></i> ${escapeHTML(msg)}`; }
 }
-function clearErr(field) { field.classList.remove('field-err'); field.querySelector('.err-msg')?.remove(); }
+function clearErr(field, markOk) {
+  if (!field) return;
+  field.classList.remove('field-err');
+  field.querySelector('.err-msg')?.remove();
+  if (markOk) field.classList.add('field-ok'); else field.classList.remove('field-ok');
+}
 function req(id,fieldId) {
-  const v=document.getElementById(id).value.trim(), f=document.getElementById(fieldId);
-  if(!v){setErr(f,'Campo requerido');return false;} clearErr(f); return true;
+  const el=document.getElementById(id), f=document.getElementById(fieldId);
+  let v = el.value;
+  if (el.tagName !== 'SELECT') { v = sanitizeText(v); }
+  if(!v){setErr(f,'Campo requerido');return false;}
+  clearErr(f,true); return true;
+}
+function validarHoraCampo(id, fieldId) {
+  const el=document.getElementById(id), f=document.getElementById(fieldId);
+  if (!el.value) { setErr(f,'Hora requerida'); return false; }
+  clearErr(f,true); return true;
+}
+function validarRangoHoras() {
+  const ini=document.getElementById('h-ini').value, fin=document.getElementById('h-fin').value, fFin=document.getElementById('f-hfin');
+  if (!ini || !fin) return true;
+  if (ini === fin) { setErr(fFin,'La hora final debe ser mayor a la hora inicial.'); return false; }
+  clearErr(fFin,true);
+  return true;
+}
+function despachoDuplicado(num, excludeId) {
+  const v=(num||'').toUpperCase();
+  return historial.some(r => (r.numDespacho||'').toUpperCase()===v && r.id!==excludeId);
+}
+function validarNumDespacho() {
+  const el=document.getElementById('num-despacho'), f=document.getElementById('f-numdespacho');
+  const v = el.value.trim();
+  if (!v) { setErr(f,'Campo requerido'); return false; }
+  if (!/^[A-Z0-9-]+$/.test(v)) { setErr(f,'Formato inválido: solo A-Z, 0-9 y guion'); return false; }
+  if (despachoDuplicado(v)) { setErr(f,'Este despacho ya existe'); return false; }
+  clearErr(f,true); return true;
 }
 
-function validar() {
+/* ══════════════════════════════════════════════
+   VALIDACIÓN COMPLETA DEL FORMULARIO
+   silent=true  → solo actualiza bordes/estado del botón (sin foco ni toast)
+   silent=false → valida al Guardar: lleva el foco al primer error y muestra mensajes
+   ══════════════════════════════════════════════ */
+function validar(silent) {
   let ok = true;
-  if (!req('coordinador','f-coordinador')) ok=false;
-  if (!req('num-despacho','f-numdespacho')) ok=false;
-  if (!tipo) { showToast('Selecciona el tipo de operación','error'); return false; }
-  if (tipo==='cajas')     { if(!req('muelle-cajas','f-muelle-cajas'))   ok=false; if(!req('op-cajas','f-op-cajas'))     ok=false; }
-  if (tipo==='estibas')   { if(!req('muelle-estibas','f-muelle-estibas')) ok=false; if(!req('op-estibas','f-op-estibas')) ok=false; }
-  if (tipo==='movest')    { if(!req('muelle-origen','f-muelle-origen'))   ok=false; if(!req('muelle-destino','f-muelle-destino')) ok=false; }
-  if (tipo==='vinipelado'){ if(!req('muelle-vini','f-muelle-vini'))       ok=false; }
+  let firstInvalid = null;
+  const marcar = (valido, el) => { if(!valido){ ok=false; if(!firstInvalid && el) firstInvalid=el; } };
 
-  const personas=getPersonas(), cedulas=[], nombres=[];
-  for (let i=1;i<=qty;i++) {
-    const p=personas[i-1];
-    const fDoc=document.getElementById(`f-pdoc-${i}`);
-    const fNom=document.getElementById(`f-pname-${i}`);
+  marcar(req('coordinador','f-coordinador'), document.getElementById('coordinador'));
+  marcar(validarNumDespacho(), document.getElementById('num-despacho'));
 
-    if (!p.doc) {
-      setErr(fDoc,'Cédula requerida'); ok=false;
-    } else if (!/^\d+$/.test(p.doc)) {
-      setErr(fDoc,'Solo números'); ok=false;
-    } else if (cedulas.includes(p.doc)) {
-      setErr(fDoc,'Cédula duplicada'); ok=false;
-    } else {
-      clearErr(fDoc); cedulas.push(p.doc);
-    }
-
-    if (p.nombre) {
-      const norm=p.nombre.toLowerCase().trim();
-      if (nombres.includes(norm)) {
-        setErr(fNom,'Nombre ya registrado en esta operación'); ok=false;
-      } else {
-        clearErr(fNom); nombres.push(norm);
-      }
-    } else {
-      clearErr(fNom);
+  if (!tipo) {
+    ok = false;
+    if (!silent) showToast('Selecciona el tipo de operación','error');
+  } else {
+    if (tipo==='cajas') {
+      marcar(req('muelle-cajas','f-muelle-cajas'), document.getElementById('muelle-cajas'));
+      marcar(req('op-cajas','f-op-cajas'), document.getElementById('op-cajas'));
+    } else if (tipo==='estibas') {
+      marcar(req('muelle-estibas','f-muelle-estibas'), document.getElementById('muelle-estibas'));
+      marcar(req('op-estibas','f-op-estibas'), document.getElementById('op-estibas'));
+    } else if (tipo==='movest') {
+      marcar(req('muelle-origen','f-muelle-origen'), document.getElementById('muelle-origen'));
+      marcar(req('muelle-destino','f-muelle-destino'), document.getElementById('muelle-destino'));
+    } else if (tipo==='vinipelado') {
+      marcar(req('muelle-vini','f-muelle-vini'), document.getElementById('muelle-vini'));
     }
   }
+
+  marcar(validarHoraCampo('h-ini','f-hini'), document.getElementById('h-ini'));
+  marcar(validarHoraCampo('h-fin','f-hfin'), document.getElementById('h-fin'));
+  if (!validarRangoHoras()) { ok=false; if(!firstInvalid) firstInvalid=document.getElementById('h-fin'); }
+
+  const cedulas=[], nombres=[];
+  for (let i=1;i<=qty;i++) {
+    const docEl=document.querySelector(`.pdoc[data-idx="${i}"]`);
+    const nameEl=document.querySelector(`.pname[data-idx="${i}"]`);
+    const fDoc=document.getElementById(`f-pdoc-${i}`);
+    const fNom=document.getElementById(`f-pname-${i}`);
+    const doc=(docEl?.value||'').trim();
+    if (nameEl && !nameEl.readOnly) nameEl.value = sanitizeText(nameEl.value);
+    const nombre = sanitizeText(nameEl?.value||'');
+
+    if (!doc) { setErr(fDoc,'Cédula requerida'); ok=false; if(!firstInvalid)firstInvalid=docEl; }
+    else if (!/^\d+$/.test(doc)) { setErr(fDoc,'Solo números'); ok=false; if(!firstInvalid)firstInvalid=docEl; }
+    else if (doc.length<5) { setErr(fDoc,'Mínimo 5 dígitos'); ok=false; if(!firstInvalid)firstInvalid=docEl; }
+    else if (doc.length>15) { setErr(fDoc,'Máximo 15 dígitos'); ok=false; if(!firstInvalid)firstInvalid=docEl; }
+    else if (cedulas.includes(doc)) { setErr(fDoc,'Cédula duplicada'); ok=false; if(!firstInvalid)firstInvalid=docEl; }
+    else { clearErr(fDoc,true); cedulas.push(doc); }
+
+    if (!nombre) { setErr(fNom,'Nombre requerido'); ok=false; if(!firstInvalid)firstInvalid=nameEl; }
+    else {
+      const norm=nombre.toLowerCase();
+      if (nombres.includes(norm)) { setErr(fNom,'Nombre ya registrado en esta operación'); ok=false; if(!firstInvalid)firstInvalid=nameEl; }
+      else { clearErr(fNom,true); nombres.push(norm); }
+    }
+  }
+
+  if (!silent && firstInvalid) {
+    firstInvalid.focus();
+    if (firstInvalid.scrollIntoView) firstInvalid.scrollIntoView({behavior:'smooth',block:'center'});
+  }
   return ok;
+}
+
+let revisarBotonTimer=null;
+function revisarBoton() {
+  clearTimeout(revisarBotonTimer);
+  revisarBotonTimer=setTimeout(() => {
+    const btn=document.getElementById('submit-btn');
+    if (!btn || btn.dataset.saving==='1') return;
+    btn.disabled = !validar(true);
+  }, 60);
 }
 
 function getPayloadTipo() {
@@ -797,24 +928,47 @@ function getFechaActual(){ return new Date().toLocaleString('es-CO',{day:'2-digi
 function getHoraActual(){ const n=new Date(); return `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`; }
 
 async function guardar() {
-  if(!validar()){showToast('Completa los campos requeridos','error');return;}
   const btn=document.getElementById('submit-btn');
+  if (btn.dataset.saving==='1') return; // evitar doble envío
+
+  if(!validar()){showToast('Completa los campos requeridos correctamente','error');return;}
+
+  // Verificación final anti-duplicados justo antes de enviar
+  const numDespacho = document.getElementById('num-despacho').value.trim().toUpperCase();
+  if (despachoDuplicado(numDespacho)) {
+    setErr(document.getElementById('f-numdespacho'),'No se puede registrar porque el despacho ya existe.');
+    document.getElementById('num-despacho').focus();
+    showToast('No se puede registrar porque el despacho ya existe.','error');
+    return;
+  }
+
+  btn.dataset.saving='1';
   btn.disabled=true; btn.innerHTML='<i class="ti ti-loader spin"></i> Guardando...';
-  const reg={
-    id:Date.now(), fecha:getFechaActual(), turno,
-    coordinador:document.getElementById('coordinador').value.trim(),
-    cargo:'COORDINADOR LOGISTICO',
-    numDespacho:document.getElementById('num-despacho').value.trim().toUpperCase(),
-    tipo, hIni:document.getElementById('h-ini').value,
-    hFin:document.getElementById('h-fin').value||getHoraActual(),
-    personas:getPersonas().filter(p=>p.nombre||p.doc),
-    obs:document.getElementById('obs').value.trim(),
-    synced:false, ...getPayloadTipo()
-  };
-  historial.unshift(reg); save(); renderHist(); updateStats(); resetForm();
-  btn.disabled=false; btn.innerHTML='<i class="ti ti-device-floppy"></i> Guardar y sincronizar';
-  if(SHEETS_URL){ showToast('Guardado ✓ — sincronizando...','success',2500); enviarASheets(reg); }
-  else showToast('Guardado localmente. Configura Sheets para sincronizar.','warn',4500);
+
+  try {
+    const reg={
+      id:Date.now(), fecha:getFechaActual(), turno,
+      coordinador:sanitizeText(document.getElementById('coordinador').value),
+      cargo:'COORDINADOR LOGISTICO',
+      numDespacho,
+      tipo, hIni:document.getElementById('h-ini').value,
+      hFin:document.getElementById('h-fin').value||getHoraActual(),
+      personas:getPersonas().filter(p=>p.nombre||p.doc).map(p=>({nombre:sanitizeText(p.nombre),doc:p.doc})),
+      obs:sanitizeText(document.getElementById('obs').value),
+      synced:false, ...getPayloadTipo()
+    };
+    historial.unshift(reg); save(); renderHist(); updateStats(); resetForm();
+    showToast('Registro guardado correctamente.','success',2500);
+    if(SHEETS_URL){ enviarASheets(reg); }
+    else showToast('Guardado localmente. Configura Sheets para sincronizar.','warn',4500);
+  } catch (err) {
+    console.error('Error al guardar', err);
+    showToast('Ocurrió un error al guardar. Intenta de nuevo.','error');
+  } finally {
+    btn.dataset.saving='0';
+    btn.innerHTML='<i class="ti ti-device-floppy"></i> Guardar y sincronizar';
+    revisarBoton();
+  }
 }
 
 function resetForm() {
@@ -829,6 +983,8 @@ function resetForm() {
   const h=new Date().getHours();
   if(h>=5&&h<13) selTurno(1); else if(h>=13&&h<21) selTurno(2); else selTurno(3);
   selTipo('cajas');
+  document.querySelectorAll('.field-err,.field-ok').forEach(f=>{ f.classList.remove('field-err','field-ok'); f.querySelector('.err-msg')?.remove(); });
+  revisarBoton();
 }
 function eliminar(id){ if(!confirm('¿Eliminar este registro?')) return; historial=historial.filter(r=>r.id!==id); save();renderHist();updateStats(); }
 function updateStats(){ document.getElementById('s-total').textContent=historial.length; document.getElementById('s-sync').textContent=historial.filter(r=>r.synced).length; document.getElementById('s-personas').textContent=historial.reduce((a,r)=>a+(r.personas?.length||0),0); }
@@ -839,10 +995,10 @@ const TURNO_ICON={1:'ti-sun-rise',2:'ti-sun',3:'ti-moon'};
 
 function detallesTipo(r) {
   const p=[];
-  if(r.tipo==='cajas'){if(r.operacion)p.push(`<span><i class="ti ti-arrows-exchange"></i> ${r.operacion.charAt(0).toUpperCase()+r.operacion.slice(1)}</span>`);if(r.muelle)p.push(`<span><i class="ti ti-door-enter"></i> Muelle ${r.muelle}</span>`);if(r.cantidad)p.push(`<span><i class="ti ti-package"></i> ${r.cantidad} cajas</span>`);if(r.placa)p.push(`<span><i class="ti ti-truck"></i> ${r.placa}</span>`);}
-  else if(r.tipo==='estibas'){if(r.operacion)p.push(`<span><i class="ti ti-arrows-exchange"></i> ${r.operacion.charAt(0).toUpperCase()+r.operacion.slice(1)}</span>`);if(r.muelle)p.push(`<span><i class="ti ti-door-enter"></i> Muelle ${r.muelle}</span>`);if(r.cantidad)p.push(`<span><i class="ti ti-stack-2"></i> ${r.cantidad} estibas</span>`);if(r.placa)p.push(`<span><i class="ti ti-truck"></i> ${r.placa}</span>`);}
-  else if(r.tipo==='movest'){if(r.muelleOrigen)p.push(`<span><i class="ti ti-door-enter"></i> M${r.muelleOrigen} → M${r.muelleDestino||'?'}</span>`);if(r.cantidad)p.push(`<span><i class="ti ti-stack-2"></i> ${r.cantidad} estibas</span>`);}
-  else if(r.tipo==='vinipelado'){if(r.muelle)p.push(`<span><i class="ti ti-door-enter"></i> Muelle ${r.muelle}</span>`);if(r.estibasVini)p.push(`<span><i class="ti ti-stack-2"></i> ${r.estibasVini} estibas</span>`);if(r.cajasVini)p.push(`<span><i class="ti ti-package"></i> ${r.cajasVini} cajas</span>`);if(r.placa)p.push(`<span><i class="ti ti-truck"></i> ${r.placa}</span>`);}
+  if(r.tipo==='cajas'){if(r.operacion)p.push(`<span><i class="ti ti-arrows-exchange"></i> ${escapeHTML(r.operacion.charAt(0).toUpperCase()+r.operacion.slice(1))}</span>`);if(r.muelle)p.push(`<span><i class="ti ti-door-enter"></i> Muelle ${escapeHTML(String(r.muelle))}</span>`);if(r.cantidad)p.push(`<span><i class="ti ti-package"></i> ${r.cantidad} cajas</span>`);if(r.placa)p.push(`<span><i class="ti ti-truck"></i> ${escapeHTML(r.placa)}</span>`);}
+  else if(r.tipo==='estibas'){if(r.operacion)p.push(`<span><i class="ti ti-arrows-exchange"></i> ${escapeHTML(r.operacion.charAt(0).toUpperCase()+r.operacion.slice(1))}</span>`);if(r.muelle)p.push(`<span><i class="ti ti-door-enter"></i> Muelle ${escapeHTML(String(r.muelle))}</span>`);if(r.cantidad)p.push(`<span><i class="ti ti-stack-2"></i> ${r.cantidad} estibas</span>`);if(r.placa)p.push(`<span><i class="ti ti-truck"></i> ${escapeHTML(r.placa)}</span>`);}
+  else if(r.tipo==='movest'){if(r.muelleOrigen)p.push(`<span><i class="ti ti-door-enter"></i> M${escapeHTML(String(r.muelleOrigen))} → M${escapeHTML(String(r.muelleDestino||'?'))}</span>`);if(r.cantidad)p.push(`<span><i class="ti ti-stack-2"></i> ${r.cantidad} estibas</span>`);}
+  else if(r.tipo==='vinipelado'){if(r.muelle)p.push(`<span><i class="ti ti-door-enter"></i> Muelle ${escapeHTML(String(r.muelle))}</span>`);if(r.estibasVini)p.push(`<span><i class="ti ti-stack-2"></i> ${r.estibasVini} estibas</span>`);if(r.cajasVini)p.push(`<span><i class="ti ti-package"></i> ${r.cajasVini} cajas</span>`);if(r.placa)p.push(`<span><i class="ti ti-truck"></i> ${escapeHTML(r.placa)}</span>`);}
   return p.join('');
 }
 
@@ -855,8 +1011,8 @@ function renderHist() {
   el.innerHTML=data.map(r=>{
     const durLabel=(()=>{ if(r.hIni&&r.hFin){ const [h1,m1]=r.hIni.split(':').map(Number),[h2,m2]=r.hFin.split(':').map(Number); let mins=(h2*60+m2)-(h1*60+m1); if(mins<0)mins+=1440; const hh=Math.floor(mins/60),mm=mins%60; return `<span><i class="ti ti-clock-hour-4"></i> ${hh>0?hh+'h ':''}${mm}min</span>`; } return ''; })();
     const retryBtn=!r.synced?`<button type="button" class="retry-btn" data-retry="${r.id}" onclick="reintentarSync(${r.id})"><i class="ti ti-refresh"></i> Reintentar</button>`:'';
-    const personasHTML=(()=>{ if(!r.personas?.length) return ''; const rows=r.personas.map((p,i)=>{ const nombre=typeof p==='string'?p:(p.nombre||'—'),doc=typeof p==='string'?'—':(p.doc||'—'); return `<div class="hist-personas-row"><div class="pnum">${i+1}</div><div>${nombre}</div><div class="pdoc">${doc}</div></div>`; }).join(''); return `<div class="hist-personas"><div class="hist-personas-header"><div>#</div><div>Nombre</div><div>Cédula</div></div>${rows}</div>`; })();
-    const numDespachoLabel=r.numDespacho?`<span class="badge b-desp"><i class="ti ti-file-invoice"></i> ${r.numDespacho}</span>`:'';
+    const personasHTML=(()=>{ if(!r.personas?.length) return ''; const rows=r.personas.map((p,i)=>{ const nombre=escapeHTML(typeof p==='string'?p:(p.nombre||'—')),doc=escapeHTML(typeof p==='string'?'—':(p.doc||'—')); return `<div class="hist-personas-row"><div class="pnum">${i+1}</div><div>${nombre}</div><div class="pdoc">${doc}</div></div>`; }).join(''); return `<div class="hist-personas"><div class="hist-personas-header"><div>#</div><div>Nombre</div><div>Cédula</div></div>${rows}</div>`; })();
+    const numDespachoLabel=r.numDespacho?`<span class="badge b-desp"><i class="ti ti-file-invoice"></i> ${escapeHTML(r.numDespacho)}</span>`:'';
     return `<div class="hist-item"><div class="hist-accent accent-${r.tipo}"></div><div class="hist-inner">
       <div class="hist-top">
         <div class="hist-badges">
@@ -875,9 +1031,9 @@ function renderHist() {
         ${durLabel}${detallesTipo(r)}
         ${r.personas?.length?`<span><i class="ti ti-users"></i> ${r.personas.length} persona${r.personas.length>1?'s':''}</span>`:''}
       </div>
-      <div class="hist-coord"><i class="ti ti-user-check"></i><strong>${r.coordinador}</strong>${r.cargo?' · '+r.cargo:''}</div>
+      <div class="hist-coord"><i class="ti ti-user-check"></i><strong>${escapeHTML(r.coordinador||'')}</strong>${r.cargo?' · '+escapeHTML(r.cargo):''}</div>
       ${personasHTML}
-      ${r.obs?`<div class="hist-obs"><i class="ti ti-notes"></i><span>${r.obs}</span></div>`:''}
+      ${r.obs?`<div class="hist-obs"><i class="ti ti-notes"></i><span>${escapeHTML(r.obs)}</span></div>`:''}
     </div></div>`;
   }).join('');
 }
