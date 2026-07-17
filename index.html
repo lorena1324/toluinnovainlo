@@ -661,7 +661,7 @@ function onDocInput(idx) {
   if (cedula.length === 0) {
     hint.innerHTML = '';
     nameEl.value = '';
-    nameEl.readOnly = false;
+    nameEl.readOnly = true;
     nameEl.classList.remove('name-auto');
     revisarBoton();
     return;
@@ -676,20 +676,14 @@ function onDocInput(idx) {
     hint.innerHTML = `<div class="name-found"><i class="ti ti-user-check"></i>${escapeHTML(nombre)}</div>`;
   } else {
     nameEl.value = '';
-    nameEl.readOnly = false;
+    nameEl.readOnly = true;
     nameEl.classList.remove('name-auto');
     if (cedula.length >= 6) {
-      hint.innerHTML = `<div class="name-not-found"><i class="ti ti-user-question"></i>Cédula no encontrada — ingresa el nombre manualmente</div>`;
+      hint.innerHTML = `<div class="name-not-found"><i class="ti ti-user-question"></i>Cédula no registrada en la base de datos — no se puede completar el nombre</div>`;
     } else {
       hint.innerHTML = '';
     }
   }
-  revisarBoton();
-}
-
-function onNameInput(idx) {
-  const el = document.querySelector(`.pname[data-idx="${idx}"]`);
-  if (el && !el.readOnly) el.value = el.value.replace(/\s{2,}/g,' ');
   revisarBoton();
 }
 
@@ -710,9 +704,8 @@ function renderPeopleList() {
       <div class="person-fields">
         <div class="field" id="f-pname-${i}">
           <label>Nombre <span style="color:#EF4444">*</span></label>
-          <input type="text" placeholder="Nombre completo" class="pname" data-idx="${i}"
-            autocomplete="off" spellcheck="false" maxlength="80"
-            oninput="onNameInput(${i})">
+          <input type="text" placeholder="Se completa con la cédula" class="pname" data-idx="${i}"
+            autocomplete="off" spellcheck="false" readonly>
         </div>
         <div class="field" id="f-pdoc-${i}">
           <label>Cédula <span style="color:#EF4444">*</span></label>
@@ -875,10 +868,10 @@ function validar(silent) {
     else if (cedulas.includes(doc)) { setErr(fDoc,'Cédula duplicada'); ok=false; if(!firstInvalid)firstInvalid=docEl; }
     else { clearErr(fDoc,true); cedulas.push(doc); }
 
-    if (!nombre) { setErr(fNom,'Nombre requerido'); ok=false; if(!firstInvalid)firstInvalid=nameEl; }
+    if (!nombre) { setErr(fNom,'Cédula no registrada — no se puede completar el nombre'); ok=false; if(!firstInvalid)firstInvalid=docEl; }
     else {
       const norm=nombre.toLowerCase();
-      if (nombres.includes(norm)) { setErr(fNom,'Nombre ya registrado en esta operación'); ok=false; if(!firstInvalid)firstInvalid=nameEl; }
+      if (nombres.includes(norm)) { setErr(fNom,'Nombre ya registrado en esta operación'); ok=false; if(!firstInvalid)firstInvalid=docEl; }
       else { clearErr(fNom,true); nombres.push(norm); }
     }
   }
